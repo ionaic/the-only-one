@@ -76,6 +76,7 @@ def createAnimatedObject(folder, fname):
     os.chdir(folder)
     aniobj = AnimatedObject('object.ini')
     os.chdir(cwd)
+    return aniobj
 
 class AnimationState():
     def __init__(self, obj):
@@ -105,8 +106,8 @@ class AnimationState():
         frames = self.object.animations[self.animName].frames
         msf = (fps * 1000) / frames
         frame = (timediff / msf)%frames
-        return frame
+        return int(frame)
     def getFrame(self,gameTime):
-        anim = self.object.animations[self.animName].directions[self.direction]
-        frame = anim.frames[getFrameNumber(gameTime)]
+        anim = self.object.animations[self.animName].directions[self.dir]
+        frame = anim.frames[self.getFrameNumber(gameTime)]
         return frame
