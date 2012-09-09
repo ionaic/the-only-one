@@ -18,6 +18,8 @@ import pygame
 import gametime
 import animatedobject
 
+# io handler
+
 #------------------------------------------------------------------------------
 # Global Variables for Export ---------------------------------------
 
@@ -36,14 +38,18 @@ class Game():
         self._square.fill((255,255,0))
         self.time = gametime.GameTime()
         tstobj = animatedobject.createAnimatedObject('../assets/knight','object.ini')
+        
+        # make the IO handler
+        self.iohandler = IOFunctions(self)
 
     def processInputs(self):
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                sys.exit()
-            if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_ESCAPE:
-                    sys.exit()
+        self.iohandler.handleEvents(pygame.event.get())
+        # for event in pygame.event.get():
+        #     if event.type == pygame.QUIT:
+        #         sys.exit()
+        #     if event.type == pygame.KEYDOWN:
+        #         if event.key == pygame.K_ESCAPE:
+        #             sys.exit()
 
     def update(self):
         self.time.update()
