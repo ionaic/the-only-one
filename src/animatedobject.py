@@ -76,3 +76,25 @@ def createAnimatedObject(folder, fname):
     os.chdir('data/knight/')
     aniobj = AnimatedObject('object.ini')
     os.chdir(cwd)
+
+class AnimationState():
+    def __init__(self, object):
+        self.object = object
+        self.dir = 0
+        self.startTime = 0
+        self.animName = 'stopped'
+    def changeAnimation(self,animName):
+        self.animName = animName
+        self.srartTime = 0
+    def changeDirection(self,dir):
+        self.dir = dir
+    def getFrame(self,gameTime):
+        if self.startTime == 0:
+            self.startTime = gameTime
+        timediff = gameTime - self.startTime
+        anim = object.animations[self.animName].directions[self.direction]
+        fps = object.animations[self.animName].fps
+        frames = object.animations[self.animName].frames
+        msf = (fps * 1000) / frames
+        frame = (timediff / msf)%frames
+        return anim.frames[frame]
