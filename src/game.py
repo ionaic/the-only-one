@@ -17,6 +17,7 @@ import pygame
 # Local Application/Library Specific Imports ------------------------
 import gametime
 import animatedobject
+import ioprocess # io handling
 
 #------------------------------------------------------------------------------
 # Global Variables for Export ---------------------------------------
@@ -36,13 +37,16 @@ class Game():
         self.knight.changeAnimation('stopped')
         self.knight.changeDirection(0)
 
+        self.iohandler = IOFunctions(self)
+
     def processInputs(self):
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                sys.exit()
-            if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_ESCAPE:
-                    sys.exit()
+        self.iohandler.handleEvents(pygame.event.get())
+        # for event in pygame.event.get():
+        #     if event.type == pygame.QUIT:
+        #         sys.exit()
+        #     if event.type == pygame.KEYDOWN:
+        #         if event.key == pygame.K_ESCAPE:
+        #             sys.exit()
 
     def update(self):
         self.time.update()

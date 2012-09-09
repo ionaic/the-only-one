@@ -25,6 +25,7 @@ import pygame
 
 #------------------------------------------------------------------------------
 
+# Axis-Aligned Bounding Box
 class AABB():
     def __init__(self,raw):
         split = raw.split(',')
@@ -34,7 +35,8 @@ class AABB():
         self.height = int(split[3])
     def __str__(self):
         return '{ left: ' + str(self.left) + ' top: ' + str(self.top) + \
-                ' width: ' + str(self.width) + ' height: ' + str(self.height)
+                ' width: ' + str(self.width) + ' height: ' + str(self.height) \
+                + '}'
 
 class Direction():
     def __init__(self,config,section,frames):
@@ -88,7 +90,7 @@ class AnimationState():
         self.y = 0
     def changeAnimation(self,animName):
         self.animName = animName
-        self.srartTime = 0
+        self.startTime = 0
     def changeDirection(self,dir):
         self.dir = dir
     def setPosition(self,x,y):
