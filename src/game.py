@@ -35,7 +35,7 @@ class Game():
         self._square = pygame.Surface((50,50))
         self._square.fill((255,255,0))
         self.time = gametime.GameTime()
-        tstobj = animatedobject.createAnimatedObject('data/knight','object.ini')
+        tstobj = animatedobject.createAnimatedObject('../assets/knight','object.ini')
 
     def processInputs(self):
         for event in pygame.event.get():
