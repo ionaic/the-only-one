@@ -18,8 +18,6 @@ import pygame
 import gametime
 import animatedobject
 
-# io handler
-
 #------------------------------------------------------------------------------
 # Global Variables for Export ---------------------------------------
 
@@ -32,31 +30,28 @@ class Game():
         self._screen = pygame.display.set_mode((800,600), \
             pygame.DOUBLEBUF+pygame.HWSURFACE)
 
-        self._ball = pygame.image.load("ball.png").convert_alpha()
-
-        self._square = pygame.Surface((50,50))
-        self._square.fill((255,255,0))
         self.time = gametime.GameTime()
-        tstobj = animatedobject.createAnimatedObject('../assets/knight','object.ini')
-        
-        # make the IO handler
-        self.iohandler = IOFunctions(self)
+        self.tstobj = animatedobject.createAnimatedObject('../assets/knight','object.ini')
+        self.knight = animatedobject.AnimationState(self.tstobj)
+        self.knight.changeAnimation('stopped')
+        self.knight.changeDirection(0)
 
     def processInputs(self):
-        self.iohandler.handleEvents(pygame.event.get())
-        # for event in pygame.event.get():
-        #     if event.type == pygame.QUIT:
-        #         sys.exit()
-        #     if event.type == pygame.KEYDOWN:
-        #         if event.key == pygame.K_ESCAPE:
-        #             sys.exit()
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                sys.exit()
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_ESCAPE:
+                    sys.exit()
 
     def update(self):
         self.time.update()
 
     def draw(self):
-        self._screen.fill((0,0,0))
-        self._screen.blit(self._ball,self._ball.get_rect())
-        self._screen.blit(self._square, (150,45))
+        frame = self.knight.getFrame(self.time.time())
+        self._screen.blit(frame,frame.get_rect())
+        #self._screen.fill((0,0,0))
+        #self._screen.blit(self._ball,self._ball.get_rect())
+        #self._screen.blit(self._square, (150,45))
         #flip
         pygame.display.flip()
