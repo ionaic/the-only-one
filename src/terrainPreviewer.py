@@ -22,8 +22,8 @@ import terrain
 # Global Variables for use Inside the Module ------------------------
 
 parent_folder = '../assets/terrain'
-background = 'test.txt'
-overlays = ['overlay.txt']
+background = 'test.csv'
+overlays = ['overlay.csv']
 inifile = 'terrainObjects.ini'
 
 #------------------------------------------------------------------------------
@@ -31,7 +31,7 @@ inifile = 'terrainObjects.ini'
 pygame.init()
 screen = pygame.display.set_mode((800,600), pygame.DOUBLEBUF+pygame.HWSURFACE)
 lettermap = terrain.createLetterMap(parent_folder,inifile)
-tilemap = terrain.createTiledMap(lettermap, parent_folder,background,overlays)
+tilemap = terrain.createCSVMap(lettermap, parent_folder,background,overlays)
 try:
     while True:
         # process input
@@ -44,7 +44,7 @@ try:
                 if event.key == pygame.K_SPACE:
                     print "reloading"
                     lettermap = terrain.createLetterMap(parent_folder,inifile)
-                    tilemap = terrain.createTiledMap(lettermap, parent_folder,background,overlays)
+                    tilemap = terrain.createCSVMap(lettermap, parent_folder,background,overlays)
         # draw
         screen.blit(tilemap.surface,(0,0))
         pygame.display.flip()

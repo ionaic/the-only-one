@@ -41,7 +41,8 @@ class Game():
 
         self.iohandler = ioprocess.IOFunctions(self)
         self.lettermap = terrain.createLetterMap('../assets/terrain','terrainObjects.ini')
-        self.tilemap = terrain.createTiledMap(self.lettermap, '../assets/terrain','test.txt',['overlay.txt'])
+        #self.tilemap = terrain.createTiledMap(self.lettermap, '../assets/terrain','test.txt',['overlay.txt'])
+        self.tilemap = terrain.createCSVMap(self.lettermap,'../assets/terrain','test.csv',['overlay.csv'])
         self._screen.blit(self.tilemap.surface,(0,0))
 
         self.objects = list()
