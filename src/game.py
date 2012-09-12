@@ -52,5 +52,5 @@ class Game():
         self._screen.fill((0,0,0))
         self._screen.blit(self.tilemap.surface,(0,0))
         frame = self.knight.getFrame(self.time.time())
-        self._screen.blit(frame,frame.get_rect())
+        self._screen.blit(frame,self.knight.getPos())
         pygame.display.flip()
