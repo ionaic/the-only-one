@@ -10,6 +10,7 @@ http://www.python.org/dev/peps/pep-0257/
 #------------------------------------------------------------------------------
 # Standard Library Imports ------------------------------------------
 import sys
+import cProfile
 
 # 3'rd Party Imports ------------------------------------------------
 import pygame
@@ -19,33 +20,37 @@ import game as _game
 from aabb import AABB
 #------------------------------------------------------------------------------
 # Global Variables for Export ---------------------------------------
-game = _game.Game()
+
 # Global Variables for use Inside the Module ------------------------
 
-# timing init
-ticks = 0
-framestart = 0
-frames = 0
+
 
 #------------------------------------------------------------------------------
-
-try:
-    while True:
-        # timing code
-        framestart = pygame.time.get_ticks()
-        frames = frames +1
-        if framestart >= ticks + 1000:
-            print ((framestart-ticks)*.0001)*frames
-            ticks = framestart
-            frames = 0
-        # process input
-        game.processInputs()
-        # update
-        game.update()
-        # draw
-        game.draw()
-except SystemExit:
-    pygame.quit()
-except:
-    pygame.quit()
-    raise
+def main():
+    game = _game.Game()
+    # timing init
+    ticks = 0
+    framestart = 0
+    frames = 0
+    try:
+        while True:
+            # timing code
+            framestart = pygame.time.get_ticks()
+            frames = frames +1
+            if framestart >= ticks + 1000:
+                print ((framestart-ticks)*.0001)*frames
+                ticks = framestart
+                frames = 0
+            # process input
+            game.processInputs()
+            # update
+            game.update()
+            # draw
+            game.draw()
+    except SystemExit:
+        pygame.quit()
+    except:
+        pygame.quit()
+        raise
+main()
+#cProfile.run('main()')
