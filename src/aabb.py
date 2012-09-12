@@ -33,9 +33,3 @@ class AABB():
                 self.width==other.width and self.height==other.height
     def __ne__(self, other):
         return not self.__eq__(other)
-    def overlaps(self, other):
-        # perform an overlap test using the separating axis test
-        tx = other.left - self.left
-        ty = other.top - self.top
-        return abs(tx) <= (self.width + other.width) and \
-               abs(ty) <= (self.height + other.height)

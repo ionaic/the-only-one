@@ -44,27 +44,13 @@ class Game():
 
     def processInputs(self):
         self.iohandler.handleEvents(pygame.event.get())
-        # for event in pygame.event.get():
-        #     if event.type == pygame.QUIT:
-        #         sys.exit()
-        #     if event.type == pygame.KEYDOWN:
-        #         if event.key == pygame.K_ESCAPE:
-        #             sys.exit()
-        #         if event.key == pygame.K_LEFT:
-        #             self.knight.setDirection(2)
-        #         if event.key == pygame.K_RIGHT:
-        #             self.knight.setDirection(6)
-        #         if event.key == pygame.K_UP:
-        #             self.knight.setDirection(4)
-        #         if event.key == pygame.K_DOWN:
-        #             self.knight.setDirection(0)
 
     def update(self):
         self.time.update()
 
     def draw(self):
-        #self._screen.fill((0,0,0))
+        self._screen.fill((0,0,0))
         self._screen.blit(self.tilemap.surface,(0,0))
         frame = self.knight.getFrame(self.time.time())
-        self._screen.blit(frame,self.knight.getPos())
+        self._screen.blit(frame,frame.get_rect())
         pygame.display.flip()

@@ -17,8 +17,10 @@ class IOFunctions:
 
     keyLeft = lambda self: self.game.knight.setDirection(2)
     keyRight = lambda self: self.game.knight.setDirection(6)
-    keyUp = lambda self: self.game.knight.setDirection(4)
-    keyDown = lambda self: self.game.knight.setDirection(8)
+    keyUp = keyRight
+    #keyUp = lambda self: self.game.knight.setDirection(4)
+    keyDown = keyLeft
+    #keyDown = lambda self: self.game.knight.setDirection(0)
 
     defaultKeys = (pygame.K_LEFT, pygame.K_a, pygame.K_RIGHT, pygame.K_d, pygame.K_UP, pygame.K_w, pygame.K_DOWN, pygame.K_s)
     defaultDownFuns = (keyLeft, keyLeft, keyRight, keyRight, keyUp, keyUp, keyDown, keyDown)
@@ -31,6 +33,9 @@ class IOFunctions:
         self.registerCallback(eventStr(pygame.QUIT), self.quitCB)
         self.registerCallback(eventStr(pygame.KEYDOWN), self.keyDownCB)
         self.registerCallback(eventStr(pygame.KEYUP), self.keyUpCB)
+        
+        # movement state variable
+        self.moveState = [False for i in range(0, 8)]
 
         # register default key press callbacks
         self.registerKeyPress(pygame.K_ESCAPE, self.quitCB)
@@ -88,6 +93,13 @@ class IOFunctions:
         if key in self.keyUpCBs:
             del self.keyUpCBs[key]
 
+    # handleEvents(self, [pygame.Event])
+    def handleEvents(self, eventList):
+        for event in eventList:
+            if eventStr(event.type) in self.callbacks:
+                self.callbacks[eventStr(event.type)](event)
+
+    # CALLBACK FUNCTIONS
     # keydown callback function
     # keyDownCB(pygame.Event)
     def keyDownCB(self, event):
@@ -101,8 +113,81 @@ class IOFunctions:
         if keyname in self.keyUpCBs:
             self.keyUpCBs[keyname](self)
 
-    # handleEvents(self, [pygame.Event])
-    def handleEvents(self, eventList):
-        for event in eventList:
-            if eventStr(event.type) in self.callbacks:
-                self.callbacks[eventStr(event.type)](event)
+    # movement functions: 0-Down, 2-Left, 4-up, 6-right
+    # moveLeft function
+    def moveLeft(self):
+        # move state (in terms of animation) is now left
+        print 'choose left animation!'
+        if self.moveState[0] == True:
+            # if going down, now left and down
+            self.moveState[1] = True
+            self.moveState[0] = False
+            self.moveState[2] = False
+        if self.moveState[4] == True:
+            # if going up, now left and up
+            self.moveState[3] = True
+            self.moveState[2] = False
+            self.moveState[4] = False
+        if self.moveState[6] == True:
+            # if going right, stop and go left
+            self.moveState[2] = True
+            self.moveState[6] = False
+
+    # moveRight function
+    def moveRight(self):
+        # move state (in terms of animation) is now left
+        print 'choose right animation!'
+        if self.moveState[0] == True:
+            # if going down, now right and down
+            self.moveState[7] = True
+            self.moveState[0] = False
+            self.moveState[6] = False
+        if self.moveState[2] == True:
+            # if going left, stop and go right
+            self.moveState[2] = False
+            self.moveState[6] = True
+        if self.moveState[4] == True:
+            # if going up, now right and up
+            self.moveState[5] = True
+            self.moveState[4] = False
+            self.moveState[6] = False
+            
+    # moveUp function
+    def moveUp(self):
+        # move state (in terms of animation) is now left
+        print 'choose up animation!'
+        if self.moveState[0] == True:
+            # moving down, stop and go up
+            self.moveState[2] = True
+            self.moveState[6] = False
+        if self.moveState[1] == True:
+        if self.moveState[2] == True:
+            # if going left, now up and left
+            self.moveState[1] = True
+            self.moveState[0] = False
+            self.moveState[2] = False
+        if self.moveState[3]:
+        if self.moveState[6] == True:
+            # if going up, now left and up
+            self.moveState[3] = True
+            self.moveState[2] = False
+            self.moveState[4] = False
+            
+    # moveDown function
+    def moveDown(self):
+        # move state (in terms of animation) is now left
+        print 'choose down animation!'
+        if self.moveState[2] == True:
+            # if going right, stop and go left
+            self.moveState[6] = False
+            self.moveState[2] = True
+        if self.moveState[4] == True:
+            # if going down, now left and down
+            self.moveState[1] = True
+            self.moveState[2] = False
+            self.moveState[0] = False
+        if self.moveState[6] == True:
+            # if going up, now left and up
+            self.moveState[3] = True
+            self.moveState[2] = False
+            self.moveState[4] = False
