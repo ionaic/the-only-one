@@ -88,6 +88,8 @@ class AnimationState():
         return self.x
     def getY(self):
         return self.y
+    def getPos(self)
+        return (self.x,self.y)
     def getFrameNumber(self,gameTime):
         if self.startTime == 0:
             self.startTime = gameTime
