@@ -3,6 +3,7 @@
 import sys
 import pygame
 import movement
+import operator
 # how do you even...i don't...how should this work....
 #from pygame import event.event_name as eventStr
 
@@ -15,16 +16,15 @@ class IOFunctions:
     keyUpCBs = dict()
     quitCB = sys.exit
 
-    keyLeft = lambda self: self.game.knight.setDirection(2)
-    keyRight = lambda self: self.game.knight.setDirection(6)
+    # keyLeft = lambda self: self.game.knight.setDirection(2)
+    # keyRight = lambda self: self.game.knight.setDirection(6)
+    keyLeft = lambda self: self.moveLeft
+    keyRight = lambda self: self.moveRight
     keyUp = keyRight
     #keyUp = lambda self: self.game.knight.setDirection(4)
     keyDown = keyLeft
     #keyDown = lambda self: self.game.knight.setDirection(0)
 
-    defaultKeys = (pygame.K_LEFT, pygame.K_a, pygame.K_RIGHT, pygame.K_d, pygame.K_UP, pygame.K_w, pygame.K_DOWN, pygame.K_s)
-    defaultDownFuns = (keyLeft, keyLeft, keyRight, keyRight, keyUp, keyUp, keyDown, keyDown)
-    defaultUpFuns = [keyDown for i in range(0, 8)]
 
     # __init(self, Game)
     def __init__(self, gameobj):
@@ -33,9 +33,14 @@ class IOFunctions:
         self.registerCallback(eventStr(pygame.QUIT), self.quitCB)
         self.registerCallback(eventStr(pygame.KEYDOWN), self.keyDownCB)
         self.registerCallback(eventStr(pygame.KEYUP), self.keyUpCB)
+
+        self.defaultKeys = (pygame.K_LEFT, pygame.K_a, pygame.K_RIGHT, pygame.K_d, pygame.K_UP, pygame.K_w, pygame.K_DOWN, pygame.K_s)
+        # self.defaultDownFuns = (self.keyLeft, self.keyLeft, self.keyRight, self.keyRight, self.keyUp, self.keyUp, self.keyDown, self.keyDown)
+        self.defaultDownFuns = (self.moveLeft, self.moveLeft, self.moveRight, self.moveRight, self.moveUp, self.moveUp, self.moveDown, self.moveDown)
+        self.defaultUpFuns = [self.stopMove for i in range(0, 8)]
         
         # movement state variable
-        self.moveState = [False for i in range(0, 8)]
+        self.moveState = [-1, 10]
 
         # register default key press callbacks
         self.registerKeyPress(pygame.K_ESCAPE, self.quitCB)
@@ -43,6 +48,7 @@ class IOFunctions:
         # register default key release callbacks
         self.registerKeyRelease(pygame.K_ESCAPE, self.quitCB)
         map(self.registerKeyRelease, self.defaultKeys, self.defaultUpFuns)
+        self.registerKeyPress(pygame.K_LEFT, self.moveLeft)
    
     # registerCallback(self, string, function(pygame.Event)) 
     def registerCallback(self, event, func):
@@ -105,13 +111,47 @@ class IOFunctions:
     def keyDownCB(self, event):
         keyname = keyStr(event.key)
         if keyname in self.keyDownCBs:
-            self.keyDownCBs[keyname](self)
+            self.keyDownCBs[keyname]()
 
     # keyup callback function
     def keyUpCB(self, event):
         keyname = keyStr(event.key)
         if keyname in self.keyUpCBs:
-            self.keyUpCBs[keyname](self)
+            self.keyUpCBs[keyname]()
+
+    def moveChar(self, moveState):
+        # direction of movement [x, y]
+        direction = [0,0]
+        if not moveState[0] == -1:
+            moveMagnitude = [10,10]
+        if moveState[0] == 0:
+            # down (south)
+            direction = [0, 1]
+        elif moveState[0] == 1:
+            # down/left (southwest)
+            direction = [-1, 1]
+        elif moveState[0] == 2:
+            # left (west)
+            direction = [-1, 0]
+        elif moveState[0] == 3:
+            # up/left (northwest)
+            direction = [-1, 1]
+        elif moveState[0] == 4:
+            # up (north)
+            direction = [0, -1]
+        elif moveState[0] == 5:
+            # up/right (northeast)
+            direction = [1, -1]
+        elif moveState[0] == 6:
+            # right (east)
+            direction = [1, 0]
+        elif moveState[0] == 7:
+            # down/right (southeast)
+            direction = [1, 1]
+        
+        move = map(operator.mul, direction, moveMagnitude)
+        move = map(operator.add, move, self.game.knight.getPos())
+        self.game.knight.setPosition(move[0], move[1])
 
 
     # movement functions: 0-Down, 2-Left, 4-up, 6-right
@@ -119,78 +159,94 @@ class IOFunctions:
     def moveLeft(self):
         # move state (in terms of animation) is now left
         print 'choose left animation!'
-        if self.moveState[0] == True:
+        self.game.knight.setDirection(2)
+        if self.moveState[0] == 0:
             # if going down, now left and down
-            self.moveState[1] = True
-            self.moveState[0] = False
-            self.moveState[2] = False
-        if self.moveState[4] == True:
+            self.moveState[0] = 1
+        # if going down and left (1), keep going down and left...
+        # if going left (2) keep going left....
+        # if going left and up (3)
+        elif self.moveState[0] == 4:
             # if going up, now left and up
-            self.moveState[3] = True
-            self.moveState[2] = False
-            self.moveState[4] = False
-        if self.moveState[6] == True:
+            self.moveState[0] = 3 
+        elif self.moveState[0] == 5:
+            # if going up and right, now up and left
+            self.moveState[0] = 3
+        elif self.moveState[0] == 6:
             # if going right, stop and go left
-            self.moveState[2] = True
-            self.moveState[6] = False
+            self.moveState[0] = 2
+        elif self.moveState[0] == 7:
+            # if going right and down, go left and down
+            self.moveState[0] = 1
+        elif self.moveState[0] == -1:
+            self.moveState[0] = 2
+        
+        self.moveChar(self.moveState)
 
     # moveRight function
     def moveRight(self):
         # move state (in terms of animation) is now left
         print 'choose right animation!'
-        if self.moveState[0] == True:
+        self.game.knight.setDirection(6)
+        if self.moveState[0] == 0:
             # if going down, now right and down
-            self.moveState[7] = True
-            self.moveState[0] = False
-            self.moveState[6] = False
-        if self.moveState[2] == True:
-            # if going left, stop and go right
-            self.moveState[2] = False
-            self.moveState[6] = True
-        if self.moveState[4] == True:
-            # if going up, now right and up
-            self.moveState[5] = True
-            self.moveState[4] = False
-            self.moveState[6] = False
-            
+            self.moveState[0] = 7
+        elif self.moveState[0] == 1:
+            # if going down and left, down and right
+            self.moveState[0] == 7
+        elif self.moveState[0] == 2:
+            # if going left, go right
+            self.moveState[0] = 6
+        elif self.moveState[0] == 3:
+            self.moveState[0] = 5
+        elif self.moveState[0] == 4:
+            self.moveState[0] = 5 
+        # if 5, 6, 7, stay 5, 6, 7
+        elif self.moveState[0] == -1:
+            self.moveState[0] = 6
+
+        self.moveChar(self.moveState)
+
     # moveUp function
     def moveUp(self):
         # move state (in terms of animation) is now left
         print 'choose up animation!'
-        if self.moveState[0] == True:
-            # moving down, stop and go up
-            self.moveState[2] = True
-            self.moveState[6] = False
-        if self.moveState[1] == True:
-            3
-        if self.moveState[2] == True:
-            # if going left, now up and left
-            self.moveState[1] = True
-            self.moveState[0] = False
-            self.moveState[2] = False
-        if self.moveState[3]:
-            3
-        if self.moveState[6] == True:
-            # if going up, now left and up
-            self.moveState[3] = True
-            self.moveState[2] = False
-            self.moveState[4] = False
-            
+        self.game.knight.setDirection(2)
+        if self.moveState[0] == 0:
+            self.moveState[0] = 4
+        elif self.moveState[0] == 1:
+            self.moveState[0] == 3
+        elif self.moveState[0] == 2:
+            self.moveState[0] = 3
+        elif self.moveState[0] == 6:
+            self.moveState[0] = 5
+        elif self.moveState[0] == 7:
+            self.moveState[0] = 5
+        elif self.moveState[0] == -1:
+            self.moveState[0] = 4
+
+        self.moveChar(self.moveState)
+
     # moveDown function
     def moveDown(self):
         # move state (in terms of animation) is now left
         print 'choose down animation!'
-        if self.moveState[2] == True:
-            # if going right, stop and go left
-            self.moveState[6] = False
-            self.moveState[2] = True
-        if self.moveState[4] == True:
-            # if going down, now left and down
-            self.moveState[1] = True
-            self.moveState[2] = False
-            self.moveState[0] = False
-        if self.moveState[6] == True:
-            # if going up, now left and up
-            self.moveState[3] = True
-            self.moveState[2] = False
-            self.moveState[4] = False
+        self.game.knight.setDirection(6)
+        if self.moveState[0] == 2:
+            self.moveState[0] = 1
+        elif self.moveState[0] == 3:
+            self.moveState[0] == 1
+        elif self.moveState[0] == 4:
+            self.moveState[0] = 0
+        elif self.moveState[0] == 5:
+            self.moveState[0] = 7
+        elif self.moveState[0] == 6:
+            self.moveState[0] = 7
+        elif self.moveState[0] == -1:
+            self.moveState[0] = 0
+
+        self.moveChar(self.moveState)
+
+    def stopMove(self):
+        #stop motion
+        self.moveState = [-1, 0]
