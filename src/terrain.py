@@ -12,6 +12,7 @@ http://www.python.org/dev/peps/pep-0257/
 import ConfigParser
 import os
 import fileinput
+import csv
 
 # 3'rd Party Imports ------------------------------------------------
 import pygame
@@ -38,7 +39,7 @@ class LetterMap():
         self.tiles=dict()
         for tile in config.items('tiles'):
             self.tiles[tile[0]] = Tile(config,tile[1])
-
+            
 def createLetterMap(folder, fname):
     cwd = os.getcwd()
     os.chdir(folder)
@@ -73,3 +74,26 @@ def createTiledMap(letterMap, folder, fname,overlays):
     tiledMap = TiledMap(letterMap, fname,overlays)
     os.chdir(cwd)
     return tiledMap
+
+class CSVMap():
+    def __init__(self,letterMap,fname,overlays):
+        reader = csv.reader(open(fname,'rb'),delimiter=',')
+        self.surface = pygame.Surface((800,600)).convert_alpha()
+        for line in enumerate(reader):
+            for char in enumerate(line[1]):
+                if char[1]=='\n': continue
+                self.surface.blit(letterMap.tiles[char[1]].image,(40*char[0],40*line[0]))
+        for overlay in overlays:
+            reader = csv.reader(open(overlay,'rb'),delimiter=',')
+            for line in enumerate(reader):
+                for char in enumerate(line[1]):
+                    if char[1]=='.': continue
+                    self.surface.blit(letterMap.tiles[char[1]].image,(40*char[0],40*line[0]))
+        self.surface.convert()
+
+def createCSVMap(letterMap, folder, fname,overlays):
+    cwd = os.getcwd()
+    os.chdir(folder)
+    csvMap = CSVMap(letterMap, fname,overlays)
+    os.chdir(cwd)
+    return csvMap

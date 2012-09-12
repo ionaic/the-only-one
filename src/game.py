@@ -26,6 +26,7 @@ import terrain
 # Global Variables for use Inside the Module ------------------------
 
 #------------------------------------------------------------------------------
+
 class Game():
     def __init__(self):
         pygame.init()
@@ -40,7 +41,12 @@ class Game():
 
         self.iohandler = ioprocess.IOFunctions(self)
         self.lettermap = terrain.createLetterMap('../assets/terrain','terrainObjects.ini')
-        self.tilemap = terrain.createTiledMap(self.lettermap, '../assets/terrain','test.txt',['overlay.txt'])
+        #self.tilemap = terrain.createTiledMap(self.lettermap, '../assets/terrain','test.txt',['overlay.txt'])
+        self.tilemap = terrain.createCSVMap(self.lettermap,'../assets/terrain','test.csv',['overlay.csv'])
+        self._screen.blit(self.tilemap.surface,(0,0))
+
+        self.objects = list()
+        self.objects.append(self.knight)
 
     def processInputs(self):
         self.iohandler.handleEvents(pygame.event.get())
@@ -49,8 +55,13 @@ class Game():
         self.time.update()
 
     def draw(self):
-        self._screen.fill((0,0,0))
-        self._screen.blit(self.tilemap.surface,(0,0))
+        #self._screen.fill((0,0,0))
+        #self._screen.blit(self.tilemap.surface,(0,0))
         frame = self.knight.getFrame(self.time.time())
+<<<<<<< HEAD
+=======
+        for object in self.objects:
+            self._screen.blit(self.tilemap.surface,(0,0),frame.get_rect().copy().move(object.getPos()))
+>>>>>>> e6311eaabafa4396ffe171247f2aba39aa822fd2
         self._screen.blit(frame,self.knight.getPos())
         pygame.display.flip()
