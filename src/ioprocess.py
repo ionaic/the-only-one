@@ -151,7 +151,7 @@ class IOFunctions:
         
         move = map(operator.mul, direction, moveMagnitude)
         move = map(operator.add, move, self.game.knight.getPos())
-        self.game.knight.setPosition(move[0], move[1])
+        self.game.knight.setNewPos(move[0], move[1])
 
 
     # movement functions: 0-Down, 2-Left, 4-up, 6-right
@@ -182,7 +182,7 @@ class IOFunctions:
             self.moveState[0] = 2
         
         self.moveChar(self.moveState)
-
+    
     # moveRight function
     def moveRight(self):
         # move state (in terms of animation) is now left
