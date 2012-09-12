@@ -1,21 +1,6 @@
 import pygame, sys, math, ioprocess
 from pygame.locals import *
 
-blackColor = pygame.Color(0, 0, 0)
-whiteColor = pygame.Color(255, 255, 255)
-
-pygame.init() # init pygame
-fpsClock = pygame.time.Clock() # setup a clock to cap FPS
-screenSize = [800, 600] # set screen size
-canvas = pygame.display.set_mode(screenSize)
-
-circPos = (100, 200)
-circVel = (5, 5)
-velDir = (0, 0)
-#circDecc = [0, 0]
-
-iohandler = IOfunctions()
-
 def abs(num):
     if (num < 0):
         return (-1) * num
@@ -40,14 +25,14 @@ def moveCircle():
     if circVel != (0, 0):
         circPos = tupClamp0(tupAdd(tupMult(velDir, circVel), circPos), screenSize)
         circVel = (circVel[0] + circAccel[0], circVel[1] + circAccel[1])
-    elif circVel[0] == 0
+    elif circVel[0] == 0:
         if circAccel[0] != 0:
             circAccel[0] = 0;
-    elif circVel[1] == 0
+    elif circVel[1] == 0:
             circAccel[1] = 0;
     else:
         if circAccel != [0, 0]:
-            circAccel = [0, 0]:
+            circAccel = [0, 0]
 
 def keyDownHandler():
     event = pygame.event.get()
@@ -60,17 +45,4 @@ def keyDownHandler():
     elif event.key in (K_DOWN, K_s):
         velDir = (velDir[0], 1)
     elif event.key == K_ESCAPE:
-        pygame.quit()
         sys.exit()
-
-while True:
-    canvas.fill(pygame.Color(255, 255, 255))
-
-    pygame.draw.circle(canvas, pygame.Color(0, 0, 0), circPos, 30)
-
-                #velDir = (0, velDir[1])
-                #velDir = (velDir[0], 0)
-
-
-    pygame.display.flip()
-    fpsClock.tick(30)

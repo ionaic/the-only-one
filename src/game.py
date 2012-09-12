@@ -37,7 +37,7 @@ class Game():
         self.knight.changeAnimation('stopped')
         self.knight.changeDirection(0)
 
-        self.iohandler = IOFunctions(self)
+        self.iohandler = ioprocess.IOFunctions(self)
 
     def processInputs(self):
         self.iohandler.handleEvents(pygame.event.get())

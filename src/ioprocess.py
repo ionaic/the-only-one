@@ -1,18 +1,17 @@
 # IO functions for use with pygame
 # IOfunctions.py
+import sys
+import pygame
 import movement
 
 class IOFunctions:
     callbacks = dict()
 
     def __init__(self, gameobj):
-        self.super()
         self.game = gameobj
 
         # register quit callback function
-        self.callbacks[QUIT] = lambda:
-            pygame.quit()
-            sys.exit()
+        self.callbacks[pygame.QUIT] = lambda: sys.exit()
         
     # keydown callback function
     def keyDownCB(event):
