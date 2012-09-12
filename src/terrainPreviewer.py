@@ -15,35 +15,39 @@ import sys
 import pygame
 
 # Local Application/Library Specific Imports ----------------------------
-import game as _game
-from aabb import AABB
+import terrain
 #------------------------------------------------------------------------------
 # Global Variables for Export ---------------------------------------
-game = _game.Game()
+
 # Global Variables for use Inside the Module ------------------------
 
-# timing init
-ticks = 0
-framestart = 0
-frames = 0
+parent_folder = '../assets/terrain'
+background = 'test.txt'
+overlays = ['overlay.txt']
+inifile = 'terrainObjects.ini'
 
 #------------------------------------------------------------------------------
 
+pygame.init()
+screen = pygame.display.set_mode((800,600), pygame.DOUBLEBUF+pygame.HWSURFACE)
+lettermap = terrain.createLetterMap(parent_folder,inifile)
+tilemap = terrain.createTiledMap(lettermap, parent_folder,background,overlays)
 try:
     while True:
-        # timing code
-        framestart = pygame.time.get_ticks()
-        frames = frames +1
-        if framestart >= ticks + 1000:
-            print ((framestart-ticks)*.0001)*frames
-            ticks = framestart
-            frames = 0
         # process input
-        game.processInputs()
-        # update
-        game.update()
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                sys.exit()
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_ESCAPE:
+                    sys.exit()
+                if event.key == pygame.K_SPACE:
+                    print "reloading"
+                    lettermap = terrain.createLetterMap(parent_folder,inifile)
+                    tilemap = terrain.createTiledMap(lettermap, parent_folder,background,overlays)
         # draw
-        game.draw()
+        screen.blit(tilemap.surface,(0,0))
+        pygame.display.flip()
 except SystemExit:
     pygame.quit()
 except:
