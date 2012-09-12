@@ -17,6 +17,7 @@ import os
 import pygame
 
 # Local Application/Library Specific Imports ------------------------
+from aabb import AABB
 
 #------------------------------------------------------------------------------
 # Global Variables for Export ---------------------------------------
@@ -25,25 +26,12 @@ import pygame
 
 #------------------------------------------------------------------------------
 
-# Axis-Aligned Bounding Box
-class AABB():
-    def __init__(self,raw):
-        split = raw.split(',')
-        self.left = int(split[0])
-        self.top = int(split[1])
-        self.width = int(split[2])
-        self.height = int(split[3])
-    def __str__(self):
-        return '{ left: ' + str(self.left) + ' top: ' + str(self.top) + \
-                ' width: ' + str(self.width) + ' height: ' + str(self.height) \
-                + '}'
-
 class Direction():
     def __init__(self,config,section,frames):
         self.frames = list()
         self.aabbs = list()
         for n in range(1,frames+1):
-            self.frames.append(pygame.image.load(config.get(section,str(n))))
+            self.frames.append(pygame.image.load(config.get(section,str(n))).convert_alpha())
             self.aabbs.append(AABB(config.get(section,str(n)+'_hitbox')))
         for aabb in self.aabbs:
             print aabb
@@ -76,7 +64,7 @@ class AnimatedObject():
 def createAnimatedObject(folder, fname):
     cwd = os.getcwd()
     os.chdir(folder)
-    aniobj = AnimatedObject('object.ini')
+    aniobj = AnimatedObject(fname)
     os.chdir(cwd)
     return aniobj
 
