@@ -39,6 +39,12 @@ class Game():
         self.tiger.setAnimation('move')
         self.tiger.setDirection(0)
 
+        self.pigobj = animatedobject.createAnimatedObject('../assets/piglet','object.ini')
+        self.pig = animatedobject.AnimationState(self.pigobj)
+        self.pig.setAnimation('stopped')
+        self.pig.setDirection(0)
+        self.pig.setPos(300,200)
+
         self.iohandler = ioprocess.IOFunctions(self)
         self.lettermap = terrain.createLetterMap('../assets/terrain','terrainObjects.ini')
         self.tilemap = terrain.createCSVMap(self.lettermap,'../assets/terrain','test.csv',['overlay.csv'])
@@ -46,6 +52,7 @@ class Game():
 
         self.objects = list()
         self.objects.append(self.tiger)
+        self.objects.append(self.pig)
 
     def processInputs(self):
         self.iohandler.handleEvents(pygame.event.get())
@@ -56,8 +63,11 @@ class Game():
     def draw(self):
         #self._screen.fill((0,0,0))
         #self._screen.blit(self.tilemap.surface,(0,0))
-        frame = self.tiger.getFrame(self.time.time())
         for object in self.objects:
+            frame = object.getFrame(self.time.time())
             self._screen.blit(self.tilemap.surface,object.getPos(),frame.get_rect().copy().move(object.getPos()))
+        frame = self.tiger.getFrame(self.time.time())
         self._screen.blit(frame,self.tiger.getPos())
+        frame = self.pig.getFrame(self.time.time())
+        self._screen.blit(frame,self.pig.getPos())
         pygame.display.flip()
