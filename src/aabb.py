@@ -28,3 +28,8 @@ class AABB():
         return '{ left: ' + str(self.left) + ' top: ' + str(self.top) + \
                 ' width: ' + str(self.width) + ' height: ' + str(self.height) \
                 + '}'
+    def __eq__(self, other):
+        return self.left==other.left and self.top==other.top and \
+                self.width==other.width and self.height==other.height
+    def __ne__(self, other):
+        return not self.__eq__(other)
