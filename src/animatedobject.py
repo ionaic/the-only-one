@@ -80,7 +80,7 @@ class AnimationState():
         self.animName = animName
         self.startTime = 0
     def setDirection(self,dir):
-        self.dir = dir
+        self.dir = dir%8
     def setPosition(self,x,y):
         self.x = x
         self.y = y
