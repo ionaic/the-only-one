@@ -31,12 +31,13 @@ def createCharacter(pos,folder,inifile,animation):
     state = animatedobject.AnimationState(object)
     state.setAnimation(animation)
     state.setDirection(0)
-    state.setPosition(pos[0],pos[1])
+    state.setPos(pos[0],pos[1])
     return state
 
 characters = list()
 characters.append(createCharacter((0,0),'../assets/tigger','object.ini','stopped'))
 characters.append(createCharacter((160,0),'../assets/tigger','object.ini','move'))
+characters.append(createCharacter((0,160),'../assets/static','object.ini','stuffing'))
 
 #------------------------------------------------------------------------------
 
