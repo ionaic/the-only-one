@@ -18,6 +18,7 @@ import pygame
 import gametime
 import animatedobject
 import ioprocess # io handling
+import terrain
 
 #------------------------------------------------------------------------------
 # Global Variables for Export ---------------------------------------
@@ -38,6 +39,8 @@ class Game():
         self.knight.setDirection(0)
 
         #self.iohandler = ioprocess.IOFunctions(self)
+        self.lettermap = terrain.createLetterMap('../assets/terrain','terrainObjects.ini')
+        self.tilemap = terrain.createTiledMap(self.lettermap, '../assets/terrain','test.txt',['overlay.txt'])
 
     def processInputs(self):
         #self.iohandler.handleEvents(pygame.event.get())
@@ -61,6 +64,7 @@ class Game():
 
     def draw(self):
         self._screen.fill((0,0,0))
+        self._screen.blit(self.tilemap.surface,(0,0))
         frame = self.knight.getFrame(self.time.time())
         self._screen.blit(frame,frame.get_rect())
         pygame.display.flip()
