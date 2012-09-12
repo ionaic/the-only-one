@@ -82,6 +82,8 @@ class CSVMap():
         for line in enumerate(reader):
             for char in enumerate(line[1]):
                 if char[1]=='\n': continue
+                if char[1]=='': continue
+                if char[1]=='0': continue
                 self.surface.blit(letterMap.tiles[char[1]].image,(40*char[0],40*line[0]))
         for overlay in overlays:
             reader = csv.reader(open(overlay,'rb'),delimiter=',')
@@ -89,6 +91,7 @@ class CSVMap():
                 for char in enumerate(line[1]):
                     if char[1]=='.': continue
                     if char[1]=='0': continue
+                    if char[1]=='': continue
                     self.surface.blit(letterMap.tiles[char[1]].image,(40*char[0],40*line[0]))
         self.surface.convert()
 
