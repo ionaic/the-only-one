@@ -38,26 +38,26 @@ class Game():
         self.knight.setAnimation('stopped')
         self.knight.setDirection(0)
 
-        #self.iohandler = ioprocess.IOFunctions(self)
+        self.iohandler = ioprocess.IOFunctions(self)
         self.lettermap = terrain.createLetterMap('../assets/terrain','terrainObjects.ini')
         self.tilemap = terrain.createTiledMap(self.lettermap, '../assets/terrain','test.txt',['overlay.txt'])
 
     def processInputs(self):
-        #self.iohandler.handleEvents(pygame.event.get())
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                sys.exit()
-            if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_ESCAPE:
-                    sys.exit()
-                if event.key == pygame.K_LEFT:
-                    self.knight.setDirection(2)
-                if event.key == pygame.K_RIGHT:
-                    self.knight.setDirection(6)
-                if event.key == pygame.K_UP:
-                    self.knight.setDirection(4)
-                if event.key == pygame.K_DOWN:
-                    self.knight.setDirection(0)
+        self.iohandler.handleEvents(pygame.event.get())
+        # for event in pygame.event.get():
+        #     if event.type == pygame.QUIT:
+        #         sys.exit()
+        #     if event.type == pygame.KEYDOWN:
+        #         if event.key == pygame.K_ESCAPE:
+        #             sys.exit()
+        #         if event.key == pygame.K_LEFT:
+        #             self.knight.setDirection(2)
+        #         if event.key == pygame.K_RIGHT:
+        #             self.knight.setDirection(6)
+        #         if event.key == pygame.K_UP:
+        #             self.knight.setDirection(4)
+        #         if event.key == pygame.K_DOWN:
+        #             self.knight.setDirection(0)
 
     def update(self):
         self.time.update()
