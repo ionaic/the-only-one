@@ -35,7 +35,7 @@ class Game():
         self.time = gametime.GameTime()
         self.tstobj = animatedobject.createAnimatedObject('../assets/tigger','object.ini')
         self.knight = animatedobject.AnimationState(self.tstobj)
-        self.knight.setAnimation('stopped')
+        self.knight.setAnimation('move')
         self.knight.setDirection(0)
 
         self.iohandler = ioprocess.IOFunctions(self)
