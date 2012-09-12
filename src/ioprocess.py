@@ -6,12 +6,11 @@ import movement
 
 class IOFunctions:
     callbacks = dict()
-
+    
     def __init__(self, gameobj):
         self.game = gameobj
-
         # register quit callback function
-        self.callbacks[pygame.QUIT] = lambda: sys.exit()
+        self.registerCallback(pygame.QUIT, lambda: sys.exit())
         
     # keydown callback function
     def keyDownCB(event):
@@ -47,24 +46,21 @@ class IOFunctions:
         elif event.key == K_ESCAPE:
             quitCB()
 
-    def NOOP():
-        return
-
     def registerCallback(self, event, func):
-        self.callbacks[event] = func
+        self.callbacks[str(event)] = func
     
     def unregisterCallback(self, event):
         if event in self.callbacks:
-            del self.callbacks[event]
+            del self.callbacks[str(event)]
 
     def retrieveEvent(self, event):
         if not event in self.callbacks:
-            self.callbacks[event] = NOOP()
-        return self.callbacks[event]
+            self.callbacks[str(event)] = None
+        return self.callbacks[str(event)]
 
     def handleEvents(self, eventList):
         for event in eventList:
-            if event in self.callbacks:
-                self.callbacks[event]
+            if str(event) in self.callbacks:
+                self.callbacks[str(event)]
             else:
-                self.callbacks[event] = NOOP()
+                self.callbacks[str(event)] = None
