@@ -1,0 +1,137 @@
+# IO functions for use with pygame
+# IOfunctions.py
+import sys
+import pygame
+import movement
+# how do you even...i don't...how should this work....
+#from pygame import event.event_name as eventStr
+
+eventStr = pygame.event.event_name
+keyStr = pygame.key.name
+
+class IOFunctions:
+    callbacks = dict()
+    keyDownCBs = dict()
+    keyUpCBs = dict()
+    quitCB = sys.exit
+    knightPointDir = lambda x: self.game.knight.setDirection(x)
+
+    # __init(self, Game)
+    def __init__(self, gameobj):
+        self.game = gameobj
+        # register default callback functions
+        self.registerCallback(eventStr(pygame.QUIT), self.quitCB)
+        self.registerCallback(eventStr(pygame.KEYDOWN), self.keyDownCB)
+        self.registerCallback(eventStr(pygame.KEYUP), self.keyUpCB)
+
+        # register default key press callbacks
+        self.registerKeyPress(keyStr(pygame.K_ESCAPE), self.quitCB)
+        map(self.registerKeyPress, (pygame.K_LEFT, pygame.K_a), (knightPointDir(2), knightPointDir(2))
+        map(self.registerKeyPress, (pygame.K_RIGHT, pygame.K_d), (knightPointDir(6), knightPointDir(6))
+        map(self.registerKeyPress, (pygame.K_UP, pygame.K_w), (knightPointDir(4), knightPointDir(4))
+        map(self.registerKeyPress, (pygame.K_DOWN, pygame.K_s), (knightPointDir(8), knightPointDir(8))
+        # register default key release callbacks
+        self.registerKeyRelease(keyStr(pygame.K_ESCAPE), self.quitCB)
+        map(self.registerKeyRelease, (pygame.K_LEFT, pygame.K_a), (knightPointDir(0), knightPointDir(0))
+        map(self.registerKeyRelease, (pygame.K_RIGHT, pygame.K_d), (knightPointDir(0), knightPointDir(0))
+        map(self.registerKeyRelease, (pygame.K_UP, pygame.K_w), (knightPointDir(0), knightPointDir(0))
+        map(self.registerKeyRelease, (pygame.K_DOWN, pygame.K_s), (knightPointDir(0), knightPointDir(0))
+   
+    # registerCallback(self, string, function(pygame.Event)) 
+    def registerCallback(self, event, func):
+        self.callbacks[event] = func
+
+    # unregisterCallback(self, string)
+    def unregisterCallback(self, event):
+        if event in self.callbacks:
+            del self.callbacks[event]
+
+    # retrieveEvent(self, string)
+    def retrieveEvent(self, event):
+        if not event in self.callbacks:
+            self.callbacks[eventStr(event.type)] = lambda e: None
+        return self.callbacks[eventStr(event.type)]
+
+    # registerKeyPress(self, string, function(pygame.Event))
+    def registerKeyPress(self, key, func):
+        if type(key) is 'int':
+            self.keyDownCBs[keyStr(key)] = func
+        elif type(key) is 'str':
+            self.keyDownCBs[key] = func
+        else:
+            self.keyDownCBs[str(key)] = func
+
+    # unregisterKeyPress(self, string)
+    def unregisterKeyPress(self, key):
+        if key in self.keyDownCBs:
+            del self.keyUpCBs[key]
+   
+    # registerKeyPress(self, string, function(pygame.Event))
+    def registerKeyRelease(self, key, func):
+        if type(key) is 'int':
+            self.keyUpCBs[keyStr(key)] = func
+        elif type(key) is 'str':
+            self.keyUpCBs[key] = func
+        else:
+            self.keyUpCBs[str(key)] = func
+
+    # unregisterKeyRelease(self, string)
+    def unregisterKeyRelease(self, key):
+        if key in self.keyUpCBs:
+            del self.keyUpCBs[key]
+
+    # keydown callback function
+    # keyDownCB(pygame.Event)
+    def keyDownCB(self, event):
+        keyname = keyStr(event.key)
+        if keyname in self.keyDownCBs:
+            keyDownCBs[keyname](event)
+        # if event.key in (pygame.K_LEFT, pygame.K_a):
+        #     # Left (or a)
+        #     self.game.knight.setDirection(2)
+        #     print 'left down!'
+        # elif event.key in (pygame.K_RIGHT, pygame.K_d):
+        #     # Right (or d)
+        #     self.game.knight.setDirection(6)
+        #     print 'right down!'
+        # elif event.key in (pygame.K_UP, pygame.K_w):
+        #     # Up (or w)
+        #     self.game.knight.setDirection(4)
+        #     print 'up down!'
+        # elif event.key in (pygame.K_DOWN, pygame.K_s):
+        #     # Down (or s)
+        #     self.game.knight.setDirection(0)
+        #     print 'down down!'
+        # elif event.key == pygame.K_ESCAPE:
+        #     self.quitCB()
+
+    # keyup callback function
+    def keyUpCB(self, event):
+        keyname = keyStr(event.key)
+        if keyname in self.keyUpCBs:
+            keyDownCBs[keyname](event)
+        # if event.key in (pygame.K_LEFT, pygame.K_a):
+        #     # Left (or a)
+        #     self.game.knight.setDirection(0)
+        #     print 'left up!'
+        # elif event.key in (pygame.K_RIGHT, pygame.K_d):
+        #     # Right (or d)
+        #     self.game.knight.setDirection(0)
+        #     print 'right up!'
+        # elif event.key in (pygame.K_UP, pygame.K_w):
+        #     # Up (or w)
+        #     self.game.knight.setDirection(0)
+        #     print 'up up!'
+        # elif event.key in (pygame.K_DOWN, pygame.K_s):
+        #     # Down (or s)
+        #     self.game.knight.setDirection(0)
+        #     print 'down up!'
+        # elif event.key == pygame.K_ESCAPE:
+        #     # Escape
+        #     self.quitCB()
+
+    # handleEvents(self, [pygame.Event])
+    def handleEvents(self, eventList):
+        for event in eventList:
+            if eventStr(event.type) in self.callbacks:
+                self.callbacks[eventStr(event.type)](event)
