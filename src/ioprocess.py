@@ -113,6 +113,7 @@ class IOFunctions:
         if keyname in self.keyUpCBs:
             self.keyUpCBs[keyname](self)
 
+
     # movement functions: 0-Down, 2-Left, 4-up, 6-right
     # moveLeft function
     def moveLeft(self):
@@ -161,12 +162,14 @@ class IOFunctions:
             self.moveState[2] = True
             self.moveState[6] = False
         if self.moveState[1] == True:
+            3
         if self.moveState[2] == True:
             # if going left, now up and left
             self.moveState[1] = True
             self.moveState[0] = False
             self.moveState[2] = False
         if self.moveState[3]:
+            3
         if self.moveState[6] == True:
             # if going up, now left and up
             self.moveState[3] = True
