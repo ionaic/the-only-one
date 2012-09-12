@@ -16,14 +16,14 @@ class IOFunctions:
     keyUpCBs = dict()
     quitCB = sys.exit
 
-    # keyLeft = lambda self: self.game.knight.setDirection(2)
-    # keyRight = lambda self: self.game.knight.setDirection(6)
+    # keyLeft = lambda self: self.game.tiger.setDirection(2)
+    # keyRight = lambda self: self.game.tiger.setDirection(6)
     keyLeft = lambda self: self.moveLeft
     keyRight = lambda self: self.moveRight
     keyUp = keyRight
-    #keyUp = lambda self: self.game.knight.setDirection(4)
+    #keyUp = lambda self: self.game.tiger.setDirection(4)
     keyDown = keyLeft
-    #keyDown = lambda self: self.game.knight.setDirection(0)
+    #keyDown = lambda self: self.game.tiger.setDirection(0)
 
 
     # __init(self, Game)
@@ -150,8 +150,8 @@ class IOFunctions:
             direction = [1, 1]
         
         move = map(operator.mul, direction, moveMagnitude)
-        move = map(operator.add, move, self.game.knight.getPos())
-        self.game.knight.setNewPos(move[0], move[1])
+        move = map(operator.add, move, self.game.tiger.getPos())
+        self.game.tiger.setNewPos(move[0], move[1])
 
 
     # movement functions: 0-Down, 2-Left, 4-up, 6-right
@@ -159,26 +159,12 @@ class IOFunctions:
     def moveLeft(self):
         # move state (in terms of animation) is now left
         print 'choose left animation!'
-        self.game.knight.setDirection(2)
-        if self.moveState[0] == 0:
-            # if going down, now left and down
+        self.game.tiger.setDirection(2)
+        if self.moveState[0] in (0, 1, 7):
             self.moveState[0] = 1
-        # if going down and left (1), keep going down and left...
-        # if going left (2) keep going left....
-        # if going left and up (3)
-        elif self.moveState[0] == 4:
-            # if going up, now left and up
+        elif self.moveState[0] in (3, 4, 5):
             self.moveState[0] = 3 
-        elif self.moveState[0] == 5:
-            # if going up and right, now up and left
-            self.moveState[0] = 3
-        elif self.moveState[0] == 6:
-            # if going right, stop and go left
-            self.moveState[0] = 2
-        elif self.moveState[0] == 7:
-            # if going right and down, go left and down
-            self.moveState[0] = 1
-        elif self.moveState[0] == -1:
+        elif self.moveState[0] in (-1, 2, 6):
             self.moveState[0] = 2
         
         self.moveChar(self.moveState)
@@ -187,7 +173,7 @@ class IOFunctions:
     def moveRight(self):
         # move state (in terms of animation) is now left
         print 'choose right animation!'
-        self.game.knight.setDirection(6)
+        self.game.tiger.setDirection(6)
         if self.moveState[0] == 0:
             # if going down, now right and down
             self.moveState[0] = 7
@@ -211,7 +197,7 @@ class IOFunctions:
     def moveUp(self):
         # move state (in terms of animation) is now left
         print 'choose up animation!'
-        self.game.knight.setDirection(2)
+        self.game.tiger.setDirection(2)
         if self.moveState[0] == 0:
             self.moveState[0] = 4
         elif self.moveState[0] == 1:
@@ -231,7 +217,7 @@ class IOFunctions:
     def moveDown(self):
         # move state (in terms of animation) is now left
         print 'choose down animation!'
-        self.game.knight.setDirection(6)
+        self.game.tiger.setDirection(6)
         if self.moveState[0] == 2:
             self.moveState[0] = 1
         elif self.moveState[0] == 3:

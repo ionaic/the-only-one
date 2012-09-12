@@ -35,9 +35,9 @@ class Game():
 
         self.time = gametime.GameTime()
         self.tstobj = animatedobject.createAnimatedObject('../assets/tigger','object.ini')
-        self.knight = animatedobject.AnimationState(self.tstobj)
-        self.knight.setAnimation('move')
-        self.knight.setDirection(0)
+        self.tiger = animatedobject.AnimationState(self.tstobj)
+        self.tiger.setAnimation('move')
+        self.tiger.setDirection(0)
 
         self.iohandler = ioprocess.IOFunctions(self)
         self.lettermap = terrain.createLetterMap('../assets/terrain','terrainObjects.ini')
@@ -45,7 +45,7 @@ class Game():
         self._screen.blit(self.tilemap.surface,(0,0))
 
         self.objects = list()
-        self.objects.append(self.knight)
+        self.objects.append(self.tiger)
 
     def processInputs(self):
         self.iohandler.handleEvents(pygame.event.get())
@@ -56,8 +56,8 @@ class Game():
     def draw(self):
         #self._screen.fill((0,0,0))
         #self._screen.blit(self.tilemap.surface,(0,0))
-        frame = self.knight.getFrame(self.time.time())
+        frame = self.tiger.getFrame(self.time.time())
         for object in self.objects:
             self._screen.blit(self.tilemap.surface,object.getPos(),frame.get_rect().copy().move(object.getPos()))
-        self._screen.blit(frame,self.knight.getPos())
+        self._screen.blit(frame,self.tiger.getPos())
         pygame.display.flip()

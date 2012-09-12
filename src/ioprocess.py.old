@@ -14,7 +14,7 @@ class IOFunctions:
     keyDownCBs = dict()
     keyUpCBs = dict()
     quitCB = sys.exit
-    knightPointDir = lambda x: self.game.knight.setDirection(x)
+    tigerPointDir = lambda x: self.game.tiger.setDirection(x)
 
     # __init(self, Game)
     def __init__(self, gameobj):
@@ -26,16 +26,16 @@ class IOFunctions:
 
         # register default key press callbacks
         self.registerKeyPress(keyStr(pygame.K_ESCAPE), self.quitCB)
-        map(self.registerKeyPress, (pygame.K_LEFT, pygame.K_a), (knightPointDir(2), knightPointDir(2))
-        map(self.registerKeyPress, (pygame.K_RIGHT, pygame.K_d), (knightPointDir(6), knightPointDir(6))
-        map(self.registerKeyPress, (pygame.K_UP, pygame.K_w), (knightPointDir(4), knightPointDir(4))
-        map(self.registerKeyPress, (pygame.K_DOWN, pygame.K_s), (knightPointDir(8), knightPointDir(8))
+        map(self.registerKeyPress, (pygame.K_LEFT, pygame.K_a), (tigerPointDir(2), tigerPointDir(2))
+        map(self.registerKeyPress, (pygame.K_RIGHT, pygame.K_d), (tigerPointDir(6), tigerPointDir(6))
+        map(self.registerKeyPress, (pygame.K_UP, pygame.K_w), (tigerPointDir(4), tigerPointDir(4))
+        map(self.registerKeyPress, (pygame.K_DOWN, pygame.K_s), (tigerPointDir(8), tigerPointDir(8))
         # register default key release callbacks
         self.registerKeyRelease(keyStr(pygame.K_ESCAPE), self.quitCB)
-        map(self.registerKeyRelease, (pygame.K_LEFT, pygame.K_a), (knightPointDir(0), knightPointDir(0))
-        map(self.registerKeyRelease, (pygame.K_RIGHT, pygame.K_d), (knightPointDir(0), knightPointDir(0))
-        map(self.registerKeyRelease, (pygame.K_UP, pygame.K_w), (knightPointDir(0), knightPointDir(0))
-        map(self.registerKeyRelease, (pygame.K_DOWN, pygame.K_s), (knightPointDir(0), knightPointDir(0))
+        map(self.registerKeyRelease, (pygame.K_LEFT, pygame.K_a), (tigerPointDir(0), tigerPointDir(0))
+        map(self.registerKeyRelease, (pygame.K_RIGHT, pygame.K_d), (tigerPointDir(0), tigerPointDir(0))
+        map(self.registerKeyRelease, (pygame.K_UP, pygame.K_w), (tigerPointDir(0), tigerPointDir(0))
+        map(self.registerKeyRelease, (pygame.K_DOWN, pygame.K_s), (tigerPointDir(0), tigerPointDir(0))
    
     # registerCallback(self, string, function(pygame.Event)) 
     def registerCallback(self, event, func):
@@ -88,19 +88,19 @@ class IOFunctions:
             keyDownCBs[keyname](event)
         # if event.key in (pygame.K_LEFT, pygame.K_a):
         #     # Left (or a)
-        #     self.game.knight.setDirection(2)
+        #     self.game.tiger.setDirection(2)
         #     print 'left down!'
         # elif event.key in (pygame.K_RIGHT, pygame.K_d):
         #     # Right (or d)
-        #     self.game.knight.setDirection(6)
+        #     self.game.tiger.setDirection(6)
         #     print 'right down!'
         # elif event.key in (pygame.K_UP, pygame.K_w):
         #     # Up (or w)
-        #     self.game.knight.setDirection(4)
+        #     self.game.tiger.setDirection(4)
         #     print 'up down!'
         # elif event.key in (pygame.K_DOWN, pygame.K_s):
         #     # Down (or s)
-        #     self.game.knight.setDirection(0)
+        #     self.game.tiger.setDirection(0)
         #     print 'down down!'
         # elif event.key == pygame.K_ESCAPE:
         #     self.quitCB()
@@ -112,19 +112,19 @@ class IOFunctions:
             keyDownCBs[keyname](event)
         # if event.key in (pygame.K_LEFT, pygame.K_a):
         #     # Left (or a)
-        #     self.game.knight.setDirection(0)
+        #     self.game.tiger.setDirection(0)
         #     print 'left up!'
         # elif event.key in (pygame.K_RIGHT, pygame.K_d):
         #     # Right (or d)
-        #     self.game.knight.setDirection(0)
+        #     self.game.tiger.setDirection(0)
         #     print 'right up!'
         # elif event.key in (pygame.K_UP, pygame.K_w):
         #     # Up (or w)
-        #     self.game.knight.setDirection(0)
+        #     self.game.tiger.setDirection(0)
         #     print 'up up!'
         # elif event.key in (pygame.K_DOWN, pygame.K_s):
         #     # Down (or s)
-        #     self.game.knight.setDirection(0)
+        #     self.game.tiger.setDirection(0)
         #     print 'down up!'
         # elif event.key == pygame.K_ESCAPE:
         #     # Escape
