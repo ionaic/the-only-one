@@ -17,8 +17,10 @@ class IOFunctions:
 
     keyLeft = lambda self: self.game.knight.setDirection(2)
     keyRight = lambda self: self.game.knight.setDirection(6)
-    keyUp = lambda self: self.game.knight.setDirection(4)
-    keyDown = lambda self: self.game.knight.setDirection(8)
+    keyUp = keyRight
+    #keyUp = lambda self: self.game.knight.setDirection(4)
+    keyDown = keyLeft
+    #keyDown = lambda self: self.game.knight.setDirection(8)
 
     defaultKeys = (pygame.K_LEFT, pygame.K_a, pygame.K_RIGHT, pygame.K_d, pygame.K_UP, pygame.K_w, pygame.K_DOWN, pygame.K_s)
     defaultDownFuns = (keyLeft, keyLeft, keyRight, keyRight, keyUp, keyUp, keyDown, keyDown)
