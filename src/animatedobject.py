@@ -88,10 +88,10 @@ class AnimationState():
         self.animName = 'stopped'
         self.x = 0
         self.y = 0
-    def changeAnimation(self,animName):
+    def setAnimation(self,animName):
         self.animName = animName
         self.startTime = 0
-    def changeDirection(self,dir):
+    def setDirection(self,dir):
         self.dir = dir
     def setPosition(self,x,y):
         self.x = x
@@ -106,7 +106,7 @@ class AnimationState():
         timediff = gameTime - self.startTime
         fps = self.object.animations[self.animName].fps
         frames = self.object.animations[self.animName].frames
-        msf = (fps * 1000) / frames
+        msf = 1000 / fps
         frame = (timediff / msf)%frames
         return int(frame)
     def getFrame(self,gameTime):

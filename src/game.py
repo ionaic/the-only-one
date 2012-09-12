@@ -32,30 +32,35 @@ class Game():
             pygame.DOUBLEBUF+pygame.HWSURFACE)
 
         self.time = gametime.GameTime()
-        self.tstobj = animatedobject.createAnimatedObject('../assets/knight','object.ini')
+        self.tstobj = animatedobject.createAnimatedObject('../assets/tigger','object.ini')
         self.knight = animatedobject.AnimationState(self.tstobj)
-        self.knight.changeAnimation('stopped')
-        self.knight.changeDirection(0)
+        self.knight.setAnimation('stopped')
+        self.knight.setDirection(0)
 
-        self.iohandler = ioprocess.IOFunctions(self)
+        #self.iohandler = ioprocess.IOFunctions(self)
 
     def processInputs(self):
-        self.iohandler.handleEvents(pygame.event.get())
-        # for event in pygame.event.get():
-        #     if event.type == pygame.QUIT:
-        #         sys.exit()
-        #     if event.type == pygame.KEYDOWN:
-        #         if event.key == pygame.K_ESCAPE:
-        #             sys.exit()
+        #self.iohandler.handleEvents(pygame.event.get())
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                sys.exit()
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_ESCAPE:
+                    sys.exit()
+                if event.key == pygame.K_LEFT:
+                    self.knight.setDirection(2)
+                if event.key == pygame.K_RIGHT:
+                    self.knight.setDirection(6)
+                if event.key == pygame.K_UP:
+                    self.knight.setDirection(4)
+                if event.key == pygame.K_DOWN:
+                    self.knight.setDirection(0)
 
     def update(self):
         self.time.update()
 
     def draw(self):
+        self._screen.fill((0,0,0))
         frame = self.knight.getFrame(self.time.time())
         self._screen.blit(frame,frame.get_rect())
-        #self._screen.fill((0,0,0))
-        #self._screen.blit(self._ball,self._ball.get_rect())
-        #self._screen.blit(self._square, (150,45))
-        #flip
         pygame.display.flip()
