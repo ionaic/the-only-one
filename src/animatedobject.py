@@ -76,18 +76,25 @@ class AnimationState():
         self.animName = 'stopped'
         self.x = 0
         self.y = 0
+        self.newX = 0
+        self.newY = 0
     def setAnimation(self,animName):
         self.animName = animName
         self.startTime = 0
     def setDirection(self,dir):
         self.dir = dir
-    def setPosition(self,x,y):
+    def setNewPos(self, x, y):
+        self.newX = x
+        self.newY = y
+    def setPos(self,x,y):
         self.x = x
         self.y = y
     def getX(self):
         return self.x
     def getY(self):
         return self.y
+    def getNewPos(self):
+        return (self.newX, self.newY)
     def getPos(self):
         return (self.x,self.y)
     def getFrameNumber(self,gameTime):
