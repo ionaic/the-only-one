@@ -22,9 +22,18 @@ class IOFunctions:
         self.registerCallback(eventStr(pygame.KEYDOWN), self.keyDownCB)
         self.registerCallback(eventStr(pygame.KEYUP), self.keyUpCB)
 
-        self.defaultKeys = (pygame.K_LEFT, pygame.K_a, pygame.K_RIGHT, pygame.K_d, pygame.K_UP, pygame.K_w, pygame.K_DOWN, pygame.K_s)
-        self.defaultDownFuns = (self.mover.moveLeft, self.mover.moveLeft, self.mover.moveRight, self.mover.moveRight, self.mover.moveUp, self.mover.moveUp, self.mover.moveDown, self.mover.moveDown)
-        self.defaultUpFuns = [self.mover.stopMove for i in range(0, 8)]
+        self.defaultKeys = (pygame.K_LEFT, pygame.K_a, \
+                            pygame.K_RIGHT, pygame.K_d, \
+                            pygame.K_UP, pygame.K_w, \
+                            pygame.K_DOWN, pygame.K_s)
+        self.defaultDownFuns = (lambda: self.mover.moveLeft() , lambda: self.mover.moveLeft(), \
+                                lambda: self.mover.moveRight(), lambda: self.mover.moveRight(), \
+                                lambda: self.mover.moveUp()   , lambda: self.mover.moveUp(), \
+                                lambda: self.mover.moveDown() , lambda: self.mover.moveDown() )
+        self.defaultUpFuns =   (lambda: self.mover.stopLeft() , lambda: self.mover.stopLeft(), \
+                                lambda: self.mover.stopRight(), lambda: self.mover.stopRight(), \
+                                lambda: self.mover.stopUp()   , lambda: self.mover.stopUp(), \
+                                lambda: self.mover.stopDown() , lambda: self.mover.stopDown() )
         
         # register default key press callbacks
         self.registerKeyPress(pygame.K_ESCAPE, self.quitCB)

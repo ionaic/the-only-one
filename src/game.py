@@ -36,8 +36,8 @@ class Game():
         self.time = gametime.GameTime()
         self.tstobj = animatedobject.createAnimatedObject('../assets/tigger','object.ini')
         self.tiger = animatedobject.AnimationState(self.tstobj)
-        self.tiger.setAnimation('move')
-        self.tiger.setDirection(0)
+        #self.tiger.setAnimation('move')
+        #self.tiger.setDirection(0)
 
         self.pigobj = animatedobject.createAnimatedObject('../assets/piglet','object.ini')
         self.pig = animatedobject.AnimationState(self.pigobj)
