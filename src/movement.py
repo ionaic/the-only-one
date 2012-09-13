@@ -120,5 +120,5 @@ class Movement:
         #stop motion
         self.moveState = [-1, 0]
 
-    def stopLeft:
+    def stopLeft():
         self.moveState[1] = 0
