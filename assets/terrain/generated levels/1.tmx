@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE map SYSTEM "http://mapeditor.org/dtd/1.0/map.dtd">
+<map version="1.0" orientation="orthogonal" width="20" height="15" tilewidth="40" tileheight="40">
+ <tileset firstgid="1" name="dirt" tilewidth="40" tileheight="40">
+  <image source="../dirt.png" width="40" height="40"/>
+ </tileset>
+ <tileset firstgid="2" name="grass1" tilewidth="40" tileheight="40">
+  <image source="../grass1.png" width="40" height="40"/>
+ </tileset>
+ <tileset firstgid="3" name="grass2" tilewidth="40" tileheight="40">
+  <image source="../grass2.png" width="40" height="40"/>
+ </tileset>
+ <tileset firstgid="4" name="rock" tilewidth="40" tileheight="40">
+  <image source="../rock.png" width="40" height="40"/>
+ </tileset>
+ <tileset firstgid="5" name="stump" tilewidth="40" tileheight="40">
+  <image source="../stump.png" width="40" height="40"/>
+ </tileset>
+ <tileset firstgid="6" name="tree" tilewidth="40" tileheight="40">
+  <image source="../tree.png" width="40" height="40"/>
+ </tileset>
+ <tileset firstgid="7" name="grass-dirtA" tilewidth="40" tileheight="40">
+  <image source="../grass-dirtA.png" width="40" height="40"/>
+ </tileset>
+ <tileset firstgid="8" name="grass-dirtB" tilewidth="40" tileheight="40">
+  <image source="../grass-dirtB.png" width="40" height="40"/>
+ </tileset>
+ <tileset firstgid="9" name="grass-dirtC" tilewidth="40" tileheight="40">
+  <image source="../grass-dirtC.png" width="40" height="40"/>
+ </tileset>
+ <tileset firstgid="10" name="grass-dirtD" tilewidth="40" tileheight="40">
+  <image source="../grass-dirtD.png" width="40" height="40"/>
+ </tileset>
+ <tileset firstgid="11" name="piglet" tilewidth="40" tileheight="40">
+  <image source="../piglet.png" width="128" height="160"/>
+ </tileset>
+ <tileset firstgid="23" name="piglet" tilewidth="256" tileheight="320">
+  <image source="../piglet.png" width="128" height="160"/>
+ </tileset>
+ <layer name="background" width="20" height="15" opacity="0.46">
+  <data encoding="csv">
+1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
+1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
+1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
+1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
+1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
+1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
+1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
+1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
+1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
+1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
+1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
+1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
+1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
+1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
+1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1
+</data>
+ </layer>
+ <layer name="top" width="20" height="15">
+  <data encoding="csv">
+6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,
+6,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,6,
+6,0,0,6,6,0,0,0,0,0,0,0,0,0,6,6,0,0,0,6,
+6,0,0,6,6,0,0,0,0,0,0,0,0,0,6,6,0,0,0,6,
+6,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,6,
+6,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+6,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+6,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+6,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+6,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+6,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,6,
+6,0,0,6,6,0,0,0,0,0,0,0,0,0,6,6,0,0,0,6,
+6,0,0,6,6,0,0,0,0,0,0,0,0,0,6,6,0,0,0,6,
+6,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,6,
+6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6
+</data>
+ </layer>
+</map>
