@@ -13,11 +13,10 @@ def load_sound(name):
         def play(self): pass
     if not pygame.mixer or not pygame.mixer.get_init():
         return NoneSound()
-    fullname = os.path.join('.', name)
     try:
-        sound = pygame.mixer.Sound(fullname)
+        sound = pygame.mixer.Sound(name)
     except pygame.error, message:
-        print 'Cannot load sound:', fullname
+        print 'Cannot load sound:', name
         raise SystemExit, message
     return sound
 
