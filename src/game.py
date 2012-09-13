@@ -59,6 +59,7 @@ class Game():
 
     def update(self):
         self.time.update()
+        self.iohandler.mover.updatePos()
 
     def draw(self):
         #self._screen.fill((0,0,0))

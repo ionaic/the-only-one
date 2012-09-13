@@ -1,48 +1,112 @@
-import pygame, sys, math, ioprocess
-from pygame.locals import *
+import pygame, sys, math, operator
 
-def abs(num):
-    if (num < 0):
-        return (-1) * num
-    else:
-        return num
+class Movement:
+    def __init__(self, game, iofuncs):
+        # movement state variable
+        self.moveState = [-1, 10]
+        self.game = game
+        self.iofuncs = iofuncs
+        self.moveSpeed = [0.2,0.2]
 
-def clamp0(num, numMax):
-    return max(min(numMax, num), 0)
+    def moveChar(self):
+        # direction of movement [x, y]
+        direction = [0,0]
+        magnitude = self.moveState[1] * self.moveSpeed
+        if not self.moveState[0] == -1:
+            
+            if self.moveState[0] == 0:
+                # down (south)
+                direction = [0, 1]
+            elif self.moveState[0] == 1:
+                # down/left (southwest)
+                direction = [-1, 1]
+            elif self.moveState[0] == 2:
+                # left (west)
+                direction = [-1, 0]
+            elif self.moveState[0] == 3:
+                # up/left (northwest)
+                direction = [-1, -1]
+            elif self.moveState[0] == 4:
+                # up (north)
+                direction = [0, -1]
+            elif self.moveState[0] == 5:
+                # up/right (northeast)
+                direction = [1, -1]
+            elif self.moveState[0] == 6:
+                # right (east)
+                direction = [1, 0]
+            elif self.moveState[0] == 7:
+                # down/right (southeast)
+                direction = [1, 1]
+        else:
+            return
+        
+        move = map(operator.mul, direction, self.moveSpeed)
+        move = map(operator.add, move, self.game.tiger.getPos())
+        self.game.tiger.setNewPos(move[0], move[1])
 
-#def tupRClamp(num, 
+    def updatePos(self):
+        self.moveChar()
+        proposedPos = self.game.tiger.getNewPos()
+        if proposedPos != self.game.tiger.getPos():
+            self.game.tiger.setPos(proposedPos[0], proposedPos[1])
 
-def tupClamp0(nums, numMaxes):
-    return tuple(map(clamp0, nums, numMaxes))
+    # movement functions: 0-Down, 2-Left, 4-up, 6-right
+    # moveLeft function
+    def moveLeft(self):
+        # move state (in terms of animation) is now left
+        self.moveState[1] = 10
+        self.game.tiger.setDirection(2)
+        if self.moveState[0] in (0, 1, 7):
+            self.moveState[0] = 1
+        elif self.moveState[0] in (3, 4, 5):
+            self.moveState[0] = 3 
+        elif self.moveState[0] in (-1, 2, 6):
+            self.moveState[0] = 2
+        
+        self.moveChar()
+    
+    # moveRight function
+    def moveRight(self):
+        # move state (in terms of animation) is now left
+        self.moveState[1] = 10
+        self.game.tiger.setDirection(6)
+        if self.moveState[0] in (0, 1, 7):
+            self.moveState[0] = 7
+        elif self.moveState[0] in (-1, 2, 6):
+            self.moveState[0] = 6
+        elif self.moveState[0] in (3, 4, 5):
+            self.moveState[0] = 5
 
-def tupAdd(tup1, tup2):
-    return tuple(map(operator.add, tup1, tup2))
+        self.moveChar()
 
-def tupMult(tup1, tup2):
-    return tuple(map(operator.mul, tup1, tup2))
+    # moveUp function
+    def moveUp(self):
+        # move state (in terms of animation) is now left
+        self.moveState[1] = 10
+        self.game.tiger.setDirection(2)
+        if self.moveState[0] in (-1, 0, 4):
+            self.moveState[0] = 4
+        elif self.moveState[0] in (1, 2, 3):
+            self.moveState[0] == 3
+        elif self.moveState[0] in (5, 6, 7):
+            self.moveState[0] = 5
 
-def moveCircle():
-    if circVel != (0, 0):
-        circPos = tupClamp0(tupAdd(tupMult(velDir, circVel), circPos), screenSize)
-        circVel = (circVel[0] + circAccel[0], circVel[1] + circAccel[1])
-    elif circVel[0] == 0:
-        if circAccel[0] != 0:
-            circAccel[0] = 0;
-    elif circVel[1] == 0:
-            circAccel[1] = 0;
-    else:
-        if circAccel != [0, 0]:
-            circAccel = [0, 0]
+        self.moveChar()
 
-def keyDownHandler():
-    event = pygame.event.get()
-    if event.key in (K_LEFT, K_a):
-        velDir = (-1, velDir[1])
-    elif event.key in (K_RIGHT, K_d):
-        velDir = (1, velDir[1])
-    elif event.key in (K_UP, K_w):
-        velDir = (velDir[0], -1)
-    elif event.key in (K_DOWN, K_s):
-        velDir = (velDir[0], 1)
-    elif event.key == K_ESCAPE:
-        sys.exit()
+    # moveDown function
+    def moveDown(self):
+        # move state (in terms of animation) is now left
+        self.moveState[1] = 10
+        self.game.tiger.setDirection(6)
+        if self.moveState[0] in (-1, 0, 4):
+            self.moveState[0] = 0
+        elif self.moveState[0] == (1, 2, 3):
+            self.moveState[0] = 1
+        elif self.moveState[0] in (5, 6, 7):
+            self.moveState[0] = 7
+        self.moveChar()
+
+    def stopMove(self):
+        #stop motion
+        self.moveState = [-1, 0]
