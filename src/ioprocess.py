@@ -22,8 +22,14 @@ class IOFunctions:
         self.registerCallback(eventStr(pygame.KEYDOWN), self.keyDownCB)
         self.registerCallback(eventStr(pygame.KEYUP), self.keyUpCB)
 
-        self.defaultKeys = (pygame.K_LEFT, pygame.K_a, pygame.K_RIGHT, pygame.K_d, pygame.K_UP, pygame.K_w, pygame.K_DOWN, pygame.K_s)
-        self.defaultDownFuns = (self.mover.moveLeft, self.mover.moveLeft, self.mover.moveRight, self.mover.moveRight, self.mover.moveUp, self.mover.moveUp, self.mover.moveDown, self.mover.moveDown)
+        self.defaultKeys = (pygame.K_LEFT, pygame.K_a, \
+                            pygame.K_RIGHT, pygame.K_d, \
+                            pygame.K_UP, pygame.K_w, \
+                            pygame.K_DOWN, pygame.K_s)
+        self.defaultDownFuns = (self.mover.moveLeft, self.mover.moveLeft, \
+                                self.mover.moveRight, self.mover.moveRight, \
+                                self.mover.moveUp, self.mover.moveUp, \
+                                self.mover.moveDown, self.mover.moveDown)
         self.defaultUpFuns = [self.mover.stopMove for i in range(0, 8)]
         
         # register default key press callbacks
