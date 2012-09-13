@@ -23,7 +23,7 @@ def load_sound(name):
 
 
 for sound in config.items('sounds'):
-    fullname = os.path.join('../assets', sound[1])
+    fullname = os.path.join('../assets/audio/sfx', sound[1])
     try:
         mySounds[sound[0]] = load_sound(fullname)
     except pygame.error, message:
@@ -31,7 +31,7 @@ for sound in config.items('sounds'):
         raise SystemExit, message
 
 for song in config.items('music'):
-    fullname = os.path.join('../assets', song[1])
+    fullname = os.path.join('../assets/audio/music', song[1])
     try:
         mySongs[song[0]] = load_sound(fullname)
     except pygame.error, message:
