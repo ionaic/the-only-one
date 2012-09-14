@@ -16,7 +16,7 @@ class IOFunctions:
     # __init(self, Game)
     def __init__(self, gameobj):
         self.game = gameobj
-        self.mover = movement.Movement(self.game, self)
+        self.mover = movement.Movement(self.game)
         # register default callback functions
         self.registerCallback(eventStr(pygame.QUIT), self.quitCB)
         self.registerCallback(eventStr(pygame.KEYDOWN), self.defaultKeyDown)
@@ -59,15 +59,7 @@ class IOFunctions:
 
     # registerKeyPress(self, string, function(pygame.Event))
     def registerKeyPress(self, key, func):
-        #if type(key) is 'int':
-        #    print 'registerkeypress ' + keyStr(key) + '\n'
         self.keyDownCBs[keyStr(key)] = func
-        #elif type(key) is 'str':
-        #    print 'registerkeypress ' + str(key) + '\n'
-        #    self.keyDownCBs[key] = func
-        #else:
-        #    print "press " + str(type(key)) + '\n'
-        #    self.keyDownCBs[str(key)] = func
 
     # unregisterKeyPress(self, string)
     def unregisterKeyPress(self, key):
@@ -76,15 +68,7 @@ class IOFunctions:
    
     # registerKeyPress(self, string, function(pygame.Event))
     def registerKeyRelease(self, key, func):
-        #if type(key) is 'int':
-        #    print 'registerkeyrelease ' + keyStr(key) + '\n'
         self.keyUpCBs[keyStr(key)] = func
-        #elif type(key) is 'str':
-        #    print 'registerkeyrelease ' + str(key) + '\n'
-        #    self.keyUpCBs[key] = func
-        #else:
-        #    print "release " + str(type(key)) + '\n'
-        #    self.keyUpCBs[str(key)] = func
 
     # unregisterKeyRelease(self, string)
     def unregisterKeyRelease(self, key):
