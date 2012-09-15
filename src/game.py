@@ -18,6 +18,7 @@ import pygame
 import gametime
 import animatedobject
 import ioprocess # io handling
+import projectile # projectile handling
 import terrain
 
 #------------------------------------------------------------------------------
@@ -44,11 +45,16 @@ class Game():
         self.pig.setAnimation('stopped')
         self.pig.setDirection(0)
         self.pig.setPos(300,200)
-
+        
+        # handler for keyboard inputs, maps them to movements
         self.iohandler = ioprocess.IOFunctions(self)
+
         self.lettermap = terrain.createLetterMap('../assets/terrain','terrainObjects.ini')
         self.tilemap = terrain.createCSVMap(self.lettermap,'../assets/terrain','test.csv',['overlay.csv'])
         self._screen.blit(self.tilemap.surface,(0,0))
+
+        # handler for projectiles
+        self.bullets = projectile.Projectiles(self)
 
         self.objects = list()
         self.objects.append(self.tiger)
@@ -60,6 +66,7 @@ class Game():
     def update(self):
         self.time.update()
         self.iohandler.mover.updatePos()
+        self.bullets.moveAll()
 
     def draw(self):
         #self._screen.fill((0,0,0))
@@ -71,4 +78,5 @@ class Game():
         self._screen.blit(frame,self.tiger.getPos())
         frame = self.pig.getFrame(self.time.time())
         self._screen.blit(frame,self.pig.getPos())
+        self.bullets.handleProjectiles()
         pygame.display.flip()

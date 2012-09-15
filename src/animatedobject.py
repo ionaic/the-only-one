@@ -83,12 +83,17 @@ class AnimationState():
         self.startTime = 0
     def setDirection(self,dir):
         self.dir = dir
+    def setNewPosVec(self, vect):
+        self.newX = vect[0]
+        self.newY = vect[1]
     def setNewPos(self, x, y):
         self.newX = x
         self.newY = y
     def setPos(self,x,y):
         self.x = x
         self.y = y
+    def getDirection(self):
+        return self.dir
     def getX(self):
         return self.x
     def getY(self):

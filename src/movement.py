@@ -1,5 +1,34 @@
 import pygame, sys, math, operator
 
+def dirToVec(direction):
+    if direction == 0:
+        # down (south)
+        return [0, 1]
+    elif direction == 1:
+        # down/left (southwest)
+        return [-1, 1]
+    elif direction == 2:
+        # left (west)
+        return [-1, 0]
+    elif direction == 3:
+        # up/left (northwest)
+        return [-1, -1]
+    elif direction == 4:
+        # up (north)
+        return [0, -1]
+    elif direction == 5:
+        # up/right (northeast)
+        return [1, -1]
+    elif direction == 6:
+        # right (east)
+        return [1, 0]
+    elif direction == 7:
+        # down/right (southeast)
+        return [1, 1]
+    else:
+        return [0, 0]
+    
+
 class Movement:
     def __init__(self, game):
         # movement state variable
@@ -9,36 +38,16 @@ class Movement:
 
     def moveChar(self):
         # direction of movement [x, y]
-        magnitude = self.moveState[1] * self.moveSpeed
-        if self.moveState[0] == 0:
-            # down (south)
-            direction = [0, 1]
-        elif self.moveState[0] == 1:
-            # down/left (southwest)
-            direction = [-1, 1]
-        elif self.moveState[0] == 2:
-            # left (west)
-            direction = [-1, 0]
-        elif self.moveState[0] == 3:
-            # up/left (northwest)
-            direction = [-1, -1]
-        elif self.moveState[0] == 4:
-            # up (north)
-            direction = [0, -1]
-        elif self.moveState[0] == 5:
-            # up/right (northeast)
-            direction = [1, -1]
-        elif self.moveState[0] == 6:
-            # right (east)
-            direction = [1, 0]
-        elif self.moveState[0] == 7:
-            # down/right (southeast)
-            direction = [1, 1]
-        else:
-            direction = [0,0]
-        move = map(operator.mul, direction, self.moveSpeed)
-        move = map(operator.add, move, self.game.tiger.getPos())
-        self.game.tiger.setNewPos(move[0], move[1])
+        # get the direction and magnitude of velocity
+        direction = dirToVec(self.moveState[0])
+        magnitude = [self.moveState[1] * self.moveSpeed[i] \
+            for i in range(0, len(self.moveSpeed))]
+        # produce the velocity vector from direction and magnitude
+        velocity = map(operator.mul, direction, magnitude)
+        # produce the new position (proposed position) from current pos and
+        #   velocity
+        new_pos = map(operator.add, velocity, self.game.tiger.getPos())
+        self.game.tiger.setNewPosVec(new_pos)
 
     def updatePos(self):
         self.moveChar()
@@ -130,13 +139,12 @@ class Movement:
     def stopMove(self):
         #stop motion
         self.moveState = [-1, 0]
-        self.updateTiger()
 
     def stopLeft(self):
         if self.moveState[0] == 1:
             self.moveState[0] = 0
         elif self.moveState[0] == 2:
-            self.moveState[0] = -1
+            self.stopMove()
             self.game.tiger.setDirection(2)
         elif self.moveState[0] == 3:
             self.moveState[0] = 4
@@ -146,7 +154,7 @@ class Movement:
         if self.moveState[0] == 5:
             self.moveState[0] = 4
         elif self.moveState[0] == 6:
-            self.moveState[0] = -1
+            self.stopMove()
             self.game.tiger.setDirection(6)
         elif self.moveState[0] == 7:
             self.moveState[0] = 0
@@ -156,7 +164,7 @@ class Movement:
         if self.moveState[0] == 3:
             self.moveState[0] = 2
         elif self.moveState[0] == 4:
-            self.moveState[0] = -1
+            self.stopMove()
             self.game.tiger.setDirection(4)
         elif self.moveState[0] == 5:
             self.moveState[0] = 6
@@ -164,7 +172,7 @@ class Movement:
 
     def stopDown(self):
         if self.moveState[0] == 0:
-            self.moveState[0] = -1
+            self.stopMove()
             self.game.tiger.setDirection(0)
         elif self.moveState[0] == 1:
             self.moveState[0] = 2
