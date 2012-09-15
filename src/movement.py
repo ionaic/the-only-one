@@ -35,6 +35,7 @@ class Movement:
         self.moveState = [-1, 0]
         self.game = game
         self.moveSpeed = [0.2,0.2]
+        self.diag_const = math.sqrt(2) * 0.5 # 1/sqrt 2 == (sqrt 2)/2 for diagonals
 
     def moveChar(self):
         # direction of movement [x, y]
@@ -99,40 +100,49 @@ class Movement:
             print 'getDown unknown state: ' + str(self.moveState)
             return -1
 
+    def getSpeedState(self):
+        if self.moveState[0] == -1:
+            return 0
+        elif self.moveState[0] % 2 == 1:
+            return self.diag_const
+        else:
+            return 1
+        
+
     # movement functions: 0-Down, 2-Left, 4-up, 6-right
     # moveLeft function
     def moveLeft(self):
         # move state (in terms of animation) is now left
-        self.moveState[1] = 1
         self.game.tiger.setDirection(2)
         self.moveState[0] = self.getLeftState()
+        self.moveState[1] = self.getSpeedState()
         self.moveChar()
         self.updateTiger()
     
     # moveRight function
     def moveRight(self):
         # move state (in terms of animation) is now left
-        self.moveState[1] = 1
         self.game.tiger.setDirection(6)
         self.moveState[0] = self.getRightState()
+        self.moveState[1] = self.getSpeedState()
         self.moveChar()
         self.updateTiger()
 
     # moveUp function
     def moveUp(self):
         # move state (in terms of animation) is now left
-        self.moveState[1] = 1
         self.game.tiger.setDirection(2)
         self.moveState[0] = self.getUpState()
+        self.moveState[1] = self.getSpeedState()
         self.moveChar()
         self.updateTiger()
 
     # moveDown function
     def moveDown(self):
         # move state (in terms of animation) is now left
-        self.moveState[1] = 1
         self.game.tiger.setDirection(6)
         self.moveState[0] = self.getDownState()
+        self.moveState[1] = self.getSpeedState()
         self.moveChar()
         self.updateTiger()
 
@@ -148,6 +158,7 @@ class Movement:
             self.game.tiger.setDirection(2)
         elif self.moveState[0] == 3:
             self.moveState[0] = 4
+        self.moveState[1] = self.getSpeedState()
         self.updateTiger()
 
     def stopRight(self):
@@ -158,6 +169,7 @@ class Movement:
             self.game.tiger.setDirection(6)
         elif self.moveState[0] == 7:
             self.moveState[0] = 0
+        self.moveState[1] = self.getSpeedState()
         self.updateTiger()
 
     def stopUp(self):
@@ -168,6 +180,7 @@ class Movement:
             self.game.tiger.setDirection(4)
         elif self.moveState[0] == 5:
             self.moveState[0] = 6
+        self.moveState[1] = self.getSpeedState()
         self.updateTiger()
 
     def stopDown(self):
@@ -178,6 +191,7 @@ class Movement:
             self.moveState[0] = 2
         elif self.moveState[0] == 7:
             self.moveState[0] = 6
+        self.moveState[1] = self.getSpeedState()
         self.updateTiger()
 
     def updateTiger(self):

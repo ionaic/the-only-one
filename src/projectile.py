@@ -19,6 +19,7 @@ class Projectiles:
         self.screen_rect = self.game._screen.get_rect()
 
     def spawnProjectile(self, x, y, direction):
+        print "spawned at " + str((x, y)) + " with velocity " + str(movement.dirToVec(direction))
         if direction < 0:
             self.projectiles.append(Button(x, y, self.game.tiger.getDirection()))
         else:
@@ -43,16 +44,20 @@ class Projectiles:
         map(self.screen_collide, self.projectiles)
 
     def screen_collide(self, x):
-        if not self.screen_rect.contains(x.get_rect()):
+        if (self.screen_rect.contains(x.get_rect())) == False:
+            print "out of screen "
             if x in self.projectiles:
+                print "removing " + str(x)
                 self.projectiles.remove(x)
 
     def collide(self, x, y):
-        if not (x.get_rect().colliderect(y.get_rect()) or \
+        if (x.get_rect().colliderect(y.get_rect()) == False or \
             x.get_rect().contains(y.get_rect) or \
             y.get_rect().contains(x.get_rect())): 
             print str(x) + " hit " + str(y)
             if x in self.projectiles:
+                print "removing " + str(x)
                 self.projectiles.remove(x)
             elif y in self.projectiles:
+                print "removing " + str(y)
                 self.projectiles.remove(y)
