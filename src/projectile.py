@@ -19,7 +19,7 @@ class Projectiles:
         self.screen_rect = self.game._screen.get_rect()
 
     def spawnProjectile(self, x, y, direction):
-        print "spawned at " + str((x, y)) + " with velocity " + str(movement.dirToVec(direction))
+        print "spawned at " + str((x, y)) + " with velocity " + str(direction)
         if direction < 0:
             self.projectiles.append(Button(x, y, self.game.tiger.getDirection()))
         else:
@@ -32,7 +32,9 @@ class Projectiles:
         map(self.move, self.projectiles)
 
     def move(self, proj):
-        proposed_pos = map(operator.mul, movement.dirToVec(proj.direction), self.projectile_speed)
+        speed = [movement.getSpeedState(proj.direction) * self.projectile_speed[i] \
+            for i in range(0, len(self.projectile_speed))]
+        proposed_pos = map(operator.mul, movement.dirToVec(proj.direction), speed)
         proposed_pos = map(operator.add, proposed_pos, proj.position)
         proj.position = proposed_pos
 
