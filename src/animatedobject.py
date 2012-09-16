@@ -52,10 +52,10 @@ class Animation():
                 continue
 
 def collideRects(obj, other):
-    if isinstance(obj, pygame.Rect):
+    if obj == other:
+        return False
+    elif isinstance(obj, pygame.Rect):
         return obj.contains(other) or other.contains(obj) or obj.colliderect(other)
-    elif obj == other:
-        
     else:
         print 'Arguments must both be of type pygame.Rect'
 
@@ -66,14 +66,14 @@ class AnimatedObject():
         
         self.animations = dict()
 
-        self.collide_func = lambda: return None
+        self.collide_func = lambda: None
         
         for animation in config.items('animations'):
             self.animations[animation[0]] = Animation(config,animation[1])
 
     def registerCollideCB(self, func):
-        self.collide_func = 
-
+        self.collide_func = func
+    
 def createAnimatedObject(folder, fname):
     cwd = os.getcwd()
     os.chdir(folder)
