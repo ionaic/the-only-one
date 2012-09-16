@@ -7,8 +7,8 @@ class Button():
         #self.surf = pygame.image.load('../assets/projectiles/button_placeholder/eeyore0001.png')
         self.tstobj = animatedobject.createAnimatedObject('../assets/projectiles/button_placeholder', 'object.ini')
         self.anim = animatedobject.AnimationState(self.tstobj)
-        self.position = [x, y]
-        self.direction = direction
+        self.anim.setPos(x,y)
+        self.anim.setDirection(direction)
 
     def get_rect(self):
         #return self.surf.get_rect()
@@ -17,6 +17,12 @@ class Button():
     def getFrame(self, time):
         return self.anim.getFrame(time)
 
+    def getPos(self):
+        return self.anim.getPos()
+
+    def getDirection(self):
+        return self.anim.getDirection();
+
 class Projectiles:
     projectile_speed = [1,1]
 
@@ -24,7 +30,15 @@ class Projectiles:
         self.projectiles = []
         self.game = game
         self.screen_rect = self.game._screen.get_rect()
-
+    
+    def getDirty(self,time):
+        rects = list()
+        for projectile in self.projectiles:
+            object = projectile.anim
+            frame = object.getFrame(time.time())
+            rects.append(frame.get_rect().copy().move(object.getPos()))
+        return rects
+    
     def spawnProjectile(self, x, y, direction):
         print "spawned at " + str((x, y)) + " with velocity " + str(direction)
         if direction < 0:
@@ -39,14 +53,14 @@ class Projectiles:
         map(self.move, self.projectiles)
 
     def move(self, proj):
-        speed = [movement.getSpeedState(proj.direction) * self.projectile_speed[i] \
+        speed = [movement.getSpeedState(proj.getDirection()) * self.projectile_speed[i] \
             for i in range(0, len(self.projectile_speed))]
-        proposed_pos = map(operator.mul, movement.dirToVec(proj.direction), speed)
-        proposed_pos = map(operator.add, proposed_pos, proj.position)
-        proj.position = proposed_pos
+        proposed_pos = map(operator.mul, movement.dirToVec(proj.getDirection()), speed)
+        proposed_pos = map(operator.add, proposed_pos, proj.getPos())
+        proj.anim.setPos(proposed_pos[0],proposed_pos[1])
 
     def handleProjectiles(self, time):
-        map(self.game._screen.blit, (self.projectiles[i].getFrame(time) for i in range(0, len(self.projectiles))), (self.projectiles[i].position for i in range(0, len(self.projectiles))))
+        map(self.game._screen.blit, (self.projectiles[i].getFrame(time) for i in range(0, len(self.projectiles))), (self.projectiles[i].getPos() for i in range(0, len(self.projectiles))))
 
     def collideAll(self):
         #map(self.collide, self.projectiles, self.game.objects)
@@ -54,7 +68,7 @@ class Projectiles:
 
     def screen_collide(self, x):
         #if (self.screen_rect.contains(x.get_rect())) == False:
-        if self.screen_rect.collidepoint(tuple(x.position)) == False or 0 in x.position:
+        if self.screen_rect.collidepoint(x.getPos()) == False or 0 in x.getPos():
             print "out of screen "
             if x in self.projectiles:
                 print "removing " + str(x)

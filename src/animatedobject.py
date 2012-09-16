@@ -89,19 +89,14 @@ class AnimationState():
         self.animName = 'stopped'
         self.x = 0
         self.y = 0
-        self.newX = 0
-        self.newY = 0
     def setAnimation(self,animName):
         self.animName = animName
         self.startTime = 0
     def setDirection(self,dir):
         self.dir = dir
-    def setNewPosVec(self, vect):
-        self.newX = vect[0]
-        self.newY = vect[1]
-    def setNewPos(self, x, y):
-        self.newX = x
-        self.newY = y
+    def setPosVec(self, vect):
+        self.x = vect[0]
+        self.y = vect[1]
     def setPos(self,x,y):
         self.x = x
         self.y = y
@@ -111,8 +106,6 @@ class AnimationState():
         return self.x
     def getY(self):
         return self.y
-    def getNewPos(self):
-        return (self.newX, self.newY)
     def getPos(self):
         return (self.x,self.y)
     def updatePos(self):

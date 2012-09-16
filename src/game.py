@@ -67,13 +67,15 @@ class Game():
         self.time.update()
         self.iohandler.mover.updatePos()
         self.bullets.moveAll()
-
-    def draw(self):
-        #self._screen.fill((0,0,0))
-        #self._screen.blit(self.tilemap.surface,(0,0))
+    def preDraw(self):
         for object in self.objects:
             frame = object.getFrame(self.time.time())
             self._screen.blit(self.tilemap.surface,object.getPos(),frame.get_rect().copy().move(object.getPos()))
+        for rect in self.bullets.getDirty(self.time):
+            self._screen.blit(self.tilemap.surface,(rect.left,rect.top),rect)
+    def draw(self):
+        #self._screen.fill((0,0,0))
+        #self._screen.blit(self.tilemap.surface,(0,0))
         frame = self.tiger.getFrame(self.time.time())
         self._screen.blit(frame,self.tiger.getPos())
         frame = self.pig.getFrame(self.time.time())

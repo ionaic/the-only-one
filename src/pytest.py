@@ -43,6 +43,8 @@ def main():
                 frames = 0
             # process input
             game.processInputs()
+            # clear the previous state
+            game.preDraw()
             # update
             game.update()
             # draw

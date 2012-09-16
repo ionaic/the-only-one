@@ -59,13 +59,10 @@ class Movement:
         # produce the new position (proposed position) from current pos and
         #   velocity
         new_pos = map(operator.add, velocity, self.game.tiger.getPos())
-        self.game.tiger.setNewPosVec(new_pos)
+        self.game.tiger.setPosVec(new_pos)
 
     def updatePos(self):
         self.moveChar()
-        proposedPos = self.game.tiger.getNewPos()
-        if proposedPos != self.game.tiger.getPos():
-            self.game.tiger.setPos(proposedPos[0], proposedPos[1])
 
     def getLeftState(self):
         if self.moveState[0] in (0, 1, 7):
