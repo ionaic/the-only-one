@@ -1,3 +1,6 @@
+# functions for movement
+# movement.py
+# author Ian Ooi
 import pygame, sys, math, operator
 
 def dirToVec(direction):

@@ -78,5 +78,5 @@ class Game():
         self._screen.blit(frame,self.tiger.getPos())
         frame = self.pig.getFrame(self.time.time())
         self._screen.blit(frame,self.pig.getPos())
-        self.bullets.handleProjectiles()
+        self.bullets.handleProjectiles(self.time.time())
         pygame.display.flip()

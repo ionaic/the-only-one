@@ -1,14 +1,21 @@
 # projectiles
-import pygame, sys, game, movement, operator
+# author Ian Ooi
+import pygame, sys, game, movement, operator, animatedobject
 
-class Button:
+class Button():
     def __init__(self, x, y, direction):
-        self.surf = pygame.image.load('../assets/projectiles/button_placeholder/eeyore0001.png')
+        #self.surf = pygame.image.load('../assets/projectiles/button_placeholder/eeyore0001.png')
+        self.tstobj = animatedobject.createAnimatedObject('../assets/projectiles/button_placeholder', 'object.ini')
+        self.anim = animatedobject.AnimationState(self.tstobj)
         self.position = [x, y]
         self.direction = direction
 
     def get_rect(self):
-        return self.surf.get_rect()
+        #return self.surf.get_rect()
+        return self.getFrame.get_rect()
+
+    def getFrame(self, time):
+        return self.anim.getFrame(time)
 
 class Projectiles:
     projectile_speed = [1,1]
@@ -38,15 +45,16 @@ class Projectiles:
         proposed_pos = map(operator.add, proposed_pos, proj.position)
         proj.position = proposed_pos
 
-    def handleProjectiles(self):
-        map(self.game._screen.blit, (self.projectiles[i].surf for i in range(0, len(self.projectiles))), (self.projectiles[i].position for i in range(0, len(self.projectiles))))
+    def handleProjectiles(self, time):
+        map(self.game._screen.blit, (self.projectiles[i].getFrame(time) for i in range(0, len(self.projectiles))), (self.projectiles[i].position for i in range(0, len(self.projectiles))))
 
     def collideAll(self):
         #map(self.collide, self.projectiles, self.game.objects)
         map(self.screen_collide, self.projectiles)
 
     def screen_collide(self, x):
-        if (self.screen_rect.contains(x.get_rect())) == False:
+        #if (self.screen_rect.contains(x.get_rect())) == False:
+        if self.screen_rect.collidepoint(tuple(x.position)) == False or 0 in x.position:
             print "out of screen "
             if x in self.projectiles:
                 print "removing " + str(x)
