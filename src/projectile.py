@@ -42,7 +42,7 @@ class Projectiles:
     def spawnProjectile(self, x, y, direction):
         print "spawned at " + str((x, y)) + " with velocity " + str(direction)
         if direction < 0:
-            self.projectiles.append(Button(x, y, (self.game.tiger.getDirection()/2) * 2))
+            self.projectiles.append(Button(x, y, self.game.tiger.getDirection())
         else:
             self.projectiles.append(Button(x, y, direction))
 
