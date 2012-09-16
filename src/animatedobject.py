@@ -51,15 +51,28 @@ class Animation():
             except ConfigParser.NoOptionError:
                 continue
 
+def collideRects(obj, other):
+    if isinstance(obj, pygame.Rect):
+        return obj.contains(other) or other.contains(obj) or obj.colliderect(other)
+    elif obj == other:
+        
+    else:
+        print 'Arguments must both be of type pygame.Rect'
+
 class AnimatedObject():
     def __init__(self,fname):
         config = ConfigParser.ConfigParser()
         config.readfp(open(fname))
         
         self.animations = dict()
+
+        self.collide_func = lambda: return None
         
         for animation in config.items('animations'):
             self.animations[animation[0]] = Animation(config,animation[1])
+
+    def registerCollideCB(self, func):
+        self.collide_func = 
 
 def createAnimatedObject(folder, fname):
     cwd = os.getcwd()
@@ -102,6 +115,9 @@ class AnimationState():
         return (self.newX, self.newY)
     def getPos(self):
         return (self.x,self.y)
+    def updatePos(self):
+        self.x = newX
+        self.y = newY
     def getFrameNumber(self,gameTime):
         if self.startTime == 0:
             self.startTime = gameTime
