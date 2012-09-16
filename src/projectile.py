@@ -3,10 +3,12 @@
 import pygame, sys, game, movement, operator, animatedobject
 
 class Button():
+    projectileObject = None
     def __init__(self, x, y, direction):
         #self.surf = pygame.image.load('../assets/projectiles/button_placeholder/eeyore0001.png')
-        self.tstobj = animatedobject.createAnimatedObject('../assets/projectiles/button_placeholder', 'object.ini')
-        self.anim = animatedobject.AnimationState(self.tstobj)
+        if Button.projectileObject == None:
+            Button.projectileObject = animatedobject.createAnimatedObject('../assets/projectiles/button_placeholder', 'object.ini')
+        self.anim = animatedobject.AnimationState(Button.projectileObject)
         self.anim.setPos(x,y)
         self.anim.setDirection(direction)
 
@@ -42,7 +44,7 @@ class Projectiles:
     def spawnProjectile(self, x, y, direction):
         print "spawned at " + str((x, y)) + " with velocity " + str(direction)
         if direction < 0:
-            self.projectiles.append(Button(x, y, self.game.tiger.getDirection())
+            self.projectiles.append(Button(x, y, self.game.tiger.getDirection()))
         else:
             self.projectiles.append(Button(x, y, direction))
 
