@@ -26,29 +26,37 @@ from pygame import Rect
 
 #------------------------------------------------------------------------------
 
+class Frame():
+    def __init__(self,surface,drawn,col):
+        self.surface = surface
+        self.drawArea = drawn
+        self.collisionArea = col
+
 class Direction():
     def __init__(self,config,section,frames):
         self.frames = list()
-        self.drawn = list()
-        self.aabbs = list()
         for n in range(1,frames+1):
             frame = pygame.image.load(config.get(section,str(n))).convert_alpha()
-            self.frames.append(frame)
+            #self.frames.append(frame)
             boundingRect = frame.get_bounding_rect()
-            self.drawn.append(boundingRect)
+            print boundingRect
+            #self.drawn.append(boundingRect)
             option_name = str(n)+'_hitbox'
             if config.has_option(section,option_name):
                 hbVal = config.get(section,option_name)
             else:
                 hbVal = 'none'
+            
             if hbVal=='none':
-                self.aabbs.append(Rect(0,0,0,0))
+                aabb = Rect(0,0,0,0)
             elif hbVal=='full':
-                self.aabbs.append(frame.get_rect())
+                aabb = frame.get_rect()
             elif hbVal=='drawn':
-                self.aabbs.append(boundingRect)
+                aabb = boundingRect
             else:
-                self.aabbs.append(Rect(map(lambda X: int(X), hbVal.split(','))))
+                aabb = Rect(map(lambda X: int(X), hbVal.split(',')))
+
+            self.frames.append(Frame(frame,boundingRect,aabb))
 
 class Animation():
     def __init__(self,config,section):
@@ -104,6 +112,7 @@ class AnimationState():
         self.animName = 'stopped'
         self.x = 0
         self.y = 0
+        self.stash = Rect(0,0,0,0)
     def setAnimation(self,animName):
         self.animName = animName
         self.startTime = 0
@@ -142,10 +151,11 @@ class AnimationState():
     def getColAABB(self,time):
         framenum = self.getFrameNumber(time)
         anim = self.object.animations[self.animName].directions[self.dir]
-        return anim.aabbs[framenum]
+        return anim.frames[framenum].collisionArea
     def draw(self,target,time):
         frame = self.getFrame(time.time())
-        target.blit(frame,self.getPos())
+        target.blit(frame.surface,self.getPos())
+        self.stash = frame.drawArea.move(self.x,self.y)
 
 def createAnimationState(obj, pos, dir, anim):
     state = AnimationState(obj)
