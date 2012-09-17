@@ -78,6 +78,7 @@ def tiger_onhit(self):
     #self.health -= 1
     # play hit animation
     self.setAnimation('damaged')
+    self.stopMove()
     # play hit sound
     # stop all in progress player actions
     # invulnerable for x amount of time
@@ -90,7 +91,7 @@ def tiger_onshoot(self):
     if self.has_ammo():
         # launch projectile
         # reduce amount of available ammo
-        #self.ammo -= 1
+        self.ammo -= 1
         # play throwing animation
         if self.animName == 'move':
             self.setAnimation('moveshoot')
@@ -152,6 +153,7 @@ def tiger_onwalk(self):
 
 # PC tiger hits a wall
 def tiger_onwall(self):
+    self.stopMove()
     if self.animName != 'stopped':
         self.setAnimation('stopped')
 
@@ -184,7 +186,7 @@ def tiglet_ondie(self):
 # Piglet gets hit
 def piglet_onhit(self):
     # set swinging
-    #self.health -= 1
+    self.health -= 1
     if self.animName != 'swing':
         self.setAnimation('swing')
 

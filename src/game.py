@@ -87,7 +87,8 @@ class Game():
 
         self.pigobj = animatedobject.createAnimatedObject('../assets/piglet','object.ini')
         self.pigobj.setTag('pig')
-        self.pig = animatedobject.AnimationState(self.pigobj)
+        #self.pig = animatedobject.AnimationState(self.pigobj)
+        self.pig = interactions.Character(self.pigobj, self, 10, 10)
         self.pig.setAnimation('stopped')
         self.pig.setDirection(0)
         self.pig.setPos(300,200)
