@@ -28,7 +28,7 @@ class Projectiles:
     def spawnProjectile(self, x, y, direction):
         if Projectiles.projectileObject == None:
             Projectiles.projectileObject = animatedobject.createAnimatedObject('../assets/projectiles/button_placeholder', 'object.ini')
-        print "spawned at " + str((x, y)) + " with velocity " + str(direction)
+        #print "spawned at " + str((x, y)) + " with velocity " + str(direction)
         if direction < 0:
             self.projectiles.append(createAnimationState(Projectiles.projectileObject, (x, y), self.game.tiger.getDirection(),'stopped'))
         else:
@@ -56,7 +56,7 @@ class Projectiles:
     def screen_collide(self, x):
         #if (self.screen_rect.contains(x.get_rect())) == False:
         if self.screen_rect.collidepoint(x.getPos()) == False or 0 in x.getPos():
-            print "out of screen "
+            #print "out of screen "
             if x in self.projectiles:
-                print "removing " + str(x)
+                #print "removing " + str(x)
                 self.projectiles.remove(x)
