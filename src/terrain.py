@@ -184,3 +184,38 @@ def createCSVMap(letterMap, folder, fname,overlays):
     csvMap = CSVMap(letterMap, fname,overlays)
     os.chdir(cwd)
     return csvMap
+
+class World():
+    def __init__(self,fname):
+        config = ConfigParser.ConfigParser()
+        config.readfp(open(fname))
+        # load lettermaps
+        self.lettermaps = dict()
+        for item in config.items('lettermaps'):
+            self.lettermaps[item[0]] = LetterMap(item[1])
+        # load rooms
+        self.rooms = dict()
+        for room in config.items('rooms'):
+            lettermap = self.lettermaps[config.get(room[1],'lettermap')]
+            base = config.get(room[1],'base')
+            overlays = config.get(room[1],'overlays').split(',')
+            self.rooms[room[0]] = CSVMap(lettermap,base,overlays)
+        # load worldmap
+        self.pos = map(lambda X: int(X), config.get('worldmap','start').split(','))
+        reader = csv.reader(open(config.get('worldmap','file')),delimiter=',')
+        self.grid = list()
+        for line in enumerate(reader):
+            data = list()
+            for element in enumerate(line[1]):
+                data.append(element[1])
+            self.grid.append(data)
+    def getActiveMap(self):
+        return (self.grid[self.pos[1]])[self.pos[0]]
+        
+
+def createWorld(folder, fname):
+    cwd = os.getcwd()
+    os.chdir(folder)
+    world = World(fname)
+    os.chdir(cwd)
+    return world

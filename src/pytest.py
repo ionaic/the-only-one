@@ -18,6 +18,7 @@ import pygame
 
 # Local Application/Library Specific Imports ----------------------------
 import game as _game
+import terrain
 
 #------------------------------------------------------------------------------
 # Global Variables for Export ---------------------------------------
