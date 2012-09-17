@@ -51,8 +51,9 @@ class AnimationState():
         return anim.frames[framenum].collisionArea
     def draw(self,target,time):
         frame = self.getFrame(time.time())
-        target.blit(frame.surface,self.getPos())
         self.stash = frame.drawArea.move(self.x,self.y)
+        self.stashFrame = frame
+        target.blit(frame.surface,self.stash,frame.drawArea)
 
 def createAnimationState(obj, pos, dir, anim):
     state = AnimationState(obj)
