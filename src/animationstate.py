@@ -63,7 +63,7 @@ class AnimationState():
         self.stashPos = (self.x,self.y)
         if major:
             for region in self.dirtyRegions:
-                target.blit(frame.surface,region,region.move(-self.x,-self.y))
+                target.blit(frame.surface,region[0],region[0].move(-region[1][0],-region[1][1]))
         else:
             target.blit(frame.surface,self.stash,frame.drawArea)
         self.dirty = False
@@ -75,9 +75,14 @@ class AnimationState():
                 return
             else:
                 for region in self.dirtyRegions:
-                    target.blit(source,region,region)
+                    target.blit(source,region[0],region[0])
                 return
         target.blit(source,self.stash.topleft,self.stash)
+        if self.dirty:
+            for region in self.dirtyRegions:
+                for yolo in region[2].dirtyRegions:
+                    if yolo[2]==self:
+                        yolo[0] = self.stash.union(yolo[0])
         #if frame!=self.stashFrame or self.stashPos!=(self.x,self.y) or self.dirty!=False:
         #    target.blit(source,self.stash.topleft,self.stash)
 

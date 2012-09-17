@@ -118,8 +118,8 @@ class Game():
                 B.object.dirty = True
                 #A.object.dirtyRegions.append(recta)
                 #B.object.dirtyRegions.append(rectb)
-                A.object.dirtyRegions.append(overlap)
-                B.object.dirtyRegions.append(overlap)
+                A.object.dirtyRegions.append([overlap,A.object.getPos(),B.object])
+                B.object.dirtyRegions.append([overlap,B.object.getPos(),A.object])
     def collideRegion(self,BB,colBoxes):
         quads = list()
         quads.append([pygame.Rect(BB.left,BB.top,BB.width/2,BB.height/2),list()])
@@ -154,6 +154,9 @@ class Game():
                     self.collideColBoxes(other[i],box)
     def update(self):
         self.time.update()
+        self.iohandler.mover.updatePos()
+        self.bullets.moveAll()
+
         self.objlist = list(self.objects)
         self.objlist.extend(self.bullets.projectiles)
         colBoxes = self.bullets.getColRects(self.time.time())
@@ -165,17 +168,11 @@ class Game():
             colBoxes.append(ColBox(rect,None))
         BB = pygame.Rect(0,0,800,600)
         self.collideRegion(BB,colBoxes)
-        self.iohandler.mover.updatePos()
-        self.bullets.moveAll()
-
-    def preDraw(self):
-        #for object in self.objects:
-        #    self._screen.blit(self.tilemap.surface,object.stash.topleft,object.stash)
-        for rect in self.bullets.getDirty(self.time):
-            self._screen.blit(self.tilemap.surface,(rect.left,rect.top),rect)
         
     def draw(self):
         for object in self.objects:
+            object.undraw(self.tilemap.surface,self._screen,self.time)
+        for object in self.bullets.projectiles:
             object.undraw(self.tilemap.surface,self._screen,self.time)
         self.objlist.sort(key=lambda o: o.getY()+o.getColAABB(self.time.time()).bottom)
         #map(lambda obj: obj.getColAABB(self.time.time()), objlist)
