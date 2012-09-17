@@ -79,8 +79,8 @@ def tiger_onwalk(self):
         self.setAnimation('stopped')
 
 # PC tiger stops
-def tiger_onstop(self):
-    return
+# def tiger_onstop(self):
+#     return
 
 ########## PROJECTILE ##########
 # Button hits something
