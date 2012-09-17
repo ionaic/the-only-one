@@ -80,13 +80,15 @@ class Game():
         self.time = gametime.GameTime()
         self.tstobj = animatedobject.createAnimatedObject('../assets/tigger','object.ini')
         self.tstobj.setTag('tiger')
-        self.tiger = animatedobject.AnimationState(self.tstobj)
+        #self.tiger = animatedobject.AnimationState(self.tstobj)
+        self.tiger = interactions.Character(self.tstobj, self, 10, 10)
         #self.tiger.setAnimation('move')
         #self.tiger.setDirection(0)
 
         self.pigobj = animatedobject.createAnimatedObject('../assets/piglet','object.ini')
         self.pigobj.setTag('pig')
-        self.pig = animatedobject.AnimationState(self.pigobj)
+        #self.pig = animatedobject.AnimationState(self.pigobj)
+        self.pig = interactions.Character(self.pigobj, self, 10, 10)
         self.pig.setAnimation('stopped')
         self.pig.setDirection(0)
         self.pig.setPos(300,200)
@@ -107,6 +109,7 @@ class Game():
 
     def processInputs(self):
         self.iohandler.handleEvents(pygame.event.get())
+
     def collideColBoxes(self,A,B):
         if self.collideRects(A.rect,B.rect):
             interactions.collide(A.object,B.object)
@@ -120,6 +123,7 @@ class Game():
                 #B.object.dirtyRegions.append(rectb)
                 A.object.dirtyRegions.append([overlap,A.object.getPos(),B.object])
                 B.object.dirtyRegions.append([overlap,B.object.getPos(),A.object])
+
     def collideRegion(self,BB,colBoxes):
         quads = list()
         quads.append([pygame.Rect(BB.left,BB.top,BB.width/2,BB.height/2),list()])
@@ -152,6 +156,7 @@ class Game():
                     continue
                 for box in quad[1]:
                     self.collideColBoxes(other[i],box)
+
     def update(self):
         self.time.update()
         self.iohandler.mover.updatePos()
@@ -188,12 +193,6 @@ class Game():
             return obj.contains(other) or other.contains(obj) or obj.colliderect(other)
         else:
             print 'Arguments must both be of type pygame.Rect'
-
-        #elif thing1 == 'projectile':
-        #    if thing2 == 'tiger':
-        #    elif thing2 == 'pig':
-        #elif thing1 == None:
-            
         
         #self.tiger.draw(self._screen,self.time)
         #self.pig.draw(self._screen,self.time)
