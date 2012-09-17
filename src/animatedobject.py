@@ -34,8 +34,7 @@ class Frame():
         shadow_dim = (shadowBound.width, shadowBound.width / 3)
         shadow_pos = ((surface.get_width() - shadowBound.width)/2, shadowBound.height - shadow_dim[1] * 0.5)
         # find the appropriate surface size
-        surf_size = map(operator.mul, shadow_dim, (1, 0.5))
-        surf_size = map(operator.add, shadow_pos, surf_size)
+        surf_size = map(operator.add, shadow_pos, shadow_dim)
         #surf_size = map(max, surf_size, surface.get_size())
         # create new surface of appropriate size for image and shadow
         self.surface = pygame.Surface(surf_size, pygame.SRCALPHA)
