@@ -73,12 +73,14 @@ class Game():
         self.iohandler.mover.updatePos()
         self.bullets.moveAll()
     def preDraw(self):
-        for object in self.objects:
-            self._screen.blit(self.tilemap.surface,object.stash.topleft,object.stash)
+        #for object in self.objects:
+        #    self._screen.blit(self.tilemap.surface,object.stash.topleft,object.stash)
         for rect in self.bullets.getDirty(self.time):
             self._screen.blit(self.tilemap.surface,(rect.left,rect.top),rect)
         
     def draw(self):
+        for object in self.objects:
+            object.undraw(self.tilemap.surface,self._screen,self.time)
         objlist = list(self.objects)
         objlist.extend(self.bullets.projectiles)
         objlist.sort(key=lambda o: o.getY()+o.getColAABB(self.time.time()).bottom)
