@@ -37,7 +37,8 @@ def createCharacter(pos,folder,inifile,animation):
 characters = list()
 characters.append(createCharacter((0,0),'../assets/tigger','object.ini','stopped'))
 characters.append(createCharacter((160,0),'../assets/tigger','object.ini','move'))
-characters.append(createCharacter((0,160),'../assets/static','object.ini','stuffing'))
+characters.append(createCharacter((320,0),'../assets/static','object.ini','stuffing'))
+characters.append(createCharacter((0,160),'../assets/tigger','object.ini','launch'))
 
 #------------------------------------------------------------------------------
 
