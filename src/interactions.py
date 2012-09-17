@@ -36,10 +36,12 @@ def tiger_onhit(self):
 
 # PC tiger shoots/throws something
 def tiger_onshoot(self):
-    # launch projectile
-    # play launching animation
-    # play launch sound
-    # begin tracking aninmation
+    # check if tiger has enough ammo left
+    if self.has_ammo():
+        # launch projectile
+        # play launching animation
+        # play launch sound
+        # begin tracking aninmation
     return
 
 # PC tiger uses walljump attack
