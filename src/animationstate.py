@@ -13,6 +13,7 @@ class AnimationState():
         self.stashFrame = None
         self.stashPos = (-666,-666)
         self.dirty = False
+        self.dirtyRegions = list()
     def setAnimation(self,animName):
         self.animName = animName
         self.startTime = 0
@@ -54,17 +55,31 @@ class AnimationState():
         return anim.frames[framenum].collisionArea
     def draw(self,target,time):
         frame = self.getFrame(time.time())
-        if frame==self.stashFrame and self.stashPos==(self.x,self.y) and self.dirty==False:
+        major = frame==self.stashFrame and self.stashPos==(self.x,self.y)
+        if major and self.dirty==False:
             return
         self.stash = frame.drawArea.move(self.x,self.y)
         self.stashFrame = frame
         self.stashPos = (self.x,self.y)
-        target.blit(frame.surface,self.stash,frame.drawArea)
+        if major:
+            for region in self.dirtyRegions:
+                target.blit(frame.surface,region,region.move(-self.x,-self.y))
+        else:
+            target.blit(frame.surface,self.stash,frame.drawArea)
         self.dirty = False
+        self.dirtyRegions = list()
     def undraw(self,source,target,time):
         frame = self.getFrame(time.time())
-        if frame!=self.stashFrame or self.stashPos!=(self.x,self.y) or self.dirty!=False:
-            target.blit(source,self.stash.topleft,self.stash)
+        if frame==self.stashFrame and self.stashPos==(self.x,self.y):
+            if self.dirty==False:
+                return
+            else:
+                for region in self.dirtyRegions:
+                    target.blit(source,region,region)
+                return
+        target.blit(source,self.stash.topleft,self.stash)
+        #if frame!=self.stashFrame or self.stashPos!=(self.x,self.y) or self.dirty!=False:
+        #    target.blit(source,self.stash.topleft,self.stash)
 
 def createAnimationState(obj, pos, dir, anim):
     state = AnimationState(obj)
