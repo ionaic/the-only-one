@@ -50,7 +50,7 @@ class IOFunctions:
         # space to shoot
         self.registerKeyPress(pygame.K_SPACE, lambda: self.game.bullets.spawnProjectile(self.game.tiger.getX(), self.game.tiger.getY(), self.mover.moveState[0]))
         #self.registerKeyPress(pygame.K_SPACE, self.spaceDebug)
-        self.registerKeyRelease(pygame.K_SPACE, self.spaceDebug)
+        #self.registerKeyRelease(pygame.K_SPACE, self.spaceDebug)
         #self.registerKeyRelease(pygame.K_SPACE, lambda: self.game.bullets.spawnProjectile(self.game.tiger.getX(), self.game.tiger.getY(), self.mover.moveState[0]))
         # wasd/arrow keys/hjkl to move
         map(self.registerKeyPress, self.defaultKeys, self.defaultDownFuns)
@@ -61,7 +61,7 @@ class IOFunctions:
         map(self.registerKeyRelease, self.defaultKeys, self.defaultUpFuns)
    
     def spaceDebug(self):
-        print str(self.mover.moveState)
+        return
 
     # registerCallback(self, string, function(pygame.Event)) 
     def registerCallback(self, event, func):

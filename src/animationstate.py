@@ -10,6 +10,9 @@ class AnimationState():
         self.x = 0
         self.y = 0
         self.stash = Rect(0,0,0,0)
+        self.stashFrame = None
+        self.stashPos = (-666,-666)
+        self.dirty = False
     def setAnimation(self,animName):
         self.animName = animName
         self.startTime = 0
@@ -51,8 +54,17 @@ class AnimationState():
         return anim.frames[framenum].collisionArea
     def draw(self,target,time):
         frame = self.getFrame(time.time())
-        target.blit(frame.surface,self.getPos())
+        if frame==self.stashFrame and self.stashPos==(self.x,self.y) and self.dirty==False:
+            return
         self.stash = frame.drawArea.move(self.x,self.y)
+        self.stashFrame = frame
+        self.stashPos = (self.x,self.y)
+        target.blit(frame.surface,self.stash,frame.drawArea)
+        self.dirty = False
+    def undraw(self,source,target,time):
+        frame = self.getFrame(time.time())
+        if frame!=self.stashFrame or self.stashPos!=(self.x,self.y):
+            target.blit(source,self.stash.topleft,self.stash)
 
 def createAnimationState(obj, pos, dir, anim):
     state = AnimationState(obj)
