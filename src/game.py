@@ -37,7 +37,7 @@ class Game():
     def __init__(self):
         pygame.init()
         self._screen = pygame.display.set_mode((800,600), \
-            pygame.DOUBLEBUF+pygame.HWSURFACE)
+            pygame.DOUBLEBUF+pygame.HWSURFACE+pygame.SRCALPHA)
 
         self.time = gametime.GameTime()
         self.tstobj = animatedobject.createAnimatedObject('../assets/tigger','object.ini')
