@@ -2,7 +2,7 @@
 # interactions.py
 # Author: Ian Ooi
 
-import animatedobject, movement
+import animatedobject, movement, projectile
 
 def collide(obj1, obj2):
     #if obj1 == None:
@@ -165,7 +165,8 @@ def tiger_onwall(self):
 # Button hits something
 def button_onhit(self):
     # remove the button from the screen
-    return
+    if self in projectile.Projectiles.projectiles:
+        projectile.Projectiles.projectiles.remove(self)
 
 ########## tiglet ##########
 # Tiglet hit by something

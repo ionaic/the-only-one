@@ -8,19 +8,19 @@ class Projectiles:
     projectileObject = None
 
     def __init__(self, game):
-        self.projectiles = []
+        Projectiles.projectiles = []
         self.game = game
         self.screen_rect = self.game._screen.get_rect()
     
     def getDirty(self,time):
         rects = list()
-        for object in self.projectiles:
+        for object in Projectiles.projectiles:
             rects.append(object.stash)
         return rects
 
     def getColRects(self,time):
         rects = list()
-        for object in self.projectiles:
+        for object in Projectiles.projectiles:
             rects.append(game.ColBox(object.getFrame(time).collisionArea,object))
         return rects
 
@@ -29,17 +29,22 @@ class Projectiles:
             Projectiles.projectileObject = animatedobject.createAnimatedObject('../assets/projectiles/button_placeholder', 'object.ini')
             Projectiles.projectileObject.setTag('button')
             
+        # temp = createAnimationState(Projectiles.projectileObject, self.game, 1, 1)
+        # temp.setPos(x, y)
         if direction < 0:
             temp = createAnimationState(Projectiles.projectileObject, (x, y), self.game.tiger.getDirection(),'stopped')
+            #temp.setDirection(self.game.tiger.getDirection())
         else:
             temp = createAnimationState(Projectiles.projectileObject, (x, y), direction,'stopped')
-        self.projectiles.append(temp)
+            #temp.setDirection(direction)
+        #temp.setAnimation('stopped')
+        Projectiles.projectiles.append(temp)
 
     def moveAll(self):
-        if self.projectiles == []:
+        if Projectiles.projectiles == []:
             return
         self.collideAll()
-        map(self.move, self.projectiles)
+        map(self.move, Projectiles.projectiles)
 
     def move(self, proj):
         speed = [movement.getSpeedState(proj.getDirection()) * self.projectile_speed[i] \
@@ -49,15 +54,15 @@ class Projectiles:
         proj.setPos(proposed_pos[0],proposed_pos[1])
 
     def handleProjectiles(self, time):
-        map(lambda projectile: projectile.draw(self.game._screen,time), self.projectiles)
+        map(lambda projectile: projectile.draw(self.game._screen,time), Projectiles.projectiles)
 
     def collideAll(self):
-        map(self.screen_collide, self.projectiles)
+        map(self.screen_collide, Projectiles.projectiles)
 
     def screen_collide(self, x):
         #if (self.screen_rect.contains(x.get_rect())) == False:
         if self.screen_rect.collidepoint(x.getPos()) == False or 0 in x.getPos():
             #print "out of screen "
-            if x in self.projectiles:
+            if x in Projectiles.projectiles:
                 #print "removing " + str(x)
-                self.projectiles.remove(x)
+                Projectiles.projectiles.remove(x)
