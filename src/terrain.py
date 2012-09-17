@@ -29,7 +29,21 @@ from pygame import Rect
 class Tile():
     def __init__(self,config,section):
         self.image = pygame.image.load(config.get(section,'image')).convert_alpha()
-        self.aabb = Rect(map(lambda X: int(X), config.get(section,'hitbox').split(',')))
+        
+        if config.has_option(section,"hitbox"):
+                hbVal = config.get(section,"hitbox")
+        else:
+            hbVal = 'none'
+            
+        if hbVal=='none':
+            self.aabb = Rect(0,0,0,0)
+        elif hbVal=='full':
+            self.aabb = self.image.get_rect()
+        elif hbVal=='drawn':
+            self.aabb = self.image.get_bounding_rect()
+        else:
+            self.aabb = Rect(map(lambda X: int(X), hbVal.split(',')))
+        #self.aabb = Rect(map(lambda X: int(X), config.get(section,'hitbox').split(',')))
 
 class LetterMap():
     def __init__(self,fname):
@@ -77,21 +91,30 @@ def createTiledMap(letterMap, folder, fname,overlays):
 class CSVMap():
     def __init__(self,letterMap,fname,overlays):
         reader = csv.reader(open(fname,'rb'),delimiter=',')
+        self.noGo = list()
         self.surface = pygame.Surface((800,600)).convert_alpha()
         for line in enumerate(reader):
             for char in enumerate(line[1]):
+                x = 40*char[0]
+                y = 40*line[0]
                 if char[1]=='\n': continue
                 if char[1]=='': continue
                 if char[1]=='0': continue
-                self.surface.blit(letterMap.tiles[char[1]].image,(40*char[0],40*line[0]))
+                self.surface.blit(letterMap.tiles[char[1]].image,(x,y))
+                if letterMap.tiles[char[1]].aabb!=pygame.Rect(0,0,0,0):
+                    self.noGo.append(letterMap.tiles[char[1]].aabb.move(x,y))
         for overlay in overlays:
             reader = csv.reader(open(overlay,'rb'),delimiter=',')
             for line in enumerate(reader):
                 for char in enumerate(line[1]):
+                    x = 40*char[0]
+                    y = 40*line[0]
                     if char[1]=='.': continue
                     if char[1]=='0': continue
                     if char[1]=='': continue
-                    self.surface.blit(letterMap.tiles[char[1]].image,(40*char[0],40*line[0]))
+                    self.surface.blit(letterMap.tiles[char[1]].image,(x,y))
+                    if letterMap.tiles[char[1]].aabb!=pygame.Rect(0,0,0,0):
+                        self.noGo.append(letterMap.tiles[char[1]].aabb.move(x,y))
         self.surface.convert()
 
 def createCSVMap(letterMap, folder, fname,overlays):
