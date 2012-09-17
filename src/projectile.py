@@ -15,8 +15,7 @@ class Projectiles:
     def getDirty(self,time):
         rects = list()
         for object in self.projectiles:
-            frame = object.getFrame(time.time())
-            rects.append(frame.get_rect().copy().move(object.getPos()))
+            rects.append(object.stash)
         return rects
     
     def spawnProjectile(self, x, y, direction):
