@@ -10,14 +10,21 @@ def collide(obj1, obj2):
     if thing1 == 'tiger':
         if thing2 == 'pig':
             piglet_onbump(obj2)
-        elif thing2 == 'projectile':
-            tiger.onhit(obj1)
+        elif thing2 == 'button':
+            tiger_onhit(obj1)
     elif thing1 == 'pig':
         if thing2 == 'tiger':
             piglet_onbump(obj1)
-        elif thing2 == 'projectile':
+        elif thing2 == 'button':
             piglet_onhit(obj1)
             button_onhit(obj2)
+    elif thing1 == 'button':
+        if thing2 == 'pig':
+            button_onhit(obj1)
+            piglet_onhit(obj2)
+        elif thing2 == 'tiger':
+            button_onhit(obj1)
+            tiger_onhit(obj2)
 
 class Character(animatedobject.AnimationState, movement.Movement):
     def __init_(self, obj, game, hp, ammo):
@@ -41,7 +48,7 @@ class Character(animatedobject.AnimationState, movement.Movement):
 # PC tiger hit by something
 def tiger_onhit(self):
     # decrement health
-    self.health -= 1
+    #self.health -= 1
     # play hit animation
     # play hit sound
     # stop all in progress player actions
@@ -123,7 +130,7 @@ def tiglet_ondie(self):
 # Piglet gets hit
 def piglet_onhit(self):
     # set swinging
-    self.health -= 1
+    #self.health -= 1
     if self.animName != 'swing':
         self.setAnimation('swing')
 
