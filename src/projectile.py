@@ -17,6 +17,13 @@ class Projectiles:
         for object in self.projectiles:
             rects.append(object.stash)
         return rects
+
+    def getColRects(self,time):
+        rects = list()
+        for object in self.projectiles:
+            rects.append(game.ColBox(object.getFrame(time).collisionArea,object))
+        return rects
+
     
     def spawnProjectile(self, x, y, direction):
         if Projectiles.projectileObject == None:

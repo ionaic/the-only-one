@@ -37,7 +37,8 @@ def createCharacter(pos,folder,inifile,animation):
 characters = list()
 characters.append(createCharacter((0,0),'../assets/tigger','object.ini','stopped'))
 characters.append(createCharacter((160,0),'../assets/tigger','object.ini','move'))
-characters.append(createCharacter((320,0),'../assets/tigger','object.ini','moveshoot'))
+characters.append(createCharacter((320,0),'../assets/tigger','object.ini','shoot'))
+characters.append(createCharacter((480,0),'../assets/tigger','object.ini','moveshoot'))
 characters.append(createCharacter((640,0),'../assets/static','object.ini','stuffing'))
 characters.append(createCharacter((0,160),'../assets/tigger','object.ini','launch'))
 characters.append(createCharacter((160,160),'../assets/tigger','object.ini','rocket'))
@@ -84,8 +85,9 @@ try:
         # draw
         screen.fill((191,123,199))
         for character in characters:
-            frame = character.getFrame(time.time())
-            screen.blit(frame,character.getPos())
+            character.draw(screen,time)
+            #frame = character.getFrame(time.time())
+            #screen.blit(frame,character.getPos())
         pygame.display.flip()
 except SystemExit:
     pygame.quit()
