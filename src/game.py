@@ -96,6 +96,9 @@ class Game():
             rect = obj.getFrame(self.time.time()).collisionArea.move(obj.getPos())
             if rect != pygame.Rect(0,0,0,0):
                 colBoxes.append(ColBox(rect,obj))
+        print len(self.tilemap.noGo)
+        for rect in self.tilemap.noGo:
+            colBoxes.append(ColBox(rect,None))
         for i in range(0,len(colBoxes)-1):
             for j in range(i+1,len(colBoxes)):
                 if self.collideRects(colBoxes[i].rect, colBoxes[j].rect):
@@ -108,7 +111,7 @@ class Game():
     def collideRects(self, obj, other):
         if obj == other:
             return False
-        elif isinstance(obj, pygame.Rect):
+        elif isinstance(obj, pygame.Rect) and isinstance(other,pygame.Rect):
             return obj.contains(other) or other.contains(obj) or obj.colliderect(other)
         else:
             print 'Arguments must both be of type pygame.Rect'
