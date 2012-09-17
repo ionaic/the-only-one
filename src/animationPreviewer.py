@@ -54,6 +54,9 @@ frames = 0
 time = gametime.GameTime()
 
 try:
+    background = pygame.Surface((800,600))
+    background.fill((191,123,199))
+    screen.fill((191,123,199))
     while True:
         # timing code
         framestart = pygame.time.get_ticks()
@@ -84,8 +87,9 @@ try:
         # update
         time.update()
         # draw
-        screen.fill((191,123,199))
+        #screen.fill((191,123,199))
         for character in characters:
+            character.undraw(background,screen,time)
             character.draw(screen,time)
             #frame = character.getFrame(time.time())
             #screen.blit(frame,character.getPos())
