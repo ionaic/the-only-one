@@ -75,7 +75,7 @@ class Game():
             interactions.collide(A.object,B.object)
             if A.object!=None: A.object.dirty = True
             if B.object!=None: B.object.dirty = True
-
+            
     def collideRegion(self,BB,colBoxes):
         quads = list()
         quads.append([pygame.Rect(BB.left,BB.top,BB.width/2,BB.height/2),list()])
@@ -94,6 +94,9 @@ class Game():
                 other.append(box)
         for quad in quads:
             lst = quad[1]
+            if len(lst)>=8:
+                self.collideRegion(quad[0],quad[1])
+                continue
             for i in range(0,len(lst)-1):
                 for j in range(i+1,len(lst)):
                     self.collideColBoxes(lst[i],lst[j])
@@ -101,6 +104,8 @@ class Game():
             for j in range(i+1,len(other)):
                 self.collideColBoxes(other[i],other[j])
             for quad in quads:
+                if not quad[0].colliderect(other[i]):
+                    continue
                 for box in quad[1]:
                     self.collideColBoxes(other[i],box)
     def update(self):
