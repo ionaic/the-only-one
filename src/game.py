@@ -28,6 +28,11 @@ import terrain
 
 #------------------------------------------------------------------------------
 
+class ColBox():
+    def __init__(self,rect,object):
+        self.rect = rect
+        self.object = object
+
 class Game():
     def __init__(self):
         pygame.init()
@@ -69,8 +74,7 @@ class Game():
         self.bullets.moveAll()
     def preDraw(self):
         for object in self.objects:
-            frame = object.getFrame(self.time.time())
-            self._screen.blit(self.tilemap.surface,object.getPos(),frame.get_rect().copy().move(object.getPos()))
+            self._screen.blit(self.tilemap.surface,object.stash.topleft,object.stash)
         for rect in self.bullets.getDirty(self.time):
             self._screen.blit(self.tilemap.surface,(rect.left,rect.top),rect)
         
@@ -80,6 +84,9 @@ class Game():
         objlist.sort(key=lambda o: o.getY()+o.getColAABB(self.time.time()).bottom)
         #map(lambda obj: obj.getColAABB(self.time.time()), objlist)
         map(lambda obj: obj.draw(self._screen,self.time), objlist)
+
+        colboxes = list()
+        
         #self.tiger.draw(self._screen,self.time)
         #self.pig.draw(self._screen,self.time)
         #self.bullets.handleProjectiles(self.time)
