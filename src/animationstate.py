@@ -63,7 +63,7 @@ class AnimationState():
         self.dirty = False
     def undraw(self,source,target,time):
         frame = self.getFrame(time.time())
-        if frame!=self.stashFrame or self.stashPos!=(self.x,self.y):
+        if frame!=self.stashFrame or self.stashPos!=(self.x,self.y) or self.dirty!=False:
             target.blit(source,self.stash.topleft,self.stash)
 
 def createAnimationState(obj, pos, dir, anim):
