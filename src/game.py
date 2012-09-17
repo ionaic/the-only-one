@@ -37,7 +37,7 @@ class Game():
     def __init__(self):
         pygame.init()
         self._screen = pygame.display.set_mode((800,600), \
-            pygame.DOUBLEBUF+pygame.HWSURFACE+pygame.SRCALPHA)
+            pygame.DOUBLEBUF+pygame.HWSURFACE)
 
         self.time = gametime.GameTime()
         self.tstobj = animatedobject.createAnimatedObject('../assets/tigger','object.ini')
@@ -85,7 +85,17 @@ class Game():
         #map(lambda obj: obj.getColAABB(self.time.time()), objlist)
         map(lambda obj: obj.draw(self._screen,self.time), objlist)
 
-        colboxes = list()
+        colBoxes = self.bullets.getColRects(self.time.time())
+        for obj in objlist:
+            rect = obj.getFrame(self.time.time()).collisionArea.move(obj.getPos())
+            if rect != pygame.Rect(0,0,0,0):
+                colBoxes.append(ColBox(rect,obj))
+        for i in range(0,len(colBoxes)-1):
+            for j in range(i+1,len(colBoxes)):
+                if colBoxes[i].rect.colliderect(colBoxes[j].rect):
+                    print "collision " + str(i) + " " + str(j)
+                    print colBoxes[i].rect
+                    print colBoxes[j].rect
         
         #self.tiger.draw(self._screen,self.time)
         #self.pig.draw(self._screen,self.time)
