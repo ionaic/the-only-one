@@ -62,7 +62,7 @@ class Projectiles:
         proj.anim.setPos(proposed_pos[0],proposed_pos[1])
 
     def handleProjectiles(self, time):
-        map(self.game._screen.blit, (self.projectiles[i].getFrame(time) for i in range(0, len(self.projectiles))), (self.projectiles[i].getPos() for i in range(0, len(self.projectiles))))
+        map(lambda projectile: projectile.anim.draw(self.game._screen,time), self.projectiles)
 
     def collideAll(self):
         #map(self.collide, self.projectiles, self.game.objects)

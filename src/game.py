@@ -73,12 +73,9 @@ class Game():
             self._screen.blit(self.tilemap.surface,object.getPos(),frame.get_rect().copy().move(object.getPos()))
         for rect in self.bullets.getDirty(self.time):
             self._screen.blit(self.tilemap.surface,(rect.left,rect.top),rect)
+        
     def draw(self):
-        #self._screen.fill((0,0,0))
-        #self._screen.blit(self.tilemap.surface,(0,0))
-        frame = self.tiger.getFrame(self.time.time())
-        self._screen.blit(frame,self.tiger.getPos())
-        frame = self.pig.getFrame(self.time.time())
-        self._screen.blit(frame,self.pig.getPos())
-        self.bullets.handleProjectiles(self.time.time())
+        self.tiger.draw(self._screen,self.time)
+        self.pig.draw(self._screen,self.time)
+        self.bullets.handleProjectiles(self.time)
         pygame.display.flip()

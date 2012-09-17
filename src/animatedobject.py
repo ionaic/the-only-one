@@ -125,3 +125,14 @@ class AnimationState():
         anim = self.object.animations[self.animName].directions[self.dir]
         frame = anim.frames[self.getFrameNumber(gameTime)]
         return frame
+    def draw(self,target,time):
+        frame = self.getFrame(time.time())
+        target.blit(frame,self.getPos())
+
+def createAnimationState(obj, pos, dir, anim):
+    state = AnimationState(obj)
+    state.setPosVec(pos)
+    state.setDirection(dir)
+    state.setAnimation(anim)
+    return state
+
