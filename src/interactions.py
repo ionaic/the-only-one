@@ -4,6 +4,21 @@
 
 import animatedobject, movement
 
+def collide(self, obj1, obj2):
+    thing1 = obj1.object.tag
+    thing2 = obj2.object.tag
+    if thing1 == 'tiger':
+        if thing2 == 'pig':
+            interactions.piglet_onbump(obj2)
+        elif thing2 == 'projectile':
+            interactions.tiger.onhit(obj1)
+    elif thing1 == 'pig':
+        if thing2 == 'tiger':
+            interactions.piglet_onbump(obj1)
+        elif thing2 == 'projectile':
+            interactions.piglet_onhit(obj1)
+            interactions.button_onhit(obj2)
+
 class Character(animatedobject.AnimationState, movement.Movement):
     def __init_(self, obj, game, hp, ammo):
         AnimationState.__init__(obj)
@@ -109,11 +124,13 @@ def tiglet_ondie(self):
 def piglet_onhit(self):
     # set swinging
     self.health -= 1
-    self.setAnimation('swing')
+    if self.animName != 'swing':
+        self.setAnimation('swing')
 
 # Piglet on bump
 def piglet_onbump(self):
-    self.setAnimation('swing')
+    if self.animName != 'swing':
+        self.setAnimation('swing')
 
 # Piglet dies
 def piglet_ondie(self):

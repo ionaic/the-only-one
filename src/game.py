@@ -99,6 +99,7 @@ class Game():
         for i in range(0,len(colBoxes)-1):
             for j in range(i+1,len(colBoxes)):
                 if self.collideRects(colBoxes[i].rect, colBoxes[j].rect):
+                    print "colBoxes[i] " + str(colBoxes[i]) + " colBoxes[j] " + str(colBoxes[j])
                     self.collide(colBoxes[i].object, colBoxes[j].object)
                     colBoxes[i].object.dirty = True
                     colBoxes[j].object.dirty = True
@@ -112,20 +113,6 @@ class Game():
         else:
             print 'Arguments must both be of type pygame.Rect'
 
-    def collide(self, obj1, obj2):
-        thing1 = obj1.object.tag
-        thing2 = obj2.object.tag
-        if thing1 == 'tiger':
-            if thing2 == 'pig':
-                interactions.piglet_onbump(obj2)
-            elif thing2 == 'projectile':
-                interactions.tiger.onhit(obj1)
-        elif thing1 == 'pig':
-            if thing2 == 'tiger':
-                interactions.piglet_onbump(obj1)
-            elif thing2 == 'projectile':
-                interactions.piglet_onhit(obj1)
-                interactions.button_onhit(obj2)
         #elif thing1 == 'projectile':
         #    if thing2 == 'tiger':
         #    elif thing2 == 'pig':

@@ -94,14 +94,6 @@ class Animation():
                 self.directions[index] = self.directions[index-index%2]
                 continue
 
-def collideRects(obj, other):
-    if obj == other:
-        return False
-    elif isinstance(obj, pygame.Rect):
-        return obj.contains(other) or other.contains(obj) or obj.colliderect(other)
-    else:
-        print 'Arguments must both be of type pygame.Rect'
-
 class AnimatedObject():
     def __init__(self,fname):
         config = ConfigParser.ConfigParser()
