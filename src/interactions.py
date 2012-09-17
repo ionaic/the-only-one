@@ -169,7 +169,9 @@ def button_onhit(self):
 # Tiglet hit by something
 #TODO need tigglette object.ini's!
 def tiglet_onhit(self):
-    # 
+    # hit animation?
+    # decrease health
+    self.health -= 1
     return
 
 # Tiglet hits something (PC)
