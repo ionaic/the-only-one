@@ -93,9 +93,7 @@ class Game():
         for i in range(0,len(colBoxes)-1):
             for j in range(i+1,len(colBoxes)):
                 if colBoxes[i].rect.colliderect(colBoxes[j].rect):
-                    print "collision " + str(i) + " " + str(j)
-                    print colBoxes[i].rect
-                    print colBoxes[j].rect
+                    continue
         
         #self.tiger.draw(self._screen,self.time)
         #self.pig.draw(self._screen,self.time)
