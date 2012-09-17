@@ -51,6 +51,9 @@ class Movement:
     def moveChar(self):
         # direction of movement [x, y]
         # get the direction and magnitude of velocity
+        if self.moveState[1] == 0:
+            return
+
         direction = dirToVec(self.moveState[0])
         magnitude = [self.moveState[1] * self.moveSpeed[i] \
             for i in range(0, len(self.moveSpeed))]
@@ -149,6 +152,7 @@ class Movement:
     def stopMove(self):
         #stop motion
         self.moveState = [-1, 0]
+        #self.moveState[1] = 0
 
     def stopLeft(self):
         if self.moveState[0] == 1:
