@@ -5,21 +5,37 @@
 import animatedobject, movement
 
 def collide(obj1, obj2):
-    if None in (obj1, obj2):
-        return
-    thing1 = obj1.object.tag
-    thing2 = obj2.object.tag
+    #if obj1 == None:
+    #    if obj2 != None:
+    #        thing1 = obj1.object.tag
+    #elif obj2 == None:
+    #    if obj1 != None:
+    #        return
+    #else:
+    if obj1 != None:
+        thing1 = obj1.object.tag
+    else:
+        thing1 = 'none'
+    if obj2 != None:
+        thing2 = obj2.object.tag
+    else:
+        thing2 = 'none'
+
     if thing1 == 'tiger':
         if thing2 == 'pig':
             piglet_onbump(obj2)
         elif thing2 == 'button':
             tiger_onhit(obj1)
+        elif thing2 == 'none':
+            tiger_onwall(obj1)
     elif thing1 == 'pig':
         if thing2 == 'tiger':
             piglet_onbump(obj1)
         elif thing2 == 'button':
             piglet_onhit(obj1)
             button_onhit(obj2)
+        elif thing2 == 'none':
+            piglet_onwall(obj1)
     elif thing1 == 'button':
         if thing2 == 'pig':
             button_onhit(obj1)
@@ -27,11 +43,20 @@ def collide(obj1, obj2):
         elif thing2 == 'tiger':
             button_onhit(obj1)
             tiger_onhit(obj2)
+        elif thing2 == 'none':
+            button_onhit(obj1)
+    elif thing1 == 'none':
+        if thing2 == 'pig':
+            piglet_onhit(obj2)
+        elif thing2 == 'tiger':
+            tiger_onwall(obj2)
+        elif thing2 == 'button':
+            button_onhit(obj2)
 
 class Character(animatedobject.AnimationState, movement.Movement):
-    def __init_(self, obj, game, hp, ammo):
-        AnimationState.__init__(obj)
-        Movement.__init__(obj, game)
+    def __init__(self, obj, game, hp, ammo):
+        animatedobject.AnimationState.__init__(self, obj)
+        movement.Movement.__init__(self, game)
         self.health = hp
         self.ammo = ammo
 
@@ -52,6 +77,7 @@ def tiger_onhit(self):
     # decrement health
     #self.health -= 1
     # play hit animation
+    self.setAnimation('damaged')
     # play hit sound
     # stop all in progress player actions
     # invulnerable for x amount of time
@@ -63,15 +89,29 @@ def tiger_onshoot(self):
     # check if tiger has enough ammo left
     if self.has_ammo():
         # launch projectile
-        # play launching animation
-        # play launch sound
+        # reduce amount of available ammo
+        #self.ammo -= 1
+        # play throwing animation
+        if self.animName == 'move':
+            self.setAnimation('moveshoot')
+        else:
+            self.setAnimation('shoot')
+        # play throw sound
         # begin tracking aninmation
         return
+
+# PC Tiger done shooting, back to either moving or standing
+def tiger_shot(self):
+    if self.animName == 'moveshoot':
+        self.setAnimation('move')
+    else:
+        self.setAnimation('stopped')
 
 # PC tiger uses walljump attack
 def tiger_onwalljump(self):
     # move to closest wall
     # play launch animation/sound
+    self.setAnimation('launch')
     # move tigger toward opposite wall
     # play land animation/sound
     # damage everything in straight line path that is a 
@@ -82,6 +122,7 @@ def tiger_onwalljump(self):
 def tiger_onjump(self):
     # play launching/jumping animation
     # launch into air (offscreen)
+    self.setAnimation('rocket')
     # mark potential landing spot with shadow
     # move landing spot based on key inputs
     # land
@@ -99,9 +140,19 @@ def tiger_ondie(self):
 # PC tiger moves
 def tiger_onwalk(self):
     # set animation type
-    if self.moveState[0] != -1:
+    #if self.moveState[0] != -1:
+    if self.animName == 'stopped' and self.moveState[0] != -1:
         self.setAnimation('move')
+    elif self.animName == 'moveshoot' and self.moveState[0] == -1:
+        # TODO need to set this at a certain frame!
+        # self.animation.cur_frame = self.oldanimation.last_played
+        self.setAnimation('shoot')
     else:
+        self.setAnimation('stopped')
+
+# PC tiger hits a wall
+def tiger_onwall(self):
+    if self.animName != 'stopped':
         self.setAnimation('stopped')
 
 # PC tiger stops
@@ -116,6 +167,7 @@ def button_onhit(self):
 
 ########## tiglet ##########
 # Tiglet hit by something
+#TODO need tigglette object.ini's!
 def tiglet_onhit(self):
     # 
     return
@@ -141,6 +193,11 @@ def piglet_onbump(self):
     if self.animName != 'swing':
         self.setAnimation('swing')
 
+# Piglet done swinging
+def piglet_swung(self):
+    if self.animName != 'stopped':
+        self.setAnimation('stopped')
+
 # Piglet dies
 def piglet_ondie(self):
     return
@@ -148,6 +205,8 @@ def piglet_ondie(self):
 ########### EEYORE ###########
 # Eeyore gets hit
 def eeyore_onhit(self):
+    # decrement health
+    # health -= 1
     return
 
 # Eeyore dies
