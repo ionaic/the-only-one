@@ -88,11 +88,71 @@ def createTiledMap(letterMap, folder, fname,overlays):
     os.chdir(cwd)
     return tiledMap
 
+def _mergeRectList(rects):
+    found = True
+    while found:
+        found = False
+        for i in range(0,len(rects)-1):
+            I = rects[i]
+            for j in range(i+1,len(rects)):
+                J = rects[j]
+                num = 0
+                if I.left==J.right: num = num+1
+                if I.right==J.left: num = num+1
+                if I.top==J.bottom: num = num+1
+                if I.bottom==J.top: num = num+1
+                if I.left==J.left: num = num+1
+                if I.right==J.right: num = num+1
+                if I.top==J.top: num = num+1
+                if I.bottom==J.bottom: num = num+1
+                if num>=3:
+                    newrect = I.union(J)
+                    rects.pop(j)
+                    rects.pop(i)
+                    rects.append(newrect)
+                    found = True
+                    break
+            if found:
+                break
+    return rects
+
+def mergeRectlist(rects):
+    print len(rects)
+    BB = rects[0].copy()
+    BB.unionall_ip(rects)
+    quadrants = list()
+    quadrants.append([Rect(BB.left,BB.top,BB.width/2,BB.height/2),list()])
+    quadrants.append([Rect(BB.centerx,BB.top,BB.width/2,BB.height/2),list()])
+    quadrants.append([Rect(BB.left,BB.centery,BB.width/2,BB.height/2),list()])
+    quadrants.append([Rect(BB.centerx,BB.centery,BB.width/2,BB.height/2),list()])
+    other = list()
+    for rect in rects:
+        found = False
+        for quad in quadrants:
+            if quad[0].contains(rect):
+                quad[1].append(rect)
+                found = True
+                break
+        if not found:
+            other.append(rect)
+    print len(other)
+    for quad in quadrants:
+        _mergeRectList(quad[1])
+        #quad.append(threading.Thread(target=lambda: _mergeRectList(quad[1])))
+        #quad[2].start()
+    for quad in quadrants:
+        #while quad[2].isAlive():
+        #    continue
+        #quad[2].join()
+        other.extend(quad[1])
+    print len(other)
+    return other
+
 class CSVMap():
     def __init__(self,letterMap,fname,overlays):
         reader = csv.reader(open(fname,'rb'),delimiter=',')
         self.noGo = list()
-        self.surface = pygame.Surface((800,600)).convert_alpha()
+        self.surface = pygame.Surface((800,600),flags=pygame.SRCALPHA)
         for line in enumerate(reader):
             for char in enumerate(line[1]):
                 x = 40*char[0]
@@ -115,6 +175,7 @@ class CSVMap():
                     self.surface.blit(letterMap.tiles[char[1]].image,(x,y))
                     if letterMap.tiles[char[1]].aabb!=pygame.Rect(0,0,0,0):
                         self.noGo.append(letterMap.tiles[char[1]].aabb.move(x,y))
+        self.noGo = mergeRectlist(self.noGo)
         self.surface.convert()
 
 def createCSVMap(letterMap, folder, fname,overlays):

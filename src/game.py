@@ -70,11 +70,55 @@ class Game():
 
     def processInputs(self):
         self.iohandler.handleEvents(pygame.event.get())
+    def collideColBoxes(self,A,B):
+        if self.collideRects(A.rect,B.rect):
+            interactions.collide(A.object,B.object)
+            if A.object!=None: A.object.dirty = True
+            if B.object!=None: B.object.dirty = True
 
+    def collideRegion(self,BB,colBoxes):
+        quads = list()
+        quads.append([pygame.Rect(BB.left,BB.top,BB.width/2,BB.height/2),list()])
+        quads.append([pygame.Rect(BB.centerx,BB.top,BB.width/2,BB.height/2),list()])
+        quads.append([pygame.Rect(BB.left,BB.centery,BB.width/2,BB.height/2),list()])
+        quads.append([pygame.Rect(BB.centerx,BB.centery,BB.width/2,BB.height/2),list()])
+        other = list()
+        for box in colBoxes:
+            found = False
+            for quad in quads:
+                if quad[0].contains(box.rect):
+                    found = True
+                    quad[1].append(box)
+                    break
+            if not found:
+                other.append(box)
+        for quad in quads:
+            lst = quad[1]
+            for i in range(0,len(lst)-1):
+                for j in range(i+1,len(lst)):
+                    self.collideColBoxes(lst[i],lst[j])
+        for i in range(0,len(other)):
+            for j in range(i+1,len(other)):
+                self.collideColBoxes(other[i],other[j])
+            for quad in quads:
+                for box in quad[1]:
+                    self.collideColBoxes(other[i],box)
     def update(self):
         self.time.update()
         self.iohandler.mover.updatePos()
         self.bullets.moveAll()
+
+        self.objlist = list(self.objects)
+        self.objlist.extend(self.bullets.projectiles)
+        colBoxes = self.bullets.getColRects(self.time.time())
+        for obj in self.objlist:
+            rect = obj.getFrame(self.time.time()).collisionArea.move(obj.getPos())
+            if rect != pygame.Rect(0,0,0,0):
+                colBoxes.append(ColBox(rect,obj))
+        for rect in self.tilemap.noGo:
+            colBoxes.append(ColBox(rect,None))
+        BB = pygame.Rect(0,0,800,600)
+        self.collideRegion(BB,colBoxes)
 
     def preDraw(self):
         #for object in self.objects:
@@ -85,28 +129,10 @@ class Game():
     def draw(self):
         for object in self.objects:
             object.undraw(self.tilemap.surface,self._screen,self.time)
-        objlist = list(self.objects)
-        objlist.extend(self.bullets.projectiles)
-        objlist.sort(key=lambda o: o.getY()+o.getColAABB(self.time.time()).bottom)
+        self.objlist.sort(key=lambda o: o.getY()+o.getColAABB(self.time.time()).bottom)
         #map(lambda obj: obj.getColAABB(self.time.time()), objlist)
-        map(lambda obj: obj.draw(self._screen,self.time), objlist)
+        map(lambda obj: obj.draw(self._screen,self.time), self.objlist)
 
-        colBoxes = self.bullets.getColRects(self.time.time())
-        for obj in objlist:
-            rect = obj.getFrame(self.time.time()).collisionArea.move(obj.getPos())
-            if rect != pygame.Rect(0,0,0,0):
-                colBoxes.append(ColBox(rect,obj))
-        for rect in self.tilemap.noGo:
-            colBoxes.append(ColBox(rect,None))
-        for i in range(0,len(colBoxes)-1):
-            for j in range(i+1,len(colBoxes)):
-                if self.collideRects(colBoxes[i].rect, colBoxes[j].rect):
-                    #print "colBoxes[i] " + str(colBoxes[i]) + " colBoxes[j] " + str(colBoxes[j])
-                    interactions.collide(colBoxes[i].object, colBoxes[j].object)
-                    if colBoxes[i].object != None:
-                        colBoxes[i].object.dirty = True
-                    if colBoxes[j].object != None:
-                        colBoxes[j].object.dirty = True
         pygame.display.flip()
     
     def collideRects(self, obj, other):

@@ -11,6 +11,7 @@ http://www.python.org/dev/peps/pep-0257/
 # Standard Library Imports ------------------------------------------
 import sys
 import cProfile
+import pstats
 
 # 3'rd Party Imports ------------------------------------------------
 import pygame
@@ -55,4 +56,6 @@ def main():
         pygame.quit()
         raise
 main()
-#cProfile.run('main()')
+#cProfile.run('main()','perfstat')
+#p = pstats.Stats('perfstat')
+#p.strip_dirs().sort_stats('time').print_stats()
