@@ -12,12 +12,14 @@ http://www.python.org/dev/peps/pep-0257/
 import sys
 import ConfigParser
 import os
+import operator
 
 # 3'rd Party Imports ------------------------------------------------
 import pygame
 from pygame import Rect
 
 # Local Application/Library Specific Imports ------------------------
+from animationstate import *
 
 #------------------------------------------------------------------------------
 # Global Variables for Export ---------------------------------------
@@ -27,9 +29,22 @@ from pygame import Rect
 #------------------------------------------------------------------------------
 
 class Frame():
-    def __init__(self,surface,drawn,col):
-        self.surface = surface
-        self.drawArea = drawn
+    def __init__(self,surface,drawn,col, shadowBound):
+        # calculate the size and position of the shadow
+        shadow_dim = (shadowBound.width, shadowBound.width / 3)
+        shadow_pos = ((surface.get_width() - shadowBound.width)/2, shadowBound.height - shadow_dim[1] * 0.5)
+        # find the appropriate surface size
+        surf_size = map(operator.mul, shadow_dim, (1, 0.5))
+        surf_size = map(operator.add, shadow_pos, surf_size)
+        #surf_size = map(max, surf_size, surface.get_size())
+        # create new surface of appropriate size for image and shadow
+        self.surface = pygame.Surface(surf_size, pygame.SRCALPHA)
+        # draw the shadow
+        pygame.draw.ellipse(self.surface, pygame.Color(0, 0, 0, 100), pygame.Rect(shadow_pos, shadow_dim), 0)
+        # draw the actual sprite
+        self.surface.blit(surface, (0,0))
+        # set the bounding area and collision area
+        self.drawArea = self.surface.get_bounding_rect()
         self.collisionArea = col
 
 class Direction():
@@ -39,7 +54,12 @@ class Direction():
             frame = pygame.image.load(config.get(section,str(n))).convert_alpha()
             #self.frames.append(frame)
             boundingRect = frame.get_bounding_rect()
-            print boundingRect
+
+            # added for the shadows
+            if n == 1:
+                shadowBound = boundingRect
+
+            #print boundingRect
             #self.drawn.append(boundingRect)
             option_name = str(n)+'_hitbox'
             if config.has_option(section,option_name):
@@ -56,7 +76,7 @@ class Direction():
             else:
                 aabb = Rect(map(lambda X: int(X), hbVal.split(',')))
 
-            self.frames.append(Frame(frame,boundingRect,aabb))
+            self.frames.append(Frame(frame,boundingRect,aabb, shadowBound))
 
 class Animation():
     def __init__(self,config,section):
@@ -103,64 +123,3 @@ def createAnimatedObject(folder, fname):
     aniobj = AnimatedObject(fname)
     os.chdir(cwd)
     return aniobj
-
-class AnimationState():
-    def __init__(self, obj):
-        self.object = obj
-        self.dir = 0
-        self.startTime = 0
-        self.animName = 'stopped'
-        self.x = 0
-        self.y = 0
-        self.stash = Rect(0,0,0,0)
-    def setAnimation(self,animName):
-        self.animName = animName
-        self.startTime = 0
-    def setDirection(self,dir):
-        self.dir = dir
-    def setPosVec(self, vect):
-        self.x = vect[0]
-        self.y = vect[1]
-    def setPos(self,x,y):
-        self.x = x
-        self.y = y
-    def getDirection(self):
-        return self.dir
-    def getX(self):
-        return self.x
-    def getY(self):
-        return self.y
-    def getPos(self):
-        return (self.x,self.y)
-    def updatePos(self):
-        self.x = newX
-        self.y = newY
-    def getFrameNumber(self,gameTime):
-        if self.startTime == 0:
-            self.startTime = gameTime
-        timediff = gameTime - self.startTime
-        fps = self.object.animations[self.animName].fps
-        frames = self.object.animations[self.animName].frames
-        msf = 1000 / fps
-        frame = (timediff / msf)%frames
-        return int(frame)
-    def getFrame(self,gameTime):
-        anim = self.object.animations[self.animName].directions[self.dir]
-        frame = anim.frames[self.getFrameNumber(gameTime)]
-        return frame
-    def getColAABB(self,time):
-        framenum = self.getFrameNumber(time)
-        anim = self.object.animations[self.animName].directions[self.dir]
-        return anim.frames[framenum].collisionArea
-    def draw(self,target,time):
-        frame = self.getFrame(time.time())
-        target.blit(frame.surface,self.getPos())
-        self.stash = frame.drawArea.move(self.x,self.y)
-
-def createAnimationState(obj, pos, dir, anim):
-    state = AnimationState(obj)
-    state.setPosVec(pos)
-    state.setDirection(dir)
-    state.setAnimation(anim)
-    return state
-
