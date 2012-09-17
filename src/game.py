@@ -112,7 +112,6 @@ class Game():
 
     def collideColBoxes(self,A,B):
         if self.collideRects(A.rect,B.rect):
-            interactions.collide(A.object,B.object)
             if A.object!=None and B.object!=None:
                 recta = A.object.getFrame(self.time.time()).drawArea.move(A.object.getPos())
                 rectb = B.object.getFrame(self.time.time()).drawArea.move(B.object.getPos())
@@ -123,6 +122,18 @@ class Game():
                 #B.object.dirtyRegions.append(rectb)
                 A.object.dirtyRegions.append([overlap,A.object.getPos(),B.object])
                 B.object.dirtyRegions.append([overlap,B.object.getPos(),A.object])
+                interactions.collide(A.object,B.object)
+            elif A.object==None or B.object==None:
+                if A.object==None:
+                    real=B
+                    virt=A
+                else:
+                    real=A
+                    virt=B
+                newRect = pygame.Rect(real.rect.left,real.rect.top+3*real.rect.height/4,real.rect.width,real.rect.height/4)
+                if self.collideRects(newRect,virt.rect):
+                    interactions.collide(A.object,B.object)
+            
 
     def collideRegion(self,BB,colBoxes):
         quads = list()
