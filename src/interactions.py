@@ -77,7 +77,6 @@ def tiger_onwalk(self):
         self.setAnimation('move')
     else:
         self.setAnimation('stopped')
-    return
 
 # PC tiger stops
 def tiger_onstop(self):
