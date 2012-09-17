@@ -84,8 +84,9 @@ try:
         # draw
         screen.fill((191,123,199))
         for character in characters:
-            frame = character.getFrame(time.time())
-            screen.blit(frame,character.getPos())
+            character.draw(screen,time)
+            #frame = character.getFrame(time.time())
+            #screen.blit(frame,character.getPos())
         pygame.display.flip()
 except SystemExit:
     pygame.quit()
