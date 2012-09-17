@@ -20,6 +20,7 @@ import animatedobject
 import ioprocess # io handling
 import projectile # projectile handling
 import terrain
+import interactions
 
 #------------------------------------------------------------------------------
 # Global Variables for Export ---------------------------------------
@@ -108,12 +109,14 @@ class Game():
         thing2 = obj2.object.tag
         if thing1 == 'tiger':
             if thing2 == 'pig':
-                interactions.piglet_onbump(thing2)
+                interactions.piglet_onbump(obj2)
             elif thing2 == 'projectile':
-                interactions.tiger.onhit(thing1)
-        #elif thing1 == 'pig':
-        #    if thing2 == 'tiger':
-        #    elif thing2 == 'projectile':
+                interactions.tiger.onhit(obj1)
+        elif thing1 == 'pig':
+            if thing2 == 'tiger':
+                interactions.piglet_onbump(obj2)
+            elif thing2 == 'projectile':
+                interactions.piglet_onhit(obj1)
         #elif thing1 == 'projectile':
         #    if thing2 == 'tiger':
         #    elif thing2 == 'pig':

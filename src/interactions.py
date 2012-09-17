@@ -42,7 +42,7 @@ def tiger_onshoot(self):
         # play launching animation
         # play launch sound
         # begin tracking aninmation
-    return
+        return
 
 # PC tiger uses walljump attack
 def tiger_onwalljump(self):
