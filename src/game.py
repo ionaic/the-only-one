@@ -75,7 +75,12 @@ class Game():
             self._screen.blit(self.tilemap.surface,(rect.left,rect.top),rect)
         
     def draw(self):
-        self.tiger.draw(self._screen,self.time)
-        self.pig.draw(self._screen,self.time)
-        self.bullets.handleProjectiles(self.time)
+        objlist = list(self.objects)
+        objlist.extend(self.bullets.projectiles)
+        objlist.sort(key=lambda o: o.getY()+o.getColAABB(self.time.time()).bottom)
+        #map(lambda obj: obj.getColAABB(self.time.time()), objlist)
+        map(lambda obj: obj.draw(self._screen,self.time), objlist)
+        #self.tiger.draw(self._screen,self.time)
+        #self.pig.draw(self._screen,self.time)
+        #self.bullets.handleProjectiles(self.time)
         pygame.display.flip()

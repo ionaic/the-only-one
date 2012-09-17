@@ -15,9 +15,9 @@ import os
 
 # 3'rd Party Imports ------------------------------------------------
 import pygame
+from pygame import Rect
 
 # Local Application/Library Specific Imports ------------------------
-from aabb import AABB
 
 #------------------------------------------------------------------------------
 # Global Variables for Export ---------------------------------------
@@ -29,12 +29,26 @@ from aabb import AABB
 class Direction():
     def __init__(self,config,section,frames):
         self.frames = list()
+        self.drawn = list()
         self.aabbs = list()
         for n in range(1,frames+1):
-            self.frames.append(pygame.image.load(config.get(section,str(n))).convert_alpha())
-            self.aabbs.append(AABB(config.get(section,str(n)+'_hitbox')))
-        for aabb in self.aabbs:
-            print aabb
+            frame = pygame.image.load(config.get(section,str(n))).convert_alpha()
+            self.frames.append(frame)
+            boundingRect = frame.get_bounding_rect()
+            self.drawn.append(boundingRect)
+            option_name = str(n)+'_hitbox'
+            if config.has_option(section,option_name):
+                hbVal = config.get(section,option_name)
+            else:
+                hbVal = 'none'
+            if hbVal=='none':
+                self.aabbs.append(Rect(0,0,0,0))
+            elif hbVal=='full':
+                self.aabbs.append(frame.get_rect())
+            elif hbVal=='drawn':
+                self.aabbs.append(boundingRect)
+            else:
+                self.aabbs.append(Rect(map(lambda X: int(X), hbVal.split(','))))
 
 class Animation():
     def __init__(self,config,section):
@@ -125,6 +139,10 @@ class AnimationState():
         anim = self.object.animations[self.animName].directions[self.dir]
         frame = anim.frames[self.getFrameNumber(gameTime)]
         return frame
+    def getColAABB(self,time):
+        framenum = self.getFrameNumber(time)
+        anim = self.object.animations[self.animName].directions[self.dir]
+        return anim.aabbs[framenum]
     def draw(self,target,time):
         frame = self.getFrame(time.time())
         target.blit(frame,self.getPos())

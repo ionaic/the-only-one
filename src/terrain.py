@@ -16,9 +16,8 @@ import csv
 
 # 3'rd Party Imports ------------------------------------------------
 import pygame
-
+from pygame import Rect
 # Local Application/Library Specific Imports ------------------------
-from aabb import AABB
 
 #------------------------------------------------------------------------------
 # Global Variables for Export ---------------------------------------
@@ -30,7 +29,7 @@ from aabb import AABB
 class Tile():
     def __init__(self,config,section):
         self.image = pygame.image.load(config.get(section,'image')).convert_alpha()
-        self.aabb = AABB(config.get(section,'hitbox'))
+        self.aabb = Rect(map(lambda X: int(X), config.get(section,'hitbox').split(',')))
 
 class LetterMap():
     def __init__(self,fname):
