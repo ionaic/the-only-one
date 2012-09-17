@@ -98,12 +98,20 @@ class Game():
                 colBoxes.append(ColBox(rect,obj))
         for i in range(0,len(colBoxes)-1):
             for j in range(i+1,len(colBoxes)):
-                if colBoxes[i].rect.colliderect(colBoxes[j].rect):
+                if self.collideRects(colBoxes[i].rect, colBoxes[j].rect):
                     self.collide(colBoxes[i].object, colBoxes[j].object)
                     colBoxes[i].object.dirty = True
                     colBoxes[j].object.dirty = True
         pygame.display.flip()
     
+    def collideRects(self, obj, other):
+        if obj == other:
+            return False
+        elif isinstance(obj, pygame.Rect):
+            return obj.contains(other) or other.contains(obj) or obj.colliderect(other)
+        else:
+            print 'Arguments must both be of type pygame.Rect'
+
     def collide(self, obj1, obj2):
         thing1 = obj1.object.tag
         thing2 = obj2.object.tag
@@ -114,9 +122,10 @@ class Game():
                 interactions.tiger.onhit(obj1)
         elif thing1 == 'pig':
             if thing2 == 'tiger':
-                interactions.piglet_onbump(obj2)
+                interactions.piglet_onbump(obj1)
             elif thing2 == 'projectile':
                 interactions.piglet_onhit(obj1)
+                interactions.button_onhit(obj2)
         #elif thing1 == 'projectile':
         #    if thing2 == 'tiger':
         #    elif thing2 == 'pig':
