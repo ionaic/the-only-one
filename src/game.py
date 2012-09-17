@@ -108,15 +108,15 @@ class Game():
         thing2 = obj2.object.tag
         if thing1 == 'tiger':
             if thing2 == 'pig':
-                interactions.tigger_
                 interactions.piglet_onbump(thing2)
             elif thing2 == 'projectile':
-        elif thing1 == 'pig':
-            if thing2 == 'tiger':
-            elif thing2 == 'projectile':
-        elif thing1 == 'projectile':
-            if thing2 == 'tiger':
-            elif thing2 == 'pig':
+                interactions.tiger.onhit(thing1)
+        #elif thing1 == 'pig':
+        #    if thing2 == 'tiger':
+        #    elif thing2 == 'projectile':
+        #elif thing1 == 'projectile':
+        #    if thing2 == 'tiger':
+        #    elif thing2 == 'pig':
         #elif thing1 == None:
             
         
