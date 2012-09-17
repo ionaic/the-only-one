@@ -4,7 +4,7 @@
 
 import animatedobject, movement
 
-def collide(self, obj1, obj2):
+def collide(obj1, obj2):
     thing1 = obj1.object.tag
     thing2 = obj2.object.tag
     if thing1 == 'tiger':
