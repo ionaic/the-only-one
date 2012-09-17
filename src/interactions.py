@@ -108,8 +108,12 @@ def tiglet_ondie(self):
 # Piglet gets hit
 def piglet_onhit(self):
     # set swinging
+    self.health -= 1
     self.setAnimation('swing')
-    return
+
+# Piglet on bump
+def piglet_onbump(self):
+    self.setAnimation('swing')
 
 # Piglet dies
 def piglet_ondie(self):

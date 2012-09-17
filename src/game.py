@@ -101,24 +101,25 @@ class Game():
                     self.collide(colBoxes[i].object, colBoxes[j].object)
                     colBoxes[i].object.dirty = True
                     colBoxes[j].object.dirty = True
+        pygame.display.flip()
     
     def collide(self, obj1, obj2):
         thing1 = obj1.object.tag
         thing2 = obj2.object.tag
-        #if thing1 == 'tiger':
-        #    if thing2 == 'pig':
-        #        interactions.
-        #    elif thing2 == 'projectile':
-        #elif thing1 == 'pig':
-        #    if thing2 == 'tiger':
-        #    elif thing2 == 'projectile':
-        #elif thing1 == 'projectile':
-        #    if thing2 == 'tiger':
-        #    elif thing2 == 'pig':
+        if thing1 == 'tiger':
+            if thing2 == 'pig':
+                interactions.tigger_
+                interactions.piglet_onbump(thing2)
+            elif thing2 == 'projectile':
+        elif thing1 == 'pig':
+            if thing2 == 'tiger':
+            elif thing2 == 'projectile':
+        elif thing1 == 'projectile':
+            if thing2 == 'tiger':
+            elif thing2 == 'pig':
         #elif thing1 == None:
             
         
         #self.tiger.draw(self._screen,self.time)
         #self.pig.draw(self._screen,self.time)
         #self.bullets.handleProjectiles(self.time)
-        pygame.display.flip()
