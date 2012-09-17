@@ -41,11 +41,13 @@ class Game():
 
         self.time = gametime.GameTime()
         self.tstobj = animatedobject.createAnimatedObject('../assets/tigger','object.ini')
+        self.tstobj.setTag('tiger')
         self.tiger = animatedobject.AnimationState(self.tstobj)
         #self.tiger.setAnimation('move')
         #self.tiger.setDirection(0)
 
         self.pigobj = animatedobject.createAnimatedObject('../assets/piglet','object.ini')
+        self.pigobj.setTag('pig')
         self.pig = animatedobject.AnimationState(self.pigobj)
         self.pig.setAnimation('stopped')
         self.pig.setDirection(0)
@@ -72,6 +74,7 @@ class Game():
         self.time.update()
         self.iohandler.mover.updatePos()
         self.bullets.moveAll()
+
     def preDraw(self):
         for object in self.objects:
             self._screen.blit(self.tilemap.surface,object.stash.topleft,object.stash)
@@ -93,7 +96,25 @@ class Game():
         for i in range(0,len(colBoxes)-1):
             for j in range(i+1,len(colBoxes)):
                 if colBoxes[i].rect.colliderect(colBoxes[j].rect):
-                    continue
+                    self.collide(colBoxes[i].object, colBoxes[j].object)
+                    colBoxes[i].object.dirty = True
+                    colBoxes[j].object.dirty = True
+    
+    def collide(self, obj1, obj2):
+        thing1 = obj1.object.tag
+        thing2 = obj2.object.tag
+        #if thing1 == 'tiger':
+        #    if thing2 == 'pig':
+        #        interactions.
+        #    elif thing2 == 'projectile':
+        #elif thing1 == 'pig':
+        #    if thing2 == 'tiger':
+        #    elif thing2 == 'projectile':
+        #elif thing1 == 'projectile':
+        #    if thing2 == 'tiger':
+        #    elif thing2 == 'pig':
+        #elif thing1 == None:
+            
         
         #self.tiger.draw(self._screen,self.time)
         #self.pig.draw(self._screen,self.time)

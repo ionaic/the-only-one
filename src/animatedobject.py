@@ -113,9 +113,14 @@ class AnimatedObject():
         
         for animation in config.items('animations'):
             self.animations[animation[0]] = Animation(config,animation[1])
+        
+        self.tag = ''
 
     def registerCollideCB(self, func):
         self.collide_func = func
+
+    def setTag(self, tag):
+        self.tag = tag
     
 def createAnimatedObject(folder, fname):
     cwd = os.getcwd()

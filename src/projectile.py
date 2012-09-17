@@ -24,15 +24,16 @@ class Projectiles:
             rects.append(game.ColBox(object.getFrame(time).collisionArea,object))
         return rects
 
-    
     def spawnProjectile(self, x, y, direction):
         if Projectiles.projectileObject == None:
             Projectiles.projectileObject = animatedobject.createAnimatedObject('../assets/projectiles/button_placeholder', 'object.ini')
-        #print "spawned at " + str((x, y)) + " with velocity " + str(direction)
+            Projectiles.projectileObject.setTag('button')
+            
         if direction < 0:
-            self.projectiles.append(createAnimationState(Projectiles.projectileObject, (x, y), self.game.tiger.getDirection(),'stopped'))
+            temp = createAnimationState(Projectiles.projectileObject, (x, y), self.game.tiger.getDirection(),'stopped')
         else:
-            self.projectiles.append(createAnimationState(Projectiles.projectileObject, (x, y), direction,'stopped'))
+            temp = createAnimationState(Projectiles.projectileObject, (x, y), direction,'stopped')
+        self.projectiles.append(temp)
 
     def moveAll(self):
         if self.projectiles == []:
