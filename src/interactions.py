@@ -5,6 +5,8 @@
 import animatedobject, movement
 
 def collide(obj1, obj2):
+    if None in (obj1, obj2):
+        return
     thing1 = obj1.object.tag
     thing2 = obj2.object.tag
     if thing1 == 'tiger':
