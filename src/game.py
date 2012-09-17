@@ -96,16 +96,17 @@ class Game():
             rect = obj.getFrame(self.time.time()).collisionArea.move(obj.getPos())
             if rect != pygame.Rect(0,0,0,0):
                 colBoxes.append(ColBox(rect,obj))
-        print len(self.tilemap.noGo)
         for rect in self.tilemap.noGo:
             colBoxes.append(ColBox(rect,None))
         for i in range(0,len(colBoxes)-1):
             for j in range(i+1,len(colBoxes)):
                 if self.collideRects(colBoxes[i].rect, colBoxes[j].rect):
-                    print "colBoxes[i] " + str(colBoxes[i]) + " colBoxes[j] " + str(colBoxes[j])
+                    #print "colBoxes[i] " + str(colBoxes[i]) + " colBoxes[j] " + str(colBoxes[j])
                     interactions.collide(colBoxes[i].object, colBoxes[j].object)
-                    colBoxes[i].object.dirty = True
-                    colBoxes[j].object.dirty = True
+                    if colBoxes[i].object != None:
+                        colBoxes[i].object.dirty = True
+                    if colBoxes[j].object != None:
+                        colBoxes[j].object.dirty = True
         pygame.display.flip()
     
     def collideRects(self, obj, other):
