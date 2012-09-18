@@ -2,23 +2,31 @@
 # interactions.py
 # Author: Ian Ooi
 
-import projectile, audio
+import projectile, audio, math, random
 import eventhandler
 
 def registerCallbacks():
     eventhandler.registerEvent('tiger_test',lambda x: takeAStep(x))
     eventhandler.registerEvent('eeyoresniffle',lambda x: eeyoreSniffle(x))
     eventhandler.registerEvent('ropeSwing',lambda x: ropeSwing(x))
-    eventhandler.registerEvent('swingRope',lambda x: swingRope(x))
+	
 
 	
 def ropeSwing(X):
-	audio.mySounds["rope"].play()
-	print "rope!"
+	choice = random.randrange(1,5,1)
+	if choice==1:
+		audio.mySounds["rope"].play()
+	elif choice==2:
+		audio.mySounds["rope2"].play()
+	elif choice==3:
+		audio.mySounds["rope3"].play()
+	elif choice==4:
+		audio.mySounds["rope4"].play()
+	else:
+		print "FAIL"
+	
+	print choice
 
-def swingRope(X):
-	audio.mySounds["swing"].play()
-	print "swing"
 	
 def eeyoreSniffle(X):
     audio.mySounds["eeyoresniffle"].play()
