@@ -88,7 +88,7 @@ class Game():
         self.objlist.extend(self.bullets.projectiles)
         colBoxes = self.bullets.getColRects(self.time.time())
         for obj in self.objlist:
-            rect = obj.getFrame(self.time.time()).collisionArea.move(obj.getPos())
+            rect = obj.getFrame(self.time.time()).unionArea.move(obj.getPos())
             if rect != pygame.Rect(0,0,0,0):
                 colBoxes.append(ColBox(rect,obj))
         for rect in self.tilemap.noGo:
