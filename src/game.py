@@ -35,7 +35,9 @@ import enemies
 #------------------------------------------------------------------------------
 
 class Game():
+    universal = None
     def __init__(self):
+        Game.universal = self
         pygame.init()
         self._screen = pygame.display.set_mode((800,600), \
             pygame.DOUBLEBUF+pygame.HWSURFACE)

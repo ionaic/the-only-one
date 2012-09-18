@@ -16,6 +16,7 @@ import csv
 import animatedobject
 import animationstate
 import character
+import game
 
 # 3'rd Party Imports ------------------------------------------------
 import pygame
@@ -197,7 +198,10 @@ class CSVMap():
                 x = 40*char[0]
                 y = 40*line[0]
                 if char[1] == 'tree':
-                    pass
+                    tmp = character.Character(CSVMap.objectData['tree'], game.Game.universal, 10, 10)
+                    tmp.setAnimation('stopped')
+                    tmp.setDirection(0)
+                    tmp.setPos(x,y)
                     
 def createCSVMap(letterMap, folder, fname,overlays):
     cwd = os.getcwd()
