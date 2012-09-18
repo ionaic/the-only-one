@@ -127,7 +127,7 @@ class Game():
         for enemy in self.enemies.enemies:
             enemy.updateChar()
             enemy.move.updatePos()
-        for enemy in self.tilemap.enemies:
+        for enemy in self.tilemap.enemies.enemies:
             enemy.updateChar()
             enemy.move.updatePos()
         #interactions.tiger_update(self.tiger)
@@ -136,7 +136,7 @@ class Game():
         self.objlist = list(self.objects)
         self.objlist.extend(self.bullets.projectiles)
         self.objlist.extend(self.enemies.enemies)
-        self.objlist.extend(self.tilemap.enemies)
+        self.objlist.extend(self.tilemap.enemies.enemies)
         #collision
         colBoxes = self.bullets.getColRects(self.time.time())
         for obj in self.objlist:
@@ -161,7 +161,7 @@ class Game():
             object.undraw(self.tilemap.surface,self._screen,self.time)
         for object in self.enemies.enemies:
             object.undraw(self.tilemap.surface,self._screen,self.time)
-        for object in self.tilemap.enemies:
+        for object in self.tilemap.enemies.enemies:
             object.undraw(self.tilemap.surface,self._screen,self.time)
         self.objlist.sort(key=lambda o: o.getY()+o.getColAABB(self.time.time()).bottom)
         #map(lambda obj: obj.getColAABB(self.time.time()), objlist)
