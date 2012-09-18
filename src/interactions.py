@@ -14,9 +14,11 @@ def registerCallbacks():
 	
 def rope(X):
 	audio.mySounds["rope"].play()
+	print "rope!"
 
 def swing(X):
 	audio.mySounds["swing"].play()
+	print "swing"
 	
 def eeyoreSniffle(X):
     audio.mySounds["eeyoresniffle"].play()
