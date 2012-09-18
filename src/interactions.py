@@ -3,7 +3,7 @@
 # Author: Ian Ooi
 
 import projectile, audio, math, random
-import eventhandler
+import eventhandler, pygame, collisions
 
 def registerCallbacks():
     eventhandler.registerEvent('tiger_test',lambda x: takeAStep(x))
@@ -37,11 +37,11 @@ def takeAStep(X):
 	
 	
 def collide(obj1, obj2):
-    if obj1 != None:
+    if not isinstance(obj1,pygame.Rect):
         thing1 = obj1.object.tag
     else:
         thing1 = 'none'
-    if obj2 != None:
+    if not isinstance(obj2,pygame.Rect):
         thing2 = obj2.object.tag
     else:
         thing2 = 'none'
@@ -54,7 +54,7 @@ def collide(obj1, obj2):
             #tiger_onhit(obj1)
             ""
         elif thing2 == 'none':
-            tiger_onwall(obj1)
+            tiger_onwall(obj1,obj2)
             #""
     elif thing1 == 'pig':
         if thing2 == 'tiger':
@@ -79,7 +79,7 @@ def collide(obj1, obj2):
         if thing2 == 'pig':
             piglet_onhit(obj2)
         elif thing2 == 'tiger':
-            tiger_onwall(obj2)
+            tiger_onwall(obj2,obj1)
             #""
         elif thing2 == 'button':
             #button_onhit(obj2)
@@ -191,12 +191,23 @@ def tiger_onwalk(self):
         self.movePos()
 
 # PC tiger hits a wall
-def tiger_onwall(self):
+def tiger_onwall(self, wall):
     #self.stopMove()
     #self.setNewPos(self.getPos())
     self.move.stopMove()
     self.x = self.stashPos[0]
     self.y = self.stashPos[1]
+    time = self.game.time.time()
+    frame = self.getFrame(time)
+    colrect = collisions.getQRect(frame.collisionArea.move(self.getPos()))
+    if wall.collidepoint(colrect.bottomleft) and wall.collidepoint(colrect.bottomright):
+        self.y = self.y - (colrect.bottom-wall.top)
+    elif wall.collidepoint(colrect.topleft) and wall.collidepoint(colrect.topright):
+        self.y = self.y + (wall.bottom-colrect.top)
+    elif wall.collidepoint(colrect.topleft) and wall.collidepoint(colrect.bottomleft):
+        self.x = self.x + (wall.right-colrect.left)
+    elif wall.collidepoint(colrect.topright) and wall.collidepoint(colrect.bottomright):
+        self.x = self.x - (colrect.right-wall.left)
 
 def tiger_update(self):
     self.moveChar()

@@ -72,7 +72,8 @@ def getEventRect(obj):
     if obj.frame!=None:
         return obj.frame.collisionArea
     return obj.rect
-
+def getQRect(rect):
+    return pygame.Rect(rect.left,rect.top+3*rect.height/4,rect.width,rect.height/4+1)
 def collideColBoxes(A,B,time):
     if collideRects(A.rect,B.rect):
         if A.object!=None and B.object!=None:
@@ -98,9 +99,9 @@ def collideColBoxes(A,B,time):
                 virt=B
             eventRectReal = getEventRect(real)
             eventRectVirt = getEventRect(virt)
-            newRect = pygame.Rect(eventRectReal.left,eventRectReal.top+3*eventRectReal.height/4,eventRectReal.width,eventRectReal.height/4)
+            newRect = getQRect(eventRectReal)#pygame.Rect(eventRectReal.left,eventRectReal.top+3*eventRectReal.height/4,eventRectReal.width,eventRectReal.height/4)
             if collideRects(newRect,eventRectVirt):
-                interactions.collide(A.object,B.object)
+                interactions.collide(real.object,virt.rect)
             
 def collideRegion(BB,colBoxes,time):
     quads = list()
