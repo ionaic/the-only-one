@@ -187,22 +187,30 @@ class CSVMap():
 
         if CSVMap.objectData==None:
             CSVMap.objectData = dict()
-            CSVMap.objectData['tree'] = animatedobject.createAnimatedObject('../piglet','object.ini')
-            CSVMap.objectData['tree'].setTag('pig')
+            CSVMap.objectData['tree'] = animatedobject.createAnimatedObject('../piglet','tree.ini')
+            CSVMap.objectData['tree'].setTag('tree')
+            CSVMap.objectData['hpig'] = animatedobject.createAnimatedObject('../piglet','pig.ini')
+            CSVMap.objectData['hpig'].setTag('pig')
 
-        if dynamic=='none': return
-        
-        reader = csv.reader(open(dynamic,'rb'),delimiter=',')
-        for line in enumerate(reader):
-            for char in enumerate(line[1]):
-                x = 40*char[0]
-                y = 40*line[0]
-                if char[1] == 'tree':
-                    tmp = character.Character(CSVMap.objectData['tree'], game.Game.universal, 10, 10)
-                    tmp.setAnimation('stopped')
-                    tmp.setDirection(0)
-                    tmp.setPos(x,y)
-                    self.objects.append(tmp)
+        for dyn in dynamic:
+            if dyn=='none': continue
+            reader = csv.reader(open(dyn,'rb'),delimiter=',')
+            for line in enumerate(reader):
+                for char in enumerate(line[1]):
+                    x = 40*char[0]
+                    y = 40*line[0]
+                    if char[1] == 'tree':
+                        tmp = character.Character(CSVMap.objectData['tree'], game.Game.universal, 10, 10)
+                        tmp.setAnimation('stopped')
+                        tmp.setDirection(0)
+                        tmp.setPos(x,y)
+                        self.objects.append(tmp)
+                    if char[1] == 'hpig':
+                        tmp = character.Character(CSVMap.objectData['hpig'], game.Game.universal, 10, 10)
+                        tmp.setAnimation('stopped')
+                        tmp.setDirection(0)
+                        tmp.setPos(x,y)
+                        self.objects.append(tmp)
                     
 def createCSVMap(letterMap, folder, fname,overlays):
     cwd = os.getcwd()
@@ -225,7 +233,7 @@ class World():
             lettermap = self.lettermaps[config.get(room[1],'lettermap')]
             base = config.get(room[1],'base')
             overlays = config.get(room[1],'overlays').split(',')
-            dynamic = config.get(room[1],'dynamic')
+            dynamic = config.get(room[1],'dynamic').split(',')
             self.rooms[room[0]] = CSVMap(lettermap,base,overlays,dynamic)
         # load worldmap
         self.pos = map(lambda X: int(X), config.get('worldmap','start').split(','))
