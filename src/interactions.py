@@ -208,6 +208,18 @@ def tiger_onwall(self, wall):
         self.x = self.x + (wall.right-colrect.left)
     elif wall.collidepoint(colrect.topright) and wall.collidepoint(colrect.bottomright):
         self.x = self.x - (colrect.right-wall.left)
+    elif wall.collidepoint(colrect.topright):
+        self.x = self.x - (colrect.right-wall.left)
+        self.y = self.y + (wall.bottom-colrect.top)
+    elif wall.collidepoint(colrect.bottomright):
+        self.x = self.x - (colrect.right-wall.left)
+        self.y = self.y - (colrect.bottom-wall.top)
+    elif wall.collidepoint(colrect.topleft):
+        self.y = self.y + (wall.bottom-colrect.top)
+        self.x = self.x + (wall.right-colrect.left)
+    elif wall.collidepoint(colrect.bottomleft):
+        self.y = self.y - (colrect.bottom-wall.top)
+        self.x = self.x + (wall.right-colrect.left)
 
 def tiger_update(self):
     self.moveChar()
