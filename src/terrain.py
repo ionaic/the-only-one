@@ -202,6 +202,7 @@ class CSVMap():
                     tmp.setAnimation('stopped')
                     tmp.setDirection(0)
                     tmp.setPos(x,y)
+                    self.objects.append(tmp)
                     
 def createCSVMap(letterMap, folder, fname,overlays):
     cwd = os.getcwd()
@@ -237,17 +238,9 @@ class World():
             self.grid.append(data)
     def getActiveMap(self):
         return self.rooms[(self.grid[self.pos[1]])[self.pos[0]]]
-    def moveRight(self):
-        self.pos[0] = self.pos[0]+1
-        print self.pos
-    def moveLeft(self):
-        self.pos[0] = self.pos[0]-1
-        print self.pos
-    def moveUp(self):
-        self.pos[1] = self.pos[1]-1
-        print self.pos
-    def moveDown(self):
-        self.pos[1] = self.pos[1]+1
+    def move(self,displacement):
+        self.pos[0] = self.pos[0]+displacement[0]
+        self.pos[1] = self.pos[1]+displacement[1]
         print self.pos
         
 

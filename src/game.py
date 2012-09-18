@@ -52,13 +52,13 @@ class Game():
         #self.tiger.setAnimation('move')
         #self.tiger.setDirection(0)
 
-        self.pigobj = animatedobject.createAnimatedObject('../assets/piglet','object.ini')
-        self.pigobj.setTag('pig')
+        #self.pigobj = animatedobject.createAnimatedObject('../assets/piglet','object.ini')
+        #self.pigobj.setTag('pig')
         #self.pig = animatedobject.AnimationState(self.pigobj)
-        self.pig = character.Character(self.pigobj, self, 10, 10)
-        self.pig.setAnimation('stopped')
-        self.pig.setDirection(0)
-        self.pig.setPos(300,200)
+        #self.pig = character.Character(self.pigobj, self, 10, 10)
+        #self.pig.setAnimation('stopped')
+        #self.pig.setDirection(0)
+        #self.pig.setPos(300,200)
 
         self.stuffobj = animatedobject.createAnimatedObject('../assets/static/', 'object.ini')
         self.stuffobj.setTag('stuffing')
@@ -70,8 +70,7 @@ class Game():
         self.iohandler = ioprocess.IOFunctions(self)
 
         self.world = terrain.createWorld('../assets/terrain','world.ini')
-        self.tilemap = self.world.getActiveMap()
-        self._screen.blit(self.tilemap.surface,(0,0))
+        self.objects = list()
         #self.lettermap = terrain.createLetterMap('../assets/terrain','terrainObjects.ini')
         #self.tilemap = terrain.createCSVMap(self.lettermap,'../assets/terrain','test.csv',['overlay.csv'])
         #self._screen.blit(self.tilemap.surface,(0,0))
@@ -84,10 +83,8 @@ class Game():
         self.enemies.spawnTiglet()
         self.enemies.spawnTiglet()
         self.enemies.spawnTiglet()
-
-        self.objects = list()
-        self.objects.append(self.tiger)
-        self.objects.append(self.pig)
+        
+        self.roomChange()
 
         interactions.registerCallbacks()
 
@@ -99,26 +96,30 @@ class Game():
         for object in self.objects:
             object.invalidate()
         self.bullets.clear()
+
+        self.objects = list()
+        self.objects.append(self.tiger)
+        self.objects.extend(self.tilemap.objects)
     def update(self):
         #room change
         if self.tiger.getFrame(self.time.time()).collisionArea.left+self.tiger.getX()>800:
             print "Out on the right"
-            self.world.moveRight()
+            self.world.move((1,0))
             self.tiger.setX(self.tiger.getX()-800)
             self.roomChange()
         if self.tiger.getFrame(self.time.time()).collisionArea.right+self.tiger.getX()<0:
             print "Out on the left"
-            self.world.moveLeft()
+            self.world.move((-1,0))
             self.tiger.setX(self.tiger.getX()+800)
             self.roomChange()
         if self.tiger.getFrame(self.time.time()).collisionArea.bottom+self.tiger.getY()<0:
             print "Out on the top"
-            self.world.moveUp()
+            self.world.moveUp((0,-1))
             self.tiger.setY(self.tiger.getY()+600)
             self.roomChange()
         if self.tiger.getFrame(self.time.time()).collisionArea.top+self.tiger.getY()>600:
             print "Out on the bottom"
-            self.world.moveDown()
+            self.world.move((0,1))
             self.tiger.setY(self.tiger.getY()-600)
             self.roomChange()
 
