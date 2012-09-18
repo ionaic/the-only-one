@@ -21,6 +21,7 @@ import ioprocess # io handling
 import projectile # projectile handling
 import terrain
 import interactions
+import character
 
 #------------------------------------------------------------------------------
 # Global Variables for Export ---------------------------------------
@@ -81,14 +82,14 @@ class Game():
         self.tstobj = animatedobject.createAnimatedObject('../assets/tigger','object.ini')
         self.tstobj.setTag('tiger')
         #self.tiger = animatedobject.AnimationState(self.tstobj)
-        self.tiger = interactions.Character(self.tstobj, self, 10, 10)
+        self.tiger = character.Character(self.tstobj, self, 10, 10)
         #self.tiger.setAnimation('move')
         #self.tiger.setDirection(0)
 
         self.pigobj = animatedobject.createAnimatedObject('../assets/piglet','object.ini')
         self.pigobj.setTag('pig')
         #self.pig = animatedobject.AnimationState(self.pigobj)
-        self.pig = interactions.Character(self.pigobj, self, 10, 10)
+        self.pig = character.Character(self.pigobj, self, 10, 10)
         self.pig.setAnimation('stopped')
         self.pig.setDirection(0)
         self.pig.setPos(300,200)

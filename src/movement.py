@@ -1,7 +1,7 @@
 # functions for movement
 # movement.py
 # author Ian Ooi
-import pygame, sys, math, operator
+import pygame, sys, math, operator, interactions
 
 def dirToVec(direction):
     if direction == 0:
@@ -199,9 +199,18 @@ class Movement:
         self.updateTiger()
 
     def updateTiger(self):
-        if (self.moveState[0] != -1):
-            self.game.tiger.setAnimation('move')
-            #self.game.tiger.setDirection(self.moveState[0])
-        else:
-            self.game.tiger.setAnimation('stopped')
-            #self.game.tiger.setDirection(operator.sub(0, (self.moveState[0])))
+        #if self.game.tiger.animName == 'stopped' and self.moveState[1] != 0:
+        #    self.game.tiger.setAnimation('move')
+        #elif self.game.tiger.animName == 'moveshoot' and self.moveState[1] == 0:
+        #    # TODO need to set this at a certain frame!
+        #    # self.animation.cur_frame = self.oldanimation.last_played
+        #    self.game.tiger.setAnimation('shoot')
+        #elif self.game.tiger.animName == 'move' and self.moveState[1] == 0:
+        #    self.game.tiger.setAnimation('stopped')
+        interactions.tiger_onwalk(self.game.tiger)
+        #if (self.moveState[0] != -1):
+        #    self.game.tiger.setAnimation('move')
+        #    #self.game.tiger.setDirection(self.moveState[0])
+        #else:
+        #    self.game.tiger.setAnimation('stopped')
+        #    #self.game.tiger.setDirection(operator.sub(0, (self.moveState[0])))

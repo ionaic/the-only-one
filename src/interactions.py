@@ -2,7 +2,7 @@
 # interactions.py
 # Author: Ian Ooi
 
-import animatedobject, movement, projectile
+import projectile
 
 def collide(obj1, obj2):
     if obj1 != None:
@@ -16,6 +16,7 @@ def collide(obj1, obj2):
 
     if thing1 == 'tiger':
         if thing2 == 'pig':
+            tiger_onwall(obj1)
             piglet_onbump(obj2)
         elif thing2 == 'button':
             #tiger_onhit(obj1)
@@ -50,24 +51,6 @@ def collide(obj1, obj2):
             #button_onhit(obj2)
             ""
 
-class Character(animatedobject.AnimationState, movement.Movement):
-    def __init__(self, obj, game, hp, ammo):
-        animatedobject.AnimationState.__init__(self, obj)
-        movement.Movement.__init__(self, game)
-        self.health = hp
-        self.ammo = ammo
-
-    # check if still has ammo
-    def has_ammo(self):
-        try:
-            if self.ammo > 0:
-                return True
-            else:
-                return False
-        except TypeError:
-            # this isn't a shooting enemy
-            return False
-
 ########## TIGER ##########
 # PC tiger hit by something
 def tiger_onhit(self):
@@ -87,19 +70,21 @@ def tiger_onshoot(self):
     # check if tiger has enough ammo left
     if self.has_ammo():
         # launch projectile
+        self.throwing = True
         # reduce amount of available ammo
         self.ammo -= 1
         # play throwing animation
         if self.animName != 'move':
-            self.setAnimation('shoot')
+            self.setAnimationOnce('shoot')
         else:
-            self.setAnimation('moveshoot')
+            self.setAnimationOnce('moveshoot')
         # play throw sound
         # begin tracking aninmation
         return
 
 # PC Tiger done shooting, back to either moving or standing
 def tiger_shot(self):
+    self.throwing = False
     if self.animName != 'moveshoot':
         self.setAnimation('stopped')
     else:
@@ -188,12 +173,12 @@ def piglet_onhit(self):
     # set swinging
     self.health -= 1
     if self.animName != 'swing':
-        self.setAnimation('swing')
+        self.setAnimationOnce('swing')
 
 # Piglet on bump
 def piglet_onbump(self):
     if self.animName != 'swing':
-        self.setAnimation('swing')
+        self.setAnimationOnce('swing')
 
 # Piglet done swinging
 def piglet_swung(self):

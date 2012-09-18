@@ -14,9 +14,16 @@ class AnimationState():
         self.stashPos = (-666,-666)
         self.dirty = False
         self.dirtyRegions = list()
-    def setAnimation(self,animName):
+        self.playOnce = False
+        self.playOnceBackToAnim = 'stopped'
+    def setAnimation(self,animName, startTime = 0):
         self.animName = animName
-        self.startTime = 0
+        #self.startTime = 0
+        self.startTime = startTime
+    def setAnimationOnce(self, animName, startTime = 0):
+        self.playOnce = True
+        self.playOnceBackToAnim = self.animName
+        self.setAnimation(animName, startTime)
     def setDirection(self,dir):
         self.dir = dir
     def setPosVec(self, vect):
@@ -43,8 +50,17 @@ class AnimationState():
         fps = self.object.animations[self.animName].fps
         frames = self.object.animations[self.animName].frames
         msf = 1000 / fps
-        frame = (timediff / msf)%frames
-        return int(frame)
+        if self.playOnce:
+            frame = (timediff / msf)
+            # if not end of animation
+            if frame < frames:
+                return int(frame)
+            else:
+                self.setAnimation(self.playOnceBackToAnim)
+                return int(self.startTime) 
+        else: 
+            frame = (timediff / msf)%frames
+            return int(frame)
     def getFrame(self,gameTime):
         anim = self.object.animations[self.animName].directions[self.dir]
         frame = anim.frames[self.getFrameNumber(gameTime)]
