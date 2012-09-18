@@ -29,7 +29,7 @@ class Enemy(Character):
         self.neighborhood.top -= 30
         self.neighborhood.right += 30
         self.neighborhood.bottom += 30
-        self.direction = [1, 1]
+        self.direction = [0, 0]
         self.move.moveSpeed = [0.3, 0.3]
 
     def updateChar(self):
