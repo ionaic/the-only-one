@@ -11,6 +11,7 @@ class Projectiles:
         Projectiles.projectiles = []
         self.game = game
         self.screen_rect = self.game._screen.get_rect()
+        Projectiles.game = game
     
     def getDirty(self,time):
         rects = list()
@@ -58,11 +59,14 @@ class Projectiles:
 
     def collideAll(self):
         map(self.screen_collide, Projectiles.projectiles)
-
     def screen_collide(self, x):
         #if (self.screen_rect.contains(x.get_rect())) == False:
         if self.screen_rect.collidepoint(x.getPos()) == False or 0 in x.getPos():
             #print "out of screen "
             if x in Projectiles.projectiles:
-                #print "removing " + str(x)
-                Projectiles.projectiles.remove(x)
+                remove(x)
+
+def remove(x):
+    print Projectiles.game.tilemap.surface
+    x.visualDelete(Projectiles.game.tilemap.surface,Projectiles.game._screen)
+    Projectiles.projectiles.remove(x)

@@ -168,7 +168,7 @@ def tiger_pickupbutton(self):
 def button_onhit(self):
     # remove the button from the screen
     if self in projectile.Projectiles.projectiles:
-        projectile.Projectiles.projectiles.remove(self)
+        projectile.remove(self)
 
 ########## tiglet ##########
 # Tiglet hit by something

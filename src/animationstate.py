@@ -19,6 +19,8 @@ class AnimationState():
         self.dirtyRegions = list()
 
         self.eventStash = None
+
+        self.deleted = False
         # functions for play once animations
         self.old = None
     def setAnimation(self,animName):
@@ -86,6 +88,7 @@ class AnimationState():
         anim = self.object.animations[self.animName].directions[self.dir]
         return anim.frames[framenum].collisionArea
     def draw(self,target,time):
+        if self.deleted == True: return
         frame = self.getFrame(time.time())
         major = frame==self.stashFrame and self.stashPos==(self.x,self.y)
         if major and self.dirty==False:
@@ -101,6 +104,7 @@ class AnimationState():
         self.dirty = False
         self.dirtyRegions = list()
     def undraw(self,source,target,time):
+        if self.deleted == True: return
         frame = self.getFrame(time.time())
         if frame==self.stashFrame and self.stashPos==(self.x,self.y):
             if self.dirty==False:
@@ -117,6 +121,10 @@ class AnimationState():
                         yolo[0] = self.stash.union(yolo[0])
         #if frame!=self.stashFrame or self.stashPos!=(self.x,self.y) or self.dirty!=False:
         #    target.blit(source,self.stash.topleft,self.stash)
+    def visualDelete(self,source,target):
+        self.deleted = True
+        target.blit(source,self.stash.topleft,self.stash)
+        
 
 def createAnimationState(obj, pos, dir, anim):
     state = AnimationState(obj)
