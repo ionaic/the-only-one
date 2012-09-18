@@ -103,6 +103,7 @@ class Movement:
         elif self.moveState[0] in (5, 6, 7):
             return 5
         else:
+            e self.animation.cur_frame = self.oldanimation.last_played
             print 'getUp unknown state: ' + str(self.moveState)
             return -1
 
