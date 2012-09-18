@@ -17,6 +17,7 @@ import animatedobject
 import animationstate
 import character
 import game
+import enemies
 
 # 3'rd Party Imports ------------------------------------------------
 import pygame
@@ -184,7 +185,7 @@ class CSVMap():
         self.surface.convert()
 
         self.objects = list()
-
+        self.enemies = enemies.Enemies(game.Game.universal)
         if CSVMap.objectData==None:
             CSVMap.objectData = dict()
             CSVMap.objectData['tree'] = animatedobject.createAnimatedObject('../piglet','tree.ini')
@@ -205,12 +206,14 @@ class CSVMap():
                         tmp.setDirection(0)
                         tmp.setPos(x,y)
                         self.objects.append(tmp)
-                    if char[1] == 'hpig':
+                    elif char[1] == 'hpig':
                         tmp = character.Character(CSVMap.objectData['hpig'], game.Game.universal, 10, 10)
                         tmp.setAnimation('stopped')
                         tmp.setDirection(0)
                         tmp.setPos(x,y)
                         self.objects.append(tmp)
+                    elif char[1] == 'nedl':
+                        self.enemies.spawnTiglet(x,y)
                     
 def createCSVMap(letterMap, folder, fname,overlays):
     cwd = os.getcwd()
