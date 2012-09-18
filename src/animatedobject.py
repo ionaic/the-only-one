@@ -98,7 +98,6 @@ class Animation():
                 val = config.get(section,dir)
                 self.directions[index] = Direction(config,val,self.frames)
             except ConfigParser.NoOptionError:
-                self.directions[index] = self.directions[index-index%2]
                 continue
 
 class AnimatedObject():
@@ -128,12 +127,39 @@ def createAnimatedObject(folder, fname):
     os.chdir(cwd)
     return aniobj
 
+class GroupDirection():
+    def __init__(self,config,section,frames):
+        positions = list()
+        for i in range(1,frames+1):
+            positions.append(map(lambda x: int(x),config.get(section,str(i)).split(',')))
+
+class GroupAnimation():
+    def __init__(self,config,section,objects):
+        self.frames = config.getint(section,'frames')
+        self.fps = config.getint(section,'fps')
+        
+        self.directions = dict()
+        
+        for index, dir in enumerate(['south','southwest','west','northwest', \
+                                     'north','northeast','east','southeast']):
+            for obj in objects:
+                key_name = dir+"_"+obj[0]
+                if config.has_option(section,key_name):
+                    val = config.get(section,key_name)
+                    self.directions[str(index)+obj[0]] = GroupDirection(config,val,self.frames)
+
 class ObjectGroup():
     def __init__(self,fname):
         config = ConfigParser.ConfigParser()
         config.readfp(open(fname))
 
         self.objects = list()
+        for object in config.items('objects'):
+            self.objects.append([object[0],AnimatedObject(object[1])])
+
+        self.animations=dict()
+        for animation in config.items('animations'):
+            self.animations[animation[0]] = GroupAnimation(config,animation[1],self.objects)
 
 def createObjectGroup(folder, fname):
     cwd = os.getcwd()
