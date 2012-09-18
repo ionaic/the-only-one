@@ -172,6 +172,7 @@ class Game():
     def update(self):
         self.time.update()
         self.iohandler.mover.updatePos()
+        #interactions.tiger_update(self.tiger)
         self.bullets.moveAll()
 
         self.objlist = list(self.objects)
