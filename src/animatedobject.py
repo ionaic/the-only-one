@@ -56,8 +56,8 @@ class Direction():
     def __init__(self,config,section,frames):
         self.frames = list()
         shadowBound = None
-        if config.has_option(section,"shadowbound"):
-            shadowbound = pygame.Rect(map(lambda X: int(X),config.get(section,'shadowbound').split(',')))
+        if config.has_option(section,"shadowbox"):
+            shadowBound = pygame.Rect(map(lambda X: int(X),config.get(section,'shadowbox').split(',')))
         for n in range(1,frames+1):
             frame = pygame.image.load(config.get(section,str(n))).convert_alpha()
             #self.frames.append(frame)
