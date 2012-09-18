@@ -30,21 +30,24 @@ from animationstate import *
 
 class Frame():
     def __init__(self,surface,drawn,col, shadowBound, event):
-        # calculate the size and position of the shadow
-        shadow_dim = (shadowBound.width, shadowBound.width / 3)
-        shadow_pos = ((surface.get_width() - shadowBound.width)/2, shadowBound.height - shadow_dim[1] * 0.5)
-        # find the appropriate surface size
-        surf_size = map(operator.add, shadow_pos, shadow_dim)
-        #surf_size = (max(surf_size[0], surface.get_width()), surf_size[1])
-        surf_size = map(max, surf_size, surface.get_size())
-        # create new surface of appropriate size for image and shadow
-        self.surface = pygame.Surface(surf_size, pygame.SRCALPHA)
-        # draw the shadow
-        pygame.draw.ellipse(self.surface, pygame.Color(0, 0, 0, 100), pygame.Rect(shadow_pos, shadow_dim), 0)
-        # draw the actual sprite
-        self.surface.blit(surface, (0,0))
-        # set the bounding area and collision area
-        self.drawArea = self.surface.get_bounding_rect()
+        self.surface = surface
+        self.drawArea = drawn
+        if shadowBound != None:
+            # calculate the size and position of the shadow
+            shadow_dim = (shadowBound.width, shadowBound.width / 3)
+            shadow_pos = ((surface.get_width() - shadowBound.width)/2, shadowBound.height - shadow_dim[1] * 0.5)
+            # find the appropriate surface size
+            surf_size = map(operator.add, shadow_pos, shadow_dim)
+            #surf_size = (max(surf_size[0], surface.get_width()), surf_size[1])
+            surf_size = map(max, surf_size, surface.get_size())
+            # create new surface of appropriate size for image and shadow
+            self.surface = pygame.Surface(surf_size, pygame.SRCALPHA)
+            # draw the shadow
+            pygame.draw.ellipse(self.surface, pygame.Color(0, 0, 0, 100), pygame.Rect(shadow_pos, shadow_dim), 0)
+            # draw the actual sprite
+            self.surface.blit(surface, (0,0))
+            # set the bounding area and collision area
+            self.drawArea = self.surface.get_bounding_rect()
         self.collisionArea = col
         self.unionArea = self.drawArea.union(self.collisionArea)
         self.event = event
@@ -52,14 +55,13 @@ class Frame():
 class Direction():
     def __init__(self,config,section,frames):
         self.frames = list()
+        shadowBound = None
+        if config.has_option(section,"shadowbound"):
+            shadowbound = pygame.Rect(map(lambda X: int(X),config.get(section,'shadowbound').split(',')))
         for n in range(1,frames+1):
             frame = pygame.image.load(config.get(section,str(n))).convert_alpha()
             #self.frames.append(frame)
             boundingRect = frame.get_bounding_rect()
-
-            # added for the shadows
-            if n == 1:
-                shadowBound = boundingRect
 
             #print boundingRect
             #self.drawn.append(boundingRect)
