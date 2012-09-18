@@ -70,7 +70,7 @@ def tiger_onhit(self):
 # PC tiger shoots/throws something
 def tiger_onshoot(self):
     # check if tiger has enough ammo left
-    if self.throwing:
+    if self.animName == 'shoot':
         return
     if self.has_ammo():
         # launch projectile
@@ -86,12 +86,12 @@ def tiger_onshoot(self):
         # begin tracking animation
 
 # PC Tiger done shooting, back to either moving or standing
-def tiger_shot(self):
-    self.throwing = False
-    if self.animName != 'moveshoot':
-        self.setAnimation('stopped')
-    else:
-        self.setAnimation('move')
+#def tiger_shot(self):
+#    self.throwing = False
+#    if self.animName != 'moveshoot':
+#        self.setAnimation('stopped')
+#    else:
+#        self.setAnimation('move')
 
 # PC tiger uses walljump attack
 def tiger_onwalljump(self):
@@ -157,6 +157,12 @@ def tiger_update(self):
 # def tiger_onstop(self):
 #     return
 
+def tiger_pickupstuffing(self):
+    self.health += 1
+
+def tiger_pickupbutton(self):
+    self.ammo += 1
+
 ########## PROJECTILE ##########
 # Button hits something
 def button_onhit(self):
@@ -184,6 +190,8 @@ def tiglet_ondie(self):
 ########## PIGLET ###########
 # Piglet gets hit
 def piglet_onhit(self):
+    if self.health <= 0:
+        piglet_ondie(self)
     # set swinging
     self.health -= 1
     if self.animName != 'swing':
@@ -207,9 +215,18 @@ def piglet_ondie(self):
 # Eeyore gets hit
 def eeyore_onhit(self):
     # decrement health
-    # health -= 1
+    health -= 1
     return
 
 # Eeyore dies
 def eeyore_ondie(self):
     return
+
+######### STUFFING ##########
+# convert an object to stuffing
+def stuffing_create(self):
+    return
+
+def stuffing_pickup(self):
+    if self in self.game.objlist:
+        self.game.objlist.remove(self)

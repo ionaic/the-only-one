@@ -53,6 +53,12 @@ class Game():
         self.pig.setAnimation('stopped')
         self.pig.setDirection(0)
         self.pig.setPos(300,200)
+
+        self.stuffobj = animatedobject.createAnimatedObject('../assets/static/', 'object.ini')
+        self.stuffobj.setTag('stuffing')
+        self.stuffing = animatedobject.AnimationState(self.stuffobj)
+        self.stuffing.setAnimation('stuffing')
+        self.stuffing.setDirection(0)
         
         # handler for keyboard inputs, maps them to movements
         self.iohandler = ioprocess.IOFunctions(self)
