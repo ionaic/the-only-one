@@ -49,7 +49,8 @@ def collide(obj1, obj2):
     if thing1 == 'tiger':
         if thing2 == 'pig':
             #tiger_onwall(obj1)
-            piglet_onbump(obj2)
+            #piglet_onbump(obj2)
+            ""
         elif thing2 == 'button':
             #tiger_onhit(obj1)
             ""
@@ -58,7 +59,8 @@ def collide(obj1, obj2):
             #""
     elif thing1 == 'pig':
         if thing2 == 'tiger':
-            piglet_onbump(obj1)
+            #piglet_onbump(obj1)
+            ""
         elif thing2 == 'button':
             piglet_onhit(obj1)
             button_onhit(obj2)
