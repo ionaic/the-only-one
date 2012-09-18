@@ -46,6 +46,7 @@ class Frame():
         # set the bounding area and collision area
         self.drawArea = self.surface.get_bounding_rect()
         self.collisionArea = col
+        self.unionArea = self.drawArea.union(self.collisionArea)
 
 class Direction():
     def __init__(self,config,section,frames):
