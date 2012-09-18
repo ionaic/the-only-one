@@ -59,8 +59,11 @@ class Movement:
         velocity = map(operator.mul, direction, magnitude)
         # produce the new position (proposed position) from current pos and
         #   velocity
-        new_pos = map(operator.mul, velocity, (self.game.time.time() - self.game.time.lastTime() for i in range(0, 2)))
-        new_pos = map(operator.add, velocity, self.game.tiger.getPos())
+        new_pos = [0,0]
+        new_pos[0] = velocity[0] * (self.game.time.time() - self.game.time.lastTime()) + self.game.tiger.getX()
+        new_pos[1] = velocity[1] * (self.game.time.time() - self.game.time.lastTime()) + self.game.tiger.getY()
+        #new_pos = map(operator.mul, velocity, (self.game.time.time() - self.game.time.lastTime() for i in range(0, 2)))
+        #new_pos = map(operator.add, velocity, self.game.tiger.getPos())
         self.game.tiger.setNewPos(new_pos)
         #if self.path_blocked:
         #    return
