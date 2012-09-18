@@ -49,6 +49,10 @@ class IOFunctions:
         self.registerKeyPress(pygame.K_ESCAPE, self.quitCB)
         # space to shoot
         self.registerKeyPress(pygame.K_SPACE, self.shootCB)
+        # e to launch attack
+        self.registerKeyPress(pygame.K_e, self.launchCB)
+        # shift to ground pound attack
+        self.registerKeyPress(pygame.K_LSHIFT, self.jumpCB)
         # wasd/arrow keys/hjkl to move
         map(self.registerKeyPress, self.defaultKeys, self.defaultDownFuns)
         # register default key release callbacks
@@ -60,6 +64,14 @@ class IOFunctions:
     def shootCB(self):
         self.game.bullets.spawnProjectile(self.game.tiger.getX(), self.game.tiger.getY(), self.mover.moveState[0])
         interactions.tiger_onshoot(self.game.tiger)
+    
+    def launchCB(self):
+        # find the nearest wall and launch off it
+        interactions.tiger_onlaunch(self.game.tiger)
+        
+    def jumpCB(self):
+        # jump and ground pound
+        interactions.tiger_onjump(self.game.tiger)
 
     # registerCallback(self, string, function(pygame.Event)) 
     def registerCallback(self, event, func):

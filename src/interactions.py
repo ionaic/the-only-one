@@ -125,7 +125,6 @@ def tiger_ondie(self):
 
 # PC tiger moves
 def tiger_onwalk(self):
-    print str(self.moveState)
     # set animation type
     #if self.moveState[0] != -1:
     if  self.moveState[1] != 0:
@@ -133,7 +132,6 @@ def tiger_onwalk(self):
             self.setAnimation('move')
         self.movePos()
     elif self.moveState[1] == 0:
-        print 'should stop'
         if self.animName == 'moveshoot':
             # TODO need to set this at a certain frame!
             # self.animation.cur_frame = self.oldanimation.last_played
