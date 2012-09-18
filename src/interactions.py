@@ -31,6 +31,7 @@ def collide(obj1, obj2):
             piglet_onhit(obj1)
             button_onhit(obj2)
         elif thing2 == 'none':
+            ""
     elif thing1 == 'button':
         if thing2 == 'pig':
             button_onhit(obj1)
