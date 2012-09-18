@@ -17,7 +17,7 @@ class IOFunctions:
     # __init(self, Game)
     def __init__(self, gameobj):
         self.game = gameobj
-        self.mover = movement.Movement(self.game)
+        self.mover = self.game.tiger.move
         # register default callback functions
         self.registerCallback(eventStr(pygame.QUIT), self.quitCB)
         self.registerCallback(eventStr(pygame.KEYDOWN), self.defaultKeyDown)
