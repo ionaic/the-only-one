@@ -3,7 +3,7 @@ import movement, animatedobject, animationstate
 class Character(animatedobject.AnimationState, movement.Movement):
     def __init__(self, obj, game, hp, ammo):
         animatedobject.AnimationState.__init__(self, obj)
-        movement.Movement.__init__(self, game)
+        self.move = movement.Movement(game)
         self.health = hp
         self.ammo = ammo
         self.throwing = False

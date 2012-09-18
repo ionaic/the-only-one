@@ -40,8 +40,11 @@ characters.append(createCharacter((160,0),'../assets/tigger','object.ini','shoot
 characters.append(createCharacter((320,0),'../assets/tigger','object.ini','move'))
 characters.append(createCharacter((480,0),'../assets/tigger','object.ini','moveshoot'))
 characters.append(createCharacter((640,0),'../assets/tigger','object.ini','damaged'))
+
 characters.append(createCharacter((0,160),'../assets/tigger','object.ini','launch'))
 characters.append(createCharacter((160,160),'../assets/tigger','object.ini','rocket'))
+characters.append(createCharacter((320,160),'../assets/tigger','object.ini','groundpound'))
+
 characters.append(createCharacter((640,480),'../assets/static','object.ini','stuffing'))
 characters.append(createCharacter((480,480),'../assets/projectiles/button_placeholder','object.ini','move'))
 #------------------------------------------------------------------------------

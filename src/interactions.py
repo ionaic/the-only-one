@@ -2,12 +2,35 @@
 # interactions.py
 # Author: Ian Ooi
 
-import projectile, audio
+import projectile, audio, math, random
 import eventhandler
 
 def registerCallbacks():
     eventhandler.registerEvent('tiger_test',lambda x: takeAStep(x))
+    eventhandler.registerEvent('eeyoresniffle',lambda x: eeyoreSniffle(x))
+    eventhandler.registerEvent('ropeSwing',lambda x: ropeSwing(x))
+	
 
+	
+def ropeSwing(X):
+	choice = random.randrange(1,5,1)
+	if choice==1:
+		audio.mySounds["rope"].play()
+	elif choice==2:
+		audio.mySounds["rope2"].play()
+	elif choice==3:
+		audio.mySounds["rope3"].play()
+	elif choice==4:
+		audio.mySounds["rope4"].play()
+	else:
+		print "FAIL"
+	
+	print choice
+
+	
+def eeyoreSniffle(X):
+    audio.mySounds["eeyoresniffle"].play()
+	
 def takeAStep(X):
 	print "Taking a step"
 	audio.mySounds["step"].play()
@@ -31,8 +54,8 @@ def collide(obj1, obj2):
             #tiger_onhit(obj1)
             ""
         elif thing2 == 'none':
-            #tiger_onwall(obj1)
-            ""
+            tiger_onwall(obj1)
+            #""
     elif thing1 == 'pig':
         if thing2 == 'tiger':
             piglet_onbump(obj1)
@@ -56,8 +79,8 @@ def collide(obj1, obj2):
         if thing2 == 'pig':
             piglet_onhit(obj2)
         elif thing2 == 'tiger':
-            #tiger_onwall(obj2)
-            ""
+            tiger_onwall(obj2)
+            #""
         elif thing2 == 'button':
             #button_onhit(obj2)
             ""
@@ -71,8 +94,17 @@ def tiger_onhit(self):
     self.setAnimation('damaged')
     #self.stopMove()
     # play hit sound
-    audio.mySounds["selfdeath"].play()
-    # stop all in progress player actions
+    choice = random.randrange(1,4,1)
+    if choice==1:
+		audio.mySounds["tigerdamage"].play()
+    elif choice==2:
+		audio.mySounds["tigerdamage2"].play()
+    elif choice==3:
+		audio.mySounds["tigerdamage3"].play()
+
+    else:
+        print "FAIL"
+    print choice    # stop all in progress player actions
     # invulnerable for x amount of time
     # while invulnerable, can't shoot
     return
@@ -162,8 +194,9 @@ def tiger_onwalk(self):
 def tiger_onwall(self):
     #self.stopMove()
     #self.setNewPos(self.getPos())
-    if self.animName != 'stopped':
-        self.setAnimation('stopped')
+    self.move.stopMove()
+    self.x = self.stashPos[0]
+    self.y = self.stashPos[1]
 
 def tiger_update(self):
     self.moveChar()
@@ -231,6 +264,7 @@ def piglet_ondie(self):
 # Eeyore gets hit
 def eeyore_onhit(self):
     # decrement health
+    audio.mySounds["eeyorepain"].play()
     health -= 1
     return
 

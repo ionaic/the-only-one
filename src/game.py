@@ -44,6 +44,8 @@ class Game():
         self.tstobj.setTag('tiger')
         #self.tiger = animatedobject.AnimationState(self.tstobj)
         self.tiger = character.Character(self.tstobj, self, 10, 10)
+        self.tiger.setPosVec((40,80))
+        self.tiger.stashPos=(40,80)
         #self.tiger.setAnimation('move')
         #self.tiger.setDirection(0)
 
@@ -87,6 +89,7 @@ class Game():
         self._screen.blit(self.tilemap.surface,(0,0))
         for object in self.objects:
             object.invalidate()
+        self.bullets.clear()
     def update(self):
         #room change
         if self.tiger.getFrame(self.time.time()).collisionArea.left+self.tiger.getX()>800:

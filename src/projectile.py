@@ -54,6 +54,8 @@ class Projectiles:
         speed = [movement.getSpeedState(proj.getDirection()) * self.projectile_speed[i] \
             for i in range(0, len(self.projectile_speed))]
         proposed_pos = map(operator.mul, movement.dirToVec(proj.getDirection()), speed)
+        timediff = (self.game.time.time() - self.game.time.lastTime())
+        proposed_pos = map(operator.mul, proposed_pos, (timediff,timediff))
         proposed_pos = map(operator.add, proposed_pos, proj.getPos())
         proj.setPos(proposed_pos[0],proposed_pos[1])
 
@@ -68,6 +70,10 @@ class Projectiles:
             #print "out of screen "
             if x in Projectiles.projectiles:
                 remove(x)
+    def clear(self):
+        for x in Projectiles.projectiles:
+            x.visualDelete(Projectiles.game.tilemap.surface,Projectiles.game._screen)
+        Projectiles.projectiles = []
 
 def remove(x):
     x.visualDelete(Projectiles.game.tilemap.surface,Projectiles.game._screen)
