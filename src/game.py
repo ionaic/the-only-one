@@ -80,9 +80,6 @@ class Game():
 
         self.enemies = enemies.Enemies(self)
         self.enemies.spawnTiglet()
-        self.enemies.spawnTiglet()
-        self.enemies.spawnTiglet()
-        self.enemies.spawnTiglet()
         
         self.roomChange()
 
