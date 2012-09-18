@@ -6,8 +6,13 @@ import projectile, audio
 import eventhandler
 
 def registerCallbacks():
-    eventhandler.registerEvent('tiger_test')
+    eventhandler.registerEvent('tiger_test',lambda x: takeAStep(x))
 
+def takeAStep(X):
+	print "Taking a step"
+	audio.mySounds["step"].play()
+	
+	
 def collide(obj1, obj2):
     if obj1 != None:
         thing1 = obj1.object.tag
