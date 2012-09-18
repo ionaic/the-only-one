@@ -194,8 +194,9 @@ def tiger_onwalk(self):
 def tiger_onwall(self):
     #self.stopMove()
     #self.setNewPos(self.getPos())
-    if self.animName != 'stopped':
-        self.setAnimation('stopped')
+    self.move.stopMove()
+    self.x = self.stashPos[0]
+    self.y = self.stashPos[1]
 
 def tiger_update(self):
     self.moveChar()

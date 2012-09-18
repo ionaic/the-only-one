@@ -160,7 +160,9 @@ class Movement:
 
     def stopMove(self):
         #stop motion
-        self.moveState = [-1, 0]
+        self.moveState[0] = -1
+        self.moveState[1] = 0
+        self.updateTiger()
         #self.moveState[1] = 0
 
     def stopLeft(self):

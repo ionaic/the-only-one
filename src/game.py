@@ -44,6 +44,8 @@ class Game():
         self.tstobj.setTag('tiger')
         #self.tiger = animatedobject.AnimationState(self.tstobj)
         self.tiger = character.Character(self.tstobj, self, 10, 10)
+        self.tiger.setPosVec((40,80))
+        self.tiger.stashPos=(40,80)
         #self.tiger.setAnimation('move')
         #self.tiger.setDirection(0)
 

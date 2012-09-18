@@ -2,17 +2,18 @@ import animatedobject, pygame, sys, operator, os, ConfigParser
 from pygame import Rect
 
 class AnimationState():
-    def __init__(self, obj):
+    def __init__(self, obj, pos=(0,0)):
         self.object = obj
         self.dir = 0
         self.startTime = 0
         self.animName = 'stopped'
-        self.x = 0
-        self.y = 0
-        self.newX = 0
-        self.newY = 0
+        self.x = pos[0]
+        self.y = pos[1]
+        self.newX = pos[0]
+        self.newY = pos[1]
         # dirty dirty dirty
         self.invalidate()
+        self.stashPos=pos
 
         self.deleted = False
         # functions for play once animations
@@ -20,7 +21,7 @@ class AnimationState():
         # dirty animation
         self.stash = Rect(0,0,0,0)
         self.stashFrame = None
-        self.stashPos = (-666,-666)
+        self.stashPos = (0,0)
         self.dirty = False
         self.dirtyRegions = list()
         self.old = None
@@ -134,7 +135,7 @@ class AnimationState():
         
 
 def createAnimationState(obj, pos, dir, anim):
-    state = AnimationState(obj)
+    state = AnimationState(obj,pos)
     state.setPosVec(pos)
     state.setDirection(dir)
     state.setAnimation(anim)
