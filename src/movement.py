@@ -96,7 +96,7 @@ class Movement:
         new_pos[1] = velocity[1] * (self.game.time.time() - self.game.time.lastTime()) + self.obj.getY()
         #new_pos = map(operator.mul, velocity, (self.game.time.time() - self.game.time.lastTime() for i in range(0, 2)))
         #new_pos = map(operator.add, velocity, self.obj.getPos())
-        self.obj.setNewPos(new_pos)
+        self.obj.setPosVec(new_pos)
         #if self.path_blocked:
         #    return
         #else:
@@ -105,7 +105,7 @@ class Movement:
     def updatePos(self):
         self.moveChar()
         self.updateTiger()
-        self.obj.movePos()
+        #self.obj.movePos()
 
     def getLeftState(self):
         if self.moveState[0] in (0, 1, 7):

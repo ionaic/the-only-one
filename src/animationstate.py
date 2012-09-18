@@ -49,9 +49,9 @@ class AnimationState():
     def setPos(self,x,y):
         self.x = x
         self.y = y
-    def setNewPos(self,(x,y)):
-        self.newX = x
-        self.newY = y
+    #def setNewPos(self,(x,y)):
+    #    self.newX = x
+    #    self.newY = y
     def getDirection(self):
         return self.dir
     def getX(self):
@@ -64,9 +64,9 @@ class AnimationState():
         self.y = y
     def getPos(self):
         return (self.x,self.y)
-    def movePos(self):
-        self.x = self.newX
-        self.y = self.newY
+    #def movePos(self):
+    #    self.x = self.newX
+    #    self.y = self.newY
     def getFrameNumber(self,gameTime):
         if self.startTime == 0:
             self.startTime = gameTime
