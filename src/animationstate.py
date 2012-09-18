@@ -140,3 +140,26 @@ def createAnimationState(obj, pos, dir, anim):
     state.setDirection(dir)
     state.setAnimation(anim)
     return state
+
+def GroupAnimationState():
+    def __init__(self,objGrp,pos=(0,0)):
+        self.pos = pos
+        self.dir = 0
+        self.objects = list()
+        for object in objGrp:
+            self.objects.append((object[0],AnimationState(object[1],pos)))
+        self.objGrp = objGrp
+        self.setAnim('stopped')
+    def getObjectFrameNumber(self,object,time):
+        return 0
+    def getObjectFrame(self,object,time):
+        anim = self.objGrp.animations[self.animName].directions[self.direction]
+        frame = anim.frames[self.getFrameNumber(time)]
+        return frame
+    def setAnim(self,animName,time):
+        self.animName = animName
+        self.startTime = 0
+        for object in self.objects:
+            object[1].setAnimation(animName)
+
+        
