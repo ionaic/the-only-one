@@ -13,6 +13,9 @@ import ConfigParser
 import os
 import fileinput
 import csv
+import animatedobject
+import animationstate
+import character
 
 # 3'rd Party Imports ------------------------------------------------
 import pygame
@@ -149,7 +152,8 @@ def mergeRectlist(rects):
     return other
 
 class CSVMap():
-    def __init__(self,letterMap,fname,overlays):
+    objectData = None
+    def __init__(self,letterMap,fname,overlays,dynamic):
         reader = csv.reader(open(fname,'rb'),delimiter=',')
         self.noGo = list()
         self.surface = pygame.Surface((800,600),flags=pygame.SRCALPHA)
@@ -178,6 +182,23 @@ class CSVMap():
         self.noGo = mergeRectlist(self.noGo)
         self.surface.convert()
 
+        self.objects = list()
+
+        if CSVMap.objectData==None:
+            CSVMap.objectData = dict()
+            CSVMap.objectData['tree'] = animatedobject.createAnimatedObject('../piglet','object.ini')
+            CSVMap.objectData['tree'].setTag('pig')
+
+        if dynamic=='none': return
+        
+        reader = csv.reader(open(dynamic,'rb'),delimiter=',')
+        for line in enumerate(reader):
+            for char in enumerate(line[1]):
+                x = 40*char[0]
+                y = 40*line[0]
+                if char[1] == 'tree':
+                    pass
+                    
 def createCSVMap(letterMap, folder, fname,overlays):
     cwd = os.getcwd()
     os.chdir(folder)
@@ -199,7 +220,8 @@ class World():
             lettermap = self.lettermaps[config.get(room[1],'lettermap')]
             base = config.get(room[1],'base')
             overlays = config.get(room[1],'overlays').split(',')
-            self.rooms[room[0]] = CSVMap(lettermap,base,overlays)
+            dynamic = config.get(room[1],'dynamic')
+            self.rooms[room[0]] = CSVMap(lettermap,base,overlays,dynamic)
         # load worldmap
         self.pos = map(lambda X: int(X), config.get('worldmap','start').split(','))
         reader = csv.reader(open(config.get('worldmap','file')),delimiter=',')
