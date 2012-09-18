@@ -210,7 +210,7 @@ class World():
                 data.append(element[1])
             self.grid.append(data)
     def getActiveMap(self):
-        return (self.grid[self.pos[1]])[self.pos[0]]
+        return self.rooms[(self.grid[self.pos[1]])[self.pos[0]]]
         
 
 def createWorld(folder, fname):

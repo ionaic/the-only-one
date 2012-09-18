@@ -40,7 +40,7 @@ def main():
             framestart = pygame.time.get_ticks()
             frames = frames +1
             if framestart >= ticks + 1000:
-                print ((framestart-ticks)*.0001)*frames
+                print ((framestart-ticks)*.001)*frames
                 ticks = framestart
                 frames = 0
             # process input
