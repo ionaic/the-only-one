@@ -8,6 +8,7 @@ class Character(animatedobject.AnimationState, movement.Movement):
         self.ammo = ammo
         self.throwing = False
         self.path_blocked = False
+        self.game = game
 
     # check if still has ammo
     def has_ammo(self):
