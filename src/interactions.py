@@ -8,7 +8,7 @@ import eventhandler
 def registerCallbacks():
     eventhandler.registerEvent('tiger_test',lambda x: takeAStep(x))
     eventhandler.registerEvent('eeyoresniffle',lambda x: eeyoreSniffle(x))
-	eventhandler.registerEvent('rope',lambda x: ropeSwing(x))
+    eventhandler.registerEvent('rope',lambda x: ropeSwing(x))
     eventhandler.registerEvent('swing',lambda x: swingRope(x))
 
 	
