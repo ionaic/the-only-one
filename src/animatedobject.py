@@ -127,3 +127,18 @@ def createAnimatedObject(folder, fname):
     aniobj = AnimatedObject(fname)
     os.chdir(cwd)
     return aniobj
+
+class ObjectGroup():
+    def __init__(self,fname):
+        config = ConfigParser.ConfigParser()
+        config.readfp(open(fname))
+
+        self.objects = list()
+
+def createObjectGroup(folder, fname):
+    cwd = os.getcwd()
+    os.chdir(folder)
+    obj = ObjectGroup(fname)
+    os.chdir(cwd)
+    return obj
+     
