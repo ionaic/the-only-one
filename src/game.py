@@ -25,6 +25,7 @@ import collisions
 from collisions import ColBox
 import character
 import eventhandler
+import enemies
 
 #------------------------------------------------------------------------------
 # Global Variables for Export ---------------------------------------
@@ -62,7 +63,7 @@ class Game():
         self.stuffing = animatedobject.AnimationState(self.stuffobj)
         self.stuffing.setAnimation('stuffing')
         self.stuffing.setDirection(0)
-        
+
         # handler for keyboard inputs, maps them to movements
         self.iohandler = ioprocess.IOFunctions(self)
 
@@ -75,6 +76,12 @@ class Game():
 
         # handler for projectiles
         self.bullets = projectile.Projectiles(self)
+
+        self.enemies = enemies.Enemies(self)
+        self.enemies.spawnTiglet()
+        self.enemies.spawnTiglet()
+        self.enemies.spawnTiglet()
+        self.enemies.spawnTiglet()
 
         self.objects = list()
         self.objects.append(self.tiger)
@@ -115,12 +122,16 @@ class Game():
 
         #housekeeping
         self.time.update()
-        self.iohandler.mover.updatePos()
+        #self.iohandler.mover.updatePos()
+        self.tiger.move.updatePos()
+        for enemy in self.enemies.enemies:
+            enemy.move.updatePos()
         #interactions.tiger_update(self.tiger)
         self.bullets.moveAll()
         #object list creation
         self.objlist = list(self.objects)
         self.objlist.extend(self.bullets.projectiles)
+        self.objlist.extend(self.enemies.enemies)
         #collision
         colBoxes = self.bullets.getColRects(self.time.time())
         for obj in self.objlist:
@@ -142,6 +153,8 @@ class Game():
         for object in self.objects:
             object.undraw(self.tilemap.surface,self._screen,self.time)
         for object in self.bullets.projectiles:
+            object.undraw(self.tilemap.surface,self._screen,self.time)
+        for object in self.enemies.enemies:
             object.undraw(self.tilemap.surface,self._screen,self.time)
         self.objlist.sort(key=lambda o: o.getY()+o.getColAABB(self.time.time()).bottom)
         #map(lambda obj: obj.getColAABB(self.time.time()), objlist)

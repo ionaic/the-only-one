@@ -42,10 +42,11 @@ def getSpeedState(direction):
 __DIAG_CONST = math.sqrt(2) * 0.5 # 1/sqrt 2 == (sqrt 2)/2 for diagonals
 
 class Movement:
-    def __init__(self, game):
+    def __init__(self, obj, game):
         # movement state variable
         self.moveState = [-1, 0]
         self.game = game
+        self.obj = obj
         self.moveSpeed = [0.2,0.2]
 
     def moveChar(self):
@@ -60,20 +61,20 @@ class Movement:
         # produce the new position (proposed position) from current pos and
         #   velocity
         new_pos = [0,0]
-        new_pos[0] = velocity[0] * (self.game.time.time() - self.game.time.lastTime()) + self.game.tiger.getX()
-        new_pos[1] = velocity[1] * (self.game.time.time() - self.game.time.lastTime()) + self.game.tiger.getY()
+        new_pos[0] = velocity[0] * (self.game.time.time() - self.game.time.lastTime()) + self.obj.getX()
+        new_pos[1] = velocity[1] * (self.game.time.time() - self.game.time.lastTime()) + self.obj.getY()
         #new_pos = map(operator.mul, velocity, (self.game.time.time() - self.game.time.lastTime() for i in range(0, 2)))
-        #new_pos = map(operator.add, velocity, self.game.tiger.getPos())
-        self.game.tiger.setNewPos(new_pos)
+        #new_pos = map(operator.add, velocity, self.obj.getPos())
+        self.obj.setNewPos(new_pos)
         #if self.path_blocked:
         #    return
         #else:
-        #    self.game.tiger.setPosVec(new_pos)
+        #    self.obj.setPosVec(new_pos)
 
     def updatePos(self):
         self.moveChar()
         self.updateTiger()
-        self.game.tiger.movePos()
+        self.obj.movePos()
 
     def getLeftState(self):
         if self.moveState[0] in (0, 1, 7):
@@ -106,7 +107,7 @@ class Movement:
         elif self.moveState[0] in (5, 6, 7):
             return 5
         else:
-            e self.animation.cur_frame = self.oldanimation.last_played
+            self.animation.cur_frame = self.oldanimation.last_played
             print 'getUp unknown state: ' + str(self.moveState)
             return -1
 
@@ -126,7 +127,7 @@ class Movement:
     # moveLeft function
     def moveLeft(self):
         # move state (in terms of animation) is now left
-        self.game.tiger.setDirection(2)
+        self.obj.setDirection(2)
         self.moveState[0] = self.getLeftState()
         self.moveState[1] = getSpeedState(self.moveState[0])
         self.moveChar()
@@ -135,7 +136,7 @@ class Movement:
     # moveRight function
     def moveRight(self):
         # move state (in terms of animation) is now left
-        self.game.tiger.setDirection(6)
+        self.obj.setDirection(6)
         self.moveState[0] = self.getRightState()
         self.moveState[1] = getSpeedState(self.moveState[0])
         self.moveChar()
@@ -144,7 +145,7 @@ class Movement:
     # moveUp function
     def moveUp(self):
         # move state (in terms of animation) is now left
-        self.game.tiger.setDirection(2)
+        self.obj.setDirection(2)
         self.moveState[0] = self.getUpState()
         self.moveState[1] = getSpeedState(self.moveState[0])
         self.moveChar()
@@ -153,7 +154,7 @@ class Movement:
     # moveDown function
     def moveDown(self):
         # move state (in terms of animation) is now left
-        self.game.tiger.setDirection(6)
+        self.obj.setDirection(6)
         self.moveState[0] = self.getDownState()
         self.moveState[1] = getSpeedState(self.moveState[0])
         self.moveChar()
@@ -171,7 +172,7 @@ class Movement:
             self.moveState[0] = 0
         elif self.moveState[0] == 2:
             self.stopMove()
-            self.game.tiger.setDirection(2)
+            self.obj.setDirection(2)
         elif self.moveState[0] == 3:
             self.moveState[0] = 4
         self.moveState[1] = getSpeedState(self.moveState[0])
@@ -182,7 +183,7 @@ class Movement:
             self.moveState[0] = 4
         elif self.moveState[0] == 6:
             self.stopMove()
-            self.game.tiger.setDirection(6)
+            self.obj.setDirection(6)
         elif self.moveState[0] == 7:
             self.moveState[0] = 0
         self.moveState[1] = getSpeedState(self.moveState[0])
@@ -193,7 +194,7 @@ class Movement:
             self.moveState[0] = 2
         elif self.moveState[0] == 4:
             self.stopMove()
-            self.game.tiger.setDirection(4)
+            self.obj.setDirection(4)
         elif self.moveState[0] == 5:
             self.moveState[0] = 6
         self.moveState[1] = getSpeedState(self.moveState[0])
@@ -202,7 +203,7 @@ class Movement:
     def stopDown(self):
         if self.moveState[0] == 0:
             self.stopMove()
-            self.game.tiger.setDirection(0)
+            self.obj.setDirection(0)
         elif self.moveState[0] == 1:
             self.moveState[0] = 2
         elif self.moveState[0] == 7:
@@ -211,18 +212,18 @@ class Movement:
         self.updateTiger()
 
     def updateTiger(self):
-        #if self.game.tiger.animName == 'stopped' and self.moveState[1] != 0:
-        #    self.game.tiger.setAnimation('move')
-        #elif self.game.tiger.animName == 'moveshoot' and self.moveState[1] == 0:
+        #if self.obj.animName == 'stopped' and self.moveState[1] != 0:
+        #    self.obj.setAnimation('move')
+        #elif self.obj.animName == 'moveshoot' and self.moveState[1] == 0:
         #    # TODO need to set this at a certain frame!
         #    # self.animation.cur_frame = self.oldanimation.last_played
-        #    self.game.tiger.setAnimationOnce('shoot')
-        #elif self.game.tiger.animName == 'move' and self.moveState[1] == 0:
-        #    self.game.tiger.setAnimation('stopped')
-        #interactions.tiger_onwalk(self.game.tiger)
+        #    self.obj.setAnimationOnce('shoot')
+        #elif self.obj.animName == 'move' and self.moveState[1] == 0:
+        #    self.obj.setAnimation('stopped')
+        #interactions.tiger_onwalk(self.obj)
         if (self.moveState[0] != -1):
-            self.game.tiger.setAnimation('move')
-        #    #self.game.tiger.setDirection(self.moveState[0])
+            self.obj.setAnimation('move')
+        #    #self.obj.setDirection(self.moveState[0])
         else:
-            self.game.tiger.setAnimation('stopped')
-        #    #self.game.tiger.setDirection(operator.sub(0, (self.moveState[0])))
+            self.obj.setAnimation('stopped')
+        #    #self.obj.setDirection(operator.sub(0, (self.moveState[0])))
