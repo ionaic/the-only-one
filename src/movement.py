@@ -61,7 +61,6 @@ class Movement:
         #   velocity
         new_pos = map(operator.add, velocity, self.game.tiger.getPos())
         self.game.tiger.setNewPos(new_pos)
-        print str(new_pos)
         #if self.path_blocked:
         #    return
         #else:
