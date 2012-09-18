@@ -2,3 +2,37 @@
 .DS_Store
 
 *.pyc
+
+assets/audio/raw_audio
+
+assets/audio/raw_audio/MZ000001.WAV
+
+assets/audio/raw_audio/MZ000002.WAV
+
+assets/audio/raw_audio/MZ000009.WAV
+
+assets/audio/raw_audio/MZ000009.WAV
+
+assets/audio/raw_audio/MZ000007.WAV
+
+assets/audio/raw_audio/MZ000003.WAV
+
+assets/audio/raw_audio/MZ000004.WAV
+
+assets/audio/raw_audio/MZ000005.WAV
+
+assets/audio/raw_audio/MZ000006.WAV
+
+assets/audio/raw_audio/MZ000008.WAV
+
+assets/audio/raw_audio/MZ000001.WAV
+
+assets/audio/raw_audio/MZ000002.WAV
+
+assets/audio/raw_audio/MZ000002.WAV
+
+assets/audio/raw_audio/MZ000002.WAV
+
+assets/audio/raw_audio/*
+
+src/interactions javier.py
