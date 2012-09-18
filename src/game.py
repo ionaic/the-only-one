@@ -22,6 +22,7 @@ import projectile # projectile handling
 import terrain
 import interactions
 import collisions
+from collisions import ColBox
 import character
 
 #------------------------------------------------------------------------------
@@ -30,11 +31,6 @@ import character
 # Global Variables for use Inside the Module ------------------------
 
 #------------------------------------------------------------------------------
-
-class ColBox():
-    def __init__(self,rect,object):
-        self.rect = rect
-        self.object = object
 
 class Game():
     def __init__(self):

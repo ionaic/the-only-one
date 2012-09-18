@@ -21,6 +21,13 @@ import interactions
 # Global Variables for use Inside the Module ------------------------
 
 #------------------------------------------------------------------------------
+
+class ColBox():
+    def __init__(self,rect,object,frame=None):
+        self.frame = frame
+        self.rect = rect
+        self.object = object
+
 def collideRects(obj, other):
     return obj.contains(other) or other.contains(obj) or obj.colliderect(other)
     
@@ -61,6 +68,11 @@ def rectIntersect(A,B):
     else: bottom = outer.bottom
     return pygame.Rect(left,top,right-left,bottom-top)
 
+def getEventRect(obj):
+    if obj.frame!=None:
+        return obj.frame.collisionArea
+    return obj.rect
+
 def collideColBoxes(A,B,time):
     if collideRects(A.rect,B.rect):
         if A.object!=None and B.object!=None:
@@ -73,7 +85,10 @@ def collideColBoxes(A,B,time):
             #B.object.dirtyRegions.append(rectb)
             A.object.dirtyRegions.append([overlap,A.object.getPos(),B.object])
             B.object.dirtyRegions.append([overlap,B.object.getPos(),A.object])
-            interactions.collide(A.object,B.object)
+            eventRectA = getEventRect(A)
+            eventRectB = getEventRect(B)
+            if collideRects(eventRectA,eventRectB):
+                interactions.collide(A.object,B.object)
         elif A.object==None or B.object==None:
             if A.object==None:
                 real=B
@@ -81,8 +96,10 @@ def collideColBoxes(A,B,time):
             else:
                 real=A
                 virt=B
-            newRect = pygame.Rect(real.rect.left,real.rect.top+3*real.rect.height/4,real.rect.width,real.rect.height/4)
-            if collideRects(newRect,virt.rect):
+            eventRectReal = getEventRect(real)
+            eventRectVirt = getEventRect(virt)
+            newRect = pygame.Rect(eventRectReal.left,eventRectReal.top+3*eventRectReal.height/4,eventRectReal.width,eventRectReal.height/4)
+            if collideRects(eventRectReal,eventRectVirt):
                 interactions.collide(A.object,B.object)
             
 def collideRegion(BB,colBoxes,time):
