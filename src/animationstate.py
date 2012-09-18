@@ -132,6 +132,9 @@ class AnimationState():
     def visualDelete(self,source,target):
         self.deleted = True
         target.blit(source,self.stash.topleft,self.stash)
+        for region in self.dirtyRegions:
+            region[2].invalidate()
+        
         
 
 def createAnimationState(obj, pos, dir, anim):
