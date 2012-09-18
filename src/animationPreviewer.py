@@ -45,6 +45,8 @@ characters.append(createCharacter((0,160),'../assets/tigger','object.ini','launc
 characters.append(createCharacter((160,160),'../assets/tigger','object.ini','rocket'))
 characters.append(createCharacter((320,160),'../assets/tigger','object.ini','groundpound'))
 
+characters.append(createCharacter((0,320),'../assets/enemies/tigglette (needle)/blue','object.ini','stopped'))
+
 characters.append(createCharacter((640,480),'../assets/static','object.ini','stuffing'))
 characters.append(createCharacter((480,480),'../assets/projectiles/button_placeholder','object.ini','move'))
 #------------------------------------------------------------------------------
@@ -65,7 +67,7 @@ try:
         framestart = pygame.time.get_ticks()
         frames = frames +1
         if framestart >= ticks + 1000:
-            print ((framestart-ticks)*.0001)*frames
+            print ((framestart-ticks)*.001)*frames
             ticks = framestart
             frames = 0
         # process input
