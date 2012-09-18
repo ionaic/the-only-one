@@ -21,7 +21,7 @@ class AnimationState():
         # dirty animation
         self.stash = Rect(0,0,0,0)
         self.stashFrame = None
-        self.stashPos = (0,0)
+        self.stashPos = (self.x, self.y)
         self.dirty = False
         self.dirtyRegions = list()
         self.old = None
