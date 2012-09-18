@@ -98,6 +98,7 @@ class Animation():
                 val = config.get(section,dir)
                 self.directions[index] = Direction(config,val,self.frames)
             except ConfigParser.NoOptionError:
+                self.directions[index] = self.directions[index-1]
                 continue
 
 class AnimatedObject():
