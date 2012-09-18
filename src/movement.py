@@ -30,6 +30,37 @@ def dirToVec(direction):
         return [1, 1]
     else:
         return [0, 0]
+
+def vecToDir(vec):
+    if vec[0] == -1:
+        if vec[1] == -1:
+            return 3
+        elif vec[1] == 0:
+            return 2
+        elif vec[1] == 1:
+            return 1
+        else:
+            return -1
+    elif vec[0] == 0:
+        if vec[1] == -1:
+            return 4
+        elif vec[1] == 0:
+            return -1
+        elif vec[1] == 1:
+            return 0
+        else:
+            return -1
+    elif vec[0] == 1:
+        if vec[1] == -1:
+            return 5
+        elif vec[1] == 0:
+            return 6
+        elif vec[1] == 1:
+            return 7
+        else:
+            return -1
+    else:
+        return -1
     
 def getSpeedState(direction):
     if direction == -1:
