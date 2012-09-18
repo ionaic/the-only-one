@@ -17,6 +17,8 @@ class AnimationState():
         self.stashPos = (-666,-666)
         self.dirty = False
         self.dirtyRegions = list()
+
+        self.eventStash = None
         # functions for play once animations
         self.old = None
     def setAnimation(self,animName):
@@ -72,6 +74,13 @@ class AnimationState():
         anim = self.object.animations[self.animName].directions[self.dir]
         frame = anim.frames[self.getFrameNumber(gameTime)]
         return frame
+    def getFrameEvent(self,gameTime):
+        frame = self.getFrame(gameTime)
+        if self.eventStash != frame:
+            self.eventStash = frame
+            return frame.event
+        return ''
+        
     def getColAABB(self,time):
         framenum = self.getFrameNumber(time)
         anim = self.object.animations[self.animName].directions[self.dir]

@@ -24,6 +24,7 @@ import interactions
 import collisions
 from collisions import ColBox
 import character
+import eventhandler
 
 #------------------------------------------------------------------------------
 # Global Variables for Export ---------------------------------------
@@ -77,6 +78,8 @@ class Game():
         self.objects.append(self.tiger)
         self.objects.append(self.pig)
 
+        eventhandler.registerEvent('tiger_test')
+
     def processInputs(self):
         self.iohandler.handleEvents(pygame.event.get())
 
@@ -85,9 +88,10 @@ class Game():
         self.iohandler.mover.updatePos()
         #interactions.tiger_update(self.tiger)
         self.bullets.moveAll()
-
+        #object list creation
         self.objlist = list(self.objects)
         self.objlist.extend(self.bullets.projectiles)
+        #collision
         colBoxes = self.bullets.getColRects(self.time.time())
         for obj in self.objlist:
             rect = obj.getFrame(self.time.time()).unionArea.move(obj.getPos())
@@ -97,6 +101,12 @@ class Game():
             colBoxes.append(ColBox(rect,None))
         BB = pygame.Rect(0,0,800,600)
         collisions.collideRegion(BB,colBoxes,self.time.time())
+        #frame events
+        for object in self.objlist:
+            event = object.getFrameEvent(self.time.time())
+            if event != '':
+                eventhandler.callEvent(event)
+        
         
     def draw(self):
         for object in self.objects:
