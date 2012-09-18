@@ -26,12 +26,14 @@ class GameTime():
     def __init__(self):
         self.lastReal = pygame.time.get_ticks()
         self.gameTime = 0
+        self.lastGameTime = 0
         self.conversion = 1.0
         self.paused = False
     def update(self):
         if (self.paused == False):
             ticks = pygame.time.get_ticks()
             diff = ticks-self.lastReal
+            self.lastGameTime = self.gameTime
             self.gameTime += diff*self.conversion
             self.lastReal = ticks
     def pause(self):
@@ -41,3 +43,5 @@ class GameTime():
         self.lastReal = pygame.time.get_ticks()
     def time(self):
         return self.gameTime
+    def lastTime(self):
+        return self.lastGameTime

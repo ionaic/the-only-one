@@ -11,15 +11,14 @@ class AnimationState():
         self.y = 0
         self.newX = 0
         self.newY = 0
+        # dirty dirty dirty
         self.stash = Rect(0,0,0,0)
         self.stashFrame = None
         self.stashPos = (-666,-666)
         self.dirty = False
         self.dirtyRegions = list()
         # functions for play once animations
-        #self.playOnce = False
-        #self.playOnceBackToAnim = 'stopped'
-        #self.busy = False
+        
     def setAnimation(self,animName):
         # if you're busy, set what happens next after
         #if self.busy:
@@ -28,7 +27,7 @@ class AnimationState():
         self.animName = animName
         #self.startTime = 0
         #self.startTime = startTime
-    def setAnimationOnce(self, animName, startTime = 0):
+    def setAnimationOnce(self, animName):
         # if you're not already busy
         self.setAnimation(animName)
         #if self.busy == False:
