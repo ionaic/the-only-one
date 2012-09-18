@@ -23,7 +23,7 @@ class Character(animatedobject.AnimationState):
 
 class Enemy(Character):
     def __init__(self, obj, game, hp, ammo):
-        self.super(obj, game, hp, ammo)
+        Character.__init__(self, obj, game, hp, ammo)
         self.neighborhood = self.getFrame(self.game.time.time()).collisionArea
         self.neighborhood.left -= 30
         self.neighborhood.top -= 30
@@ -33,6 +33,7 @@ class Enemy(Character):
 
     def updateChar(self):
         self.moveDirection()
+        self.moveState = vecToDir(self.direction)
 
     def moveDirection(self):
         mark = {'left':False, 'right':False, 'top':False, 'bottom':False}
