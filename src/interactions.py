@@ -7,7 +7,20 @@ import eventhandler
 
 def registerCallbacks():
     eventhandler.registerEvent('tiger_test',lambda x: takeAStep(x))
+    eventhandler.registerEvent('eeyoresniffle',lambda x: eeyoreSniffle(x))
+	eventhandler.registerEvent('rope',lambda x: rope(x))
+    eventhandler.registerEvent('swing',lambda x: swing(x))
 
+	
+def rope(X):
+	audio.mySounds["rope"].play()
+
+def swing(X):
+	audio.mySounds["swing"].play()
+	
+def eeyoreSniffle(X):
+    audio.mySounds["eeyoresniffle"].play()
+	
 def takeAStep(X):
 	print "Taking a step"
 	audio.mySounds["step"].play()
@@ -231,6 +244,7 @@ def piglet_ondie(self):
 # Eeyore gets hit
 def eeyore_onhit(self):
     # decrement health
+    audio.mySounds["eeyorepain"].play()
     health -= 1
     return
 
