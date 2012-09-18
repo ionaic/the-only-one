@@ -99,7 +99,7 @@ def collideColBoxes(A,B,time):
             eventRectReal = getEventRect(real)
             eventRectVirt = getEventRect(virt)
             newRect = pygame.Rect(eventRectReal.left,eventRectReal.top+3*eventRectReal.height/4,eventRectReal.width,eventRectReal.height/4)
-            if collideRects(eventRectReal,eventRectVirt):
+            if collideRects(newRect,eventRectVirt):
                 interactions.collide(A.object,B.object)
             
 def collideRegion(BB,colBoxes,time):
