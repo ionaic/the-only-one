@@ -78,7 +78,7 @@ class Game():
         self.objects.append(self.tiger)
         self.objects.append(self.pig)
 
-        eventhandler.registerEvent('tiger_test')
+        interactions.registerCallbacks()
 
     def processInputs(self):
         self.iohandler.handleEvents(pygame.event.get())

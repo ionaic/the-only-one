@@ -3,6 +3,10 @@
 # Author: Ian Ooi
 
 import projectile, audio
+import eventhandler
+
+def registerCallbacks():
+    eventhandler.registerEvent('tiger_test')
 
 def collide(obj1, obj2):
     if obj1 != None:
