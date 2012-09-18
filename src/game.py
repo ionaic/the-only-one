@@ -125,6 +125,7 @@ class Game():
         #self.iohandler.mover.updatePos()
         self.tiger.move.updatePos()
         for enemy in self.enemies.enemies:
+            enemy.updateChar()
             enemy.move.updatePos()
         #interactions.tiger_update(self.tiger)
         self.bullets.moveAll()

@@ -29,11 +29,14 @@ class Enemy(Character):
         self.neighborhood.top -= 30
         self.neighborhood.right += 30
         self.neighborhood.bottom += 30
-        self.direction = [0, 0]
+        self.direction = [1, 1]
+        self.move.moveSpeed = [0.3, 0.3]
 
     def updateChar(self):
-        self.moveDirection()
-        self.moveState = vecToDir(self.direction)
+        #self.moveDirection()
+        self.move.moveState[0] = movement.vecToDir(self.direction)
+        self.move.moveState[1] = movement.getSpeedState(movement.vecToDir(self.direction))
+        self.move.moveChar()
 
     def moveDirection(self):
         mark = {'left':False, 'right':False, 'top':False, 'bottom':False}

@@ -10,7 +10,6 @@ class Enemies:
         self.game = game
         self.tigletHP = 3
         self.tigletAmmo = 0
-        #self.move.moveSpeed = [0.3, 0.3]
 
     def spawnTiglet(self, x = random.randint(1,500), y = random.randint(1,500)):
         temp = character.Enemy(Enemies.tigletNeedleObj, self.game, self.tigletHP, self.tigletAmmo)
