@@ -94,8 +94,17 @@ def tiger_onhit(self):
     self.setAnimation('damaged')
     #self.stopMove()
     # play hit sound
-    audio.mySounds["selfdeath"].play()
-    # stop all in progress player actions
+    choice = random.randrange(1,4,1)
+    if choice==1:
+		audio.mySounds["tigerdamage"].play()
+    elif choice==2:
+		audio.mySounds["tigerdamage2"].play()
+    elif choice==3:
+		audio.mySounds["tigerdamage3"].play()
+
+    else:
+        print "FAIL"
+    print choice    # stop all in progress player actions
     # invulnerable for x amount of time
     # while invulnerable, can't shoot
     return
