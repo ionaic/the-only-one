@@ -24,22 +24,31 @@ class Character(animatedobject.AnimationState):
 class Enemy(Character):
     def __init__(self, obj, game, hp, ammo):
         Character.__init__(self, obj, game, hp, ammo)
-        self.neighborhood = self.getFrame(self.game.time.time()).collisionArea
-        self.neighborhood.left -= 30
-        self.neighborhood.top -= 30
-        self.neighborhood.right += 30
-        self.neighborhood.bottom += 30
+        self.getNeighborhood()
         self.direction = [0, 0]
         self.move.moveSpeed = [0.3, 0.3]
 
+    def getNeighborhood(self):
+        self.neighborhood = self.getFrame(self.game.time.time()).collisionArea
+        self.neighborhood.left += self.getX() - 30
+        self.neighborhood.top += self.getY() - 30
+        #self.neighborhood.left -= 30
+        #self.neighborhood.top -= 30
+        self.neighborhood.right += 30
+        self.neighborhood.bottom += 30
+
     def updateChar(self):
-        #self.moveDirection()
+        print str(self.getPos())
+        self.moveDirection()
         self.move.moveState[0] = movement.vecToDir(self.direction)
         self.move.moveState[1] = movement.getSpeedState(movement.vecToDir(self.direction))
         self.move.moveChar()
 
     def moveDirection(self):
         mark = {'left':False, 'right':False, 'top':False, 'bottom':False}
+        self.getNeighborhood()
+        #self.neighborhood = self.getFrame(self.game.time.time()).collisionArea
+        #self.topleft += self.getPos()
         topleft = (self.neighborhood.left, self.neighborhood.top)
         topright = (self.neighborhood.right, self.neighborhood.top)
         bottomleft = (self.neighborhood.left, self.neighborhood.bottom)
