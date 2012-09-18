@@ -29,7 +29,7 @@ from animationstate import *
 #------------------------------------------------------------------------------
 
 class Frame():
-    def __init__(self,surface,drawn,col, shadowBound):
+    def __init__(self,surface,drawn,col, shadowBound, event):
         # calculate the size and position of the shadow
         shadow_dim = (shadowBound.width, shadowBound.width / 3)
         shadow_pos = ((surface.get_width() - shadowBound.width)/2, shadowBound.height - shadow_dim[1] * 0.5)
@@ -47,6 +47,7 @@ class Frame():
         self.drawArea = self.surface.get_bounding_rect()
         self.collisionArea = col
         self.unionArea = self.drawArea.union(self.collisionArea)
+        self.event = event
 
 class Direction():
     def __init__(self,config,section,frames):
@@ -76,8 +77,13 @@ class Direction():
                 aabb = boundingRect
             else:
                 aabb = Rect(map(lambda X: int(X), hbVal.split(',')))
-
-            self.frames.append(Frame(frame,boundingRect,aabb, shadowBound))
+            option_name = str(n)+'_event'
+            if config.has_option(section,option_name):
+                event = config.get(section,option_name)
+            else:
+                event = ''
+            
+            self.frames.append(Frame(frame,boundingRect,aabb, shadowBound, event))
 
 class Animation():
     def __init__(self,config,section):
