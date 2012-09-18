@@ -68,6 +68,10 @@ class Projectiles:
             #print "out of screen "
             if x in Projectiles.projectiles:
                 remove(x)
+    def clear(self):
+        for x in Projectiles.projectiles:
+            x.visualDelete(Projectiles.game.tilemap.surface,Projectiles.game._screen)
+        Projectiles.projectiles = []
 
 def remove(x):
     x.visualDelete(Projectiles.game.tilemap.surface,Projectiles.game._screen)

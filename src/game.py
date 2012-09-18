@@ -87,6 +87,7 @@ class Game():
         self._screen.blit(self.tilemap.surface,(0,0))
         for object in self.objects:
             object.invalidate()
+        self.bullets.clear()
     def update(self):
         #room change
         if self.tiger.getFrame(self.time.time()).collisionArea.left+self.tiger.getX()>800:
