@@ -12,17 +12,20 @@ class AnimationState():
         self.newX = 0
         self.newY = 0
         # dirty dirty dirty
+        self.invalidate()
+
+        self.deleted = False
+        # functions for play once animations
+    def invalidate(self):
+        # dirty animation
         self.stash = Rect(0,0,0,0)
         self.stashFrame = None
         self.stashPos = (-666,-666)
         self.dirty = False
         self.dirtyRegions = list()
-
-        self.eventStash = None
-
-        self.deleted = False
-        # functions for play once animations
         self.old = None
+        # event
+        self.eventStash = None
     def setAnimation(self,animName):
         # if you're busy, set what happens next after
         #if self.busy:
@@ -52,8 +55,12 @@ class AnimationState():
         return self.dir
     def getX(self):
         return self.x
+    def setX(self,x):
+        self.x = x
     def getY(self):
         return self.y
+    def setY(self,y):
+        self.y = y
     def getPos(self):
         return (self.x,self.y)
     def movePos(self):

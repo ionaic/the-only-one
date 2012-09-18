@@ -67,6 +67,5 @@ class Projectiles:
                 remove(x)
 
 def remove(x):
-    print Projectiles.game.tilemap.surface
     x.visualDelete(Projectiles.game.tilemap.surface,Projectiles.game._screen)
     Projectiles.projectiles.remove(x)
