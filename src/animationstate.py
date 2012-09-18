@@ -18,25 +18,21 @@ class AnimationState():
         self.dirty = False
         self.dirtyRegions = list()
         # functions for play once animations
-        
+        self.old = None
     def setAnimation(self,animName):
         # if you're busy, set what happens next after
         #if self.busy:
         #    self.playOnceBackToAnim = animName
         #else:
-        self.animName = animName
-        #self.startTime = 0
+        if self.animName!=animName:
+            self.animName = animName
+            self.startTime = 0
         #self.startTime = startTime
     def setAnimationOnce(self, animName):
         # if you're not already busy
-        self.setAnimation(animName)
-        #if self.busy == False:
-        #    self.playOnceBackToAnim = self.animName
-        #    self.playOnce = True
-        #    self.busy = True
-        #    #self.setAnimation(animName, startTime)
-        #    self.animName = animName
-        #    self.startTime = startTime
+        if self.old==None:
+            self.old = self.animName
+            self.setAnimation(animName)
     def setDirection(self,dir):
         self.dir = dir
     def setPosVec(self, vect):
@@ -66,18 +62,12 @@ class AnimationState():
         fps = self.object.animations[self.animName].fps
         frames = self.object.animations[self.animName].frames
         msf = 1000 / fps
-        #if self.playOnce:
-        #    frame = (timediff / msf)
-        #    # if not end of animation
-        #    if frame < frames:
-        #        return int(frame)
-        #    else:
-        #        self.busy = False
-        #        self.playOnce = False
-        #        self.setAnimation(self.playOnceBackToAnim)
-        #        return int(self.startTime) 
-        #else: 
-        return int((timediff / msf)%frames)
+        frame = int((timediff / msf))
+        if self.old!=None and frame>frames:
+            self.setAnimation(self.old)
+            self.old = None
+            return self.getFrameNumber(gameTime)
+        return frame%frames
     def getFrame(self,gameTime):
         anim = self.object.animations[self.animName].directions[self.dir]
         frame = anim.frames[self.getFrameNumber(gameTime)]
