@@ -129,8 +129,9 @@ def tiger_onwalk(self):
     # set animation type
     #if self.moveState[0] != -1:
     if  self.moveState[1] != 0:
-        self.setAnimation('move')
-        self.Movement.movePos()
+        if (self.animName != 'move'):
+            self.setAnimation('move')
+        self.movePos()
     elif self.moveState[1] == 0:
         print 'should stop'
         if self.animName == 'moveshoot':
@@ -140,7 +141,8 @@ def tiger_onwalk(self):
         elif self.animName == 'move':
             self.setAnimation('stopped')
     else:
-        self.setAnimation('move')
+        if self.animName != 'move':
+            self.setAnimation('move')
         self.movePos()
 
 # PC tiger hits a wall

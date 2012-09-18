@@ -26,7 +26,7 @@ class AnimationState():
         #    self.playOnceBackToAnim = animName
         #else:
         self.animName = animName
-        self.startTime = 0
+        #self.startTime = 0
         #self.startTime = startTime
     def setAnimationOnce(self, animName, startTime = 0):
         # if you're not already busy
