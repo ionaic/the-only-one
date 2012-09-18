@@ -2,7 +2,7 @@
 # interactions.py
 # Author: Ian Ooi
 
-import projectile
+import projectile, audio
 
 def collide(obj1, obj2):
     if obj1 != None:
@@ -62,6 +62,7 @@ def tiger_onhit(self):
     self.setAnimation('damaged')
     #self.stopMove()
     # play hit sound
+    audio.mySounds["selfdeath"].play()
     # stop all in progress player actions
     # invulnerable for x amount of time
     # while invulnerable, can't shoot
@@ -96,8 +97,10 @@ def tiger_onshoot(self):
 # PC tiger uses walljump attack
 def tiger_onwalljump(self):
     # move to closest wall
-    # play launch animation/sound
+    # play launch animation
     self.setAnimation('launch')
+    # play spring jump sound
+    audio.mySounds["spring"].play()
     # move tigger toward opposite wall
     # play land animation/sound
     # damage everything in straight line path that is a 
@@ -109,6 +112,8 @@ def tiger_onjump(self):
     # play launching/jumping animation
     # launch into air (offscreen)
     self.setAnimation('rocket')
+    # play jump sound
+    audio.mySounds["jump"].play()
     # mark potential landing spot with shadow
     # move landing spot based on key inputs
     # land
@@ -119,6 +124,7 @@ def tiger_onjump(self):
 def tiger_ondie(self):
     # play death animation
     # play death sound
+    audio.mySounds["selfdeath"].play()
     # stop everything onscreen
     # lose screen, retry
     return
@@ -166,6 +172,7 @@ def tiger_pickupbutton(self):
 ########## PROJECTILE ##########
 # Button hits something
 def button_onhit(self):
+    # play sound
     # remove the button from the screen
     if self in projectile.Projectiles.projectiles:
         projectile.remove(self)

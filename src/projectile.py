@@ -1,6 +1,6 @@
 # projectiles
 # author Ian Ooi
-import pygame, sys, game, movement, operator, animatedobject
+import pygame, sys, game, movement, operator, animatedobject, audio
 from animatedobject import createAnimationState
 
 class Projectiles:
@@ -30,6 +30,7 @@ class Projectiles:
             Projectiles.projectileObject = animatedobject.createAnimatedObject('../assets/projectiles/button_placeholder', 'object.ini')
             Projectiles.projectileObject.setTag('button')
             
+            
         # temp = createAnimationState(Projectiles.projectileObject, self.game, 1, 1)
         # temp.setPos(x, y)
         if direction < 0:
@@ -40,6 +41,8 @@ class Projectiles:
             #temp.setDirection(direction)
         #temp.setAnimation('stopped')
         Projectiles.projectiles.append(temp)
+        audio.mySounds["shoot"].play()
+        print "playing"
 
     def moveAll(self):
         if Projectiles.projectiles == []:
