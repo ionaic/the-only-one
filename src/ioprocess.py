@@ -1,7 +1,7 @@
 # IO functions for use with pygame
 # IOfunctions.py
 # author Ian Ooi
-import pygame, sys, movement
+import pygame, sys, movement, interactions
 # how do you even...i don't...how should this work....
 #from pygame import event.event_name as eventStr
 
@@ -48,10 +48,7 @@ class IOFunctions:
         # escape to quit
         self.registerKeyPress(pygame.K_ESCAPE, self.quitCB)
         # space to shoot
-        self.registerKeyPress(pygame.K_SPACE, lambda: self.game.bullets.spawnProjectile(self.game.tiger.getX(), self.game.tiger.getY(), self.mover.moveState[0]))
-        #self.registerKeyPress(pygame.K_SPACE, self.spaceDebug)
-        #self.registerKeyRelease(pygame.K_SPACE, self.spaceDebug)
-        #self.registerKeyRelease(pygame.K_SPACE, lambda: self.game.bullets.spawnProjectile(self.game.tiger.getX(), self.game.tiger.getY(), self.mover.moveState[0]))
+        self.registerKeyPress(pygame.K_SPACE, self.shootCB)
         # wasd/arrow keys/hjkl to move
         map(self.registerKeyPress, self.defaultKeys, self.defaultDownFuns)
         # register default key release callbacks
@@ -59,9 +56,10 @@ class IOFunctions:
         self.registerKeyRelease(pygame.K_ESCAPE, self.quitCB)
         # wasd/arrow keys/hjkl movement
         map(self.registerKeyRelease, self.defaultKeys, self.defaultUpFuns)
-   
-    def spaceDebug(self):
-        return
+    
+    def shootCB(self):
+        self.game.bullets.spawnProjectile(self.game.tiger.getX(), self.game.tiger.getY(), self.mover.moveState[0])
+        interactions.tiger_onshoot(self.game.tiger)
 
     # registerCallback(self, string, function(pygame.Event)) 
     def registerCallback(self, event, func):

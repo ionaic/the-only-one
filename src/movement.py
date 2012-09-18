@@ -1,7 +1,7 @@
 # functions for movement
 # movement.py
 # author Ian Ooi
-import pygame, sys, math, operator
+import pygame, sys, math, operator, interactions
 
 def dirToVec(direction):
     if direction == 0:
@@ -51,8 +51,6 @@ class Movement:
     def moveChar(self):
         # direction of movement [x, y]
         # get the direction and magnitude of velocity
-        if self.moveState[1] == 0:
-            return
 
         direction = dirToVec(self.moveState[0])
         magnitude = [self.moveState[1] * self.moveSpeed[i] \
@@ -62,10 +60,17 @@ class Movement:
         # produce the new position (proposed position) from current pos and
         #   velocity
         new_pos = map(operator.add, velocity, self.game.tiger.getPos())
-        self.game.tiger.setPosVec(new_pos)
+        self.game.tiger.setNewPos(new_pos)
+        print str(new_pos)
+        #if self.path_blocked:
+        #    return
+        #else:
+        #    self.game.tiger.setPosVec(new_pos)
 
     def updatePos(self):
         self.moveChar()
+        self.updateTiger()
+        self.game.tiger.movePos()
 
     def getLeftState(self):
         if self.moveState[0] in (0, 1, 7):
@@ -79,6 +84,7 @@ class Movement:
             return -1
 
     def getRightState(self):
+        print "right state"
         if self.moveState[0] in (0, 1, 7):
             return 7
         elif self.moveState[0] in (-1, 2, 6):
@@ -199,9 +205,18 @@ class Movement:
         self.updateTiger()
 
     def updateTiger(self):
+        #if self.game.tiger.animName == 'stopped' and self.moveState[1] != 0:
+        #    self.game.tiger.setAnimation('move')
+        #elif self.game.tiger.animName == 'moveshoot' and self.moveState[1] == 0:
+        #    # TODO need to set this at a certain frame!
+        #    # self.animation.cur_frame = self.oldanimation.last_played
+        #    self.game.tiger.setAnimationOnce('shoot')
+        #elif self.game.tiger.animName == 'move' and self.moveState[1] == 0:
+        #    self.game.tiger.setAnimation('stopped')
+        #interactions.tiger_onwalk(self.game.tiger)
         if (self.moveState[0] != -1):
             self.game.tiger.setAnimation('move')
-            #self.game.tiger.setDirection(self.moveState[0])
+        #    #self.game.tiger.setDirection(self.moveState[0])
         else:
             self.game.tiger.setAnimation('stopped')
-            #self.game.tiger.setDirection(operator.sub(0, (self.moveState[0])))
+        #    #self.game.tiger.setDirection(operator.sub(0, (self.moveState[0])))
