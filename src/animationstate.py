@@ -22,6 +22,7 @@ class AnimationState():
         self.dirty = False
         self.dirtyRegions = list()
         self.old = None
+        self.oldOffset = None
         # event
         self.eventStash = None
 
@@ -45,6 +46,11 @@ class AnimationState():
         if self.old==None:
             self.old = self.animName
             self.setAnimation(animName)
+            nframe = self.getFrameByNumber(0)
+            if nframe.surface.get_rect().height!=self.stashFrame.surface.get_rect().height:
+                self.oldOffset = nframe.surface.get_rect().height-self.stashFrame.surface.get_rect().height
+                self.y = self.y - self.oldOffset
+            
     def setDirection(self,dir):
         self.dir = dir
     def setPosVec(self, vect):
@@ -86,6 +92,11 @@ class AnimationState():
         if self.old!=None and frame>frames:
             self.setAnimation(self.old)
             self.old = None
+            if self.oldOffset!=None:
+                self.y = self.y + self.oldOffset
+                self.stashPos = (self.stashPos[0],self.stashPos[1]+ self.oldOffset)
+                self.oldOffset = None
+                
             return self.getFrameNumber(gameTime)
         return frame%frames
     def getFrame(self,gameTime):
