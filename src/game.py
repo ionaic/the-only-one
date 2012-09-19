@@ -70,7 +70,7 @@ class Game():
         self.iohandler = ioprocess.IOFunctions(self)
         
         self.enemies = enemies.Enemies(self)
-        self.enemies.spawnTiglet()
+        #self.enemies.spawnTiglet()
         
         self.world = terrain.createWorld('../assets/terrain','world.ini')
         self.objects = list()
@@ -84,6 +84,7 @@ class Game():
         self.roomChange()
 
         interactions.registerCallbacks()
+        audio.mySongs["ambient"].play()
 
     def processInputs(self):
         self.iohandler.handleEvents(pygame.event.get())
