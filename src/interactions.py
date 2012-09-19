@@ -18,6 +18,8 @@ def registerCallbacks():
     eventhandler.registerEvent('tiger_stop',lambda x: stopWalking(x))
     global sound
     global stepping
+    global counter
+    counter = 0
     stepping = False
     sound = pygame.mixer.Sound("../assets/audio/sfx/step.wav")
     sound.play(-1)
@@ -68,10 +70,16 @@ def stopWalking(x):
 def takeAStep(X):
     global stepping
     global sound
+    global counter
+    
     if not stepping:
         stepping = True
         sound.play(-1)
-
+    elif counter %8 == 0:
+        stopWalking(0)
+        audio.mySounds["swag"].play()
+        
+    counter += 1
 
 	#time.sleep(3)
 	#a.pause()
