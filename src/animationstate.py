@@ -1,4 +1,4 @@
-import animatedobject, pygame, sys, operator, os, ConfigParser
+import animatedobject, pygame, sys, operator, os, ConfigParser, game
 from pygame import Rect
 
 class AnimationState():
@@ -12,21 +12,22 @@ class AnimationState():
         self.newX = pos[0]
         self.newY = pos[1]
         # dirty dirty dirty
-        self.invalidate()
         self.stashPos=pos
 
         self.deleted = False
         # functions for play once animations
-    def invalidate(self):
         # dirty animation
         self.stash = Rect(0,0,0,0)
         self.stashFrame = None
-        self.stashPos = (self.x, self.y)
         self.dirty = False
         self.dirtyRegions = list()
         self.old = None
         # event
         self.eventStash = None
+
+        self.invalidated = False
+    def invalidate(self):
+        self.invalidated = True
     def setAnimation(self,animName):
         # if you're busy, set what happens next after
         #if self.busy:
@@ -99,10 +100,14 @@ class AnimationState():
         framenum = self.getFrameNumber(time)
         anim = self.object.animations[self.animName].directions[self.dir]
         return anim.frames[framenum].collisionArea
+    def requiresDraw(self):
+        frame = self.getFrame(game.Game.universal.time.time())
+        major = frame==self.stashFrame and self.stashPos==(self.x,self.y) and self.invalidated==False
+        return not (major and self.dirty==False)
     def draw(self,target,time):
         if self.deleted == True: return
         frame = self.getFrame(time.time())
-        major = frame==self.stashFrame and self.stashPos==(self.x,self.y)
+        major = frame==self.stashFrame and self.stashPos==(self.x,self.y) and self.invalidated==False
         if major and self.dirty==False:
             return
         self.stash = frame.drawArea.move(self.x,self.y)
@@ -115,6 +120,7 @@ class AnimationState():
             target.blit(frame.surface,self.stash,frame.drawArea)
         self.dirty = False
         self.dirtyRegions = list()
+        self.invalidated = False
     def undraw(self,source,target,time):
         if self.deleted == True: return
         frame = self.getFrame(time.time())

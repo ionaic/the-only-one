@@ -90,6 +90,10 @@ def collideColBoxes(A,B,time):
             eventRectB = getEventRect(B)
             if collideRects(eventRectA,eventRectB):
                 interactions.collide(A.object,B.object)
+            if (A.object.requiresDraw()):
+                B.object.invalidate()
+            if (B.object.requiresDraw()):
+                A.object.invalidate()
         elif A.object==None or B.object==None:
             if A.object==None:
                 real=B
