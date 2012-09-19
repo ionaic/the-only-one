@@ -111,7 +111,7 @@ class Game():
             self.roomChange()
         if self.tiger.getFrame(self.time.time()).collisionArea.bottom+self.tiger.getY()<0:
             print "Out on the top"
-            self.world.moveUp((0,-1))
+            self.world.move((0,-1))
             self.tiger.setY(self.tiger.getY()+600)
             self.roomChange()
         if self.tiger.getFrame(self.time.time()).collisionArea.top+self.tiger.getY()>600:
