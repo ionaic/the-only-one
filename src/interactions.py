@@ -519,10 +519,12 @@ def eeyore_ondie(self):
 ######### STUFFING ##########
 # convert an object (self) to stuffing
 def stuffing_create(self):
+    #somehow randomize the direction of the stuffing, since N,W,S,E,NE,NW,SE,SW are different types
+    #self.setDirection(7) #not so good
     stuffing = animationstate.AnimationState(self.game.stuffobj)
     stuffing.setAnimation('stuffing')
+    
     tempPos = self.getPos()
-    print tempPos
     stuffing.setPos(tempPos[0], tempPos[1] + self.getFrameByNumber(0).surface.get_height() - (self.getFrameByNumber(0).surface.get_height() - stuffing.getFrameByNumber(0).surface.get_height()))
     #self.game.tilemap.objects.append(stuffing)
     self.game.objects.append(stuffing)
