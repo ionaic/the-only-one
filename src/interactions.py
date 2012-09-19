@@ -75,7 +75,7 @@ def collide(obj1, obj2):
             tiger_onhit(obj1)
         elif thing2 == 'stuffing':
             tiger_pickupstuffing(obj1)
-            stuffing_pickup(obj2)
+            stuffing_pickup(obj2, obj1.game)
         elif thing2 == 'none':
             tiger_onwall(obj1,obj2)
             #""
@@ -104,7 +104,7 @@ def collide(obj1, obj2):
             ""
     elif thing1 == 'stuffing':
         if thing2 == 'tiger':
-            stuffing_pickup(obj1)
+            stuffing_pickup(obj1, obj2.game)
             tiger_pickupstuffing(obj2)
     elif thing1 == 'none':
         if thing2 == 'pig':
@@ -177,14 +177,6 @@ def tiger_onshoot(self):
     #else:
     #    print "Last throw: " + str(self.LAST_THROW) + "; Cur Time: " + str(self.game.time.time())
 
-# PC Tiger done shooting, back to either moving or standing
-#def tiger_shot(self):
-#    self.throwing = False
-#    if self.animName != 'moveshoot':
-#        self.setAnimation('stopped')
-#    else:
-#        self.setAnimation('move')
-
 # PC tiger uses walljump attack
 def tiger_onwalljump(self):
     # move to closest wall
@@ -228,11 +220,11 @@ def tiger_ondie(self):
 def tiger_onwalk(self):
     # set animation type
     #if self.moveState[0] != -1:
-    if  self.moveState[1] != 0:
+    if  self.move.moveState[1] != 0:
         if (self.animName != 'move'):
             self.setAnimation('move')
-        self.movePos()
-    elif self.moveState[1] == 0:
+        #self.movePos()
+    elif self.move.moveState[1] == 0:
         if self.animName == 'moveshoot':
             # TODO need to set this at a certain frame!
             # self.animation.cur_frame = self.oldanimation.last_played
@@ -242,7 +234,7 @@ def tiger_onwalk(self):
     else:
         if self.animName != 'move':
             self.setAnimation('move')
-        self.movePos()
+        #self.movePos()
 
 # PC tiger hits a wall
 def tiger_onwall(self, wall):
@@ -283,6 +275,7 @@ def tiger_pickupstuffing(self):
     tiger_pickupbutton(self)
     if self.health <= self.MAX_HEALTH:
         self.health += 1
+        print "Health: " + str(self.health)
 
 def tiger_pickupbutton(self):
     self.ammo += 5
@@ -370,8 +363,8 @@ def stuffing_create(self):
     self.game.tilemap.objects.append(stuffing)
     self.game.objects.append(stuffing)
 
-def stuffing_pickup(self):
-    if self in self.game.objlist:
-        self.game.objlist.remove(self)
+def stuffing_pickup(self, game):
+    if self in game.objlist:
+        game.objlist.remove(self)
     elif self in self.game.tilemap.objlist:
-        self.game.objlist.remove(self)
+        game.objlist.remove(self)
