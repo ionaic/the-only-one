@@ -22,3 +22,7 @@ class Enemies:
         temp.setDirection(0)
         
         self.enemies.append(temp)
+    
+    def remove(self, tiglet):
+        if tiglet in self.enemies:
+            self.enemies.remove(tiglet)

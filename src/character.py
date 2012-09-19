@@ -1,4 +1,4 @@
-import movement, animatedobject, animationstate, random
+import movement, animatedobject, animationstate, random, math
 
 class Character(animatedobject.AnimationState):
     def __init__(self, obj, game, hp, ammo):
@@ -43,6 +43,7 @@ class Enemy(Character):
         self.moveDirection()
         self.move.moveState[0] = movement.vecToDir(self.direction)
         self.move.moveState[1] = movement.getSpeedState(movement.vecToDir(self.direction))
+        self.setDirection(math.fabs(movement.vecToDir(self.direction)/2) * 2)
         self.move.moveChar()
 
     def moveDirection(self):
