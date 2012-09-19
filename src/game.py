@@ -84,6 +84,7 @@ class Game():
         self.roomChange()
 
         interactions.registerCallbacks()
+        audio.mySongs["ambient"].play()
 
     def processInputs(self):
         self.iohandler.handleEvents(pygame.event.get())
