@@ -247,12 +247,15 @@ class World():
             for element in enumerate(line[1]):
                 data.append(element[1])
             self.grid.append(data)
+    def getPos(self):
+        return (self.grid[self.pos[1]])[self.pos[0]]
     def getActiveMap(self):
         return self.rooms[(self.grid[self.pos[1]])[self.pos[0]]]
     def move(self,displacement):
         self.pos[0] = self.pos[0]+displacement[0]
         self.pos[1] = self.pos[1]+displacement[1]
         print self.pos
+        print self.getPos()
         
 
 def createWorld(folder, fname):
