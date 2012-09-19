@@ -10,7 +10,7 @@ def gpActivate():
     game.Game.universal.groundpound.setPos(self.x+75-150,self.y+115-150)
     game.Game.universal.gpactive = True
 def registerCallbacks():
-    eventhandler.registerEvent('beefy_test',lambda x: beefyHi(x))
+    eventhandler.registerEvent('beefydestroy',lambda x: beefyHi(x))
     eventhandler.registerEvent('tiger_test',lambda x: takeAStep(x))
     eventhandler.registerEvent('eeyoresniffle',lambda x: eeyoreSniffle(x))
     eventhandler.registerEvent('ropeSwing',lambda x: ropeSwing(x))
@@ -100,7 +100,7 @@ def eeyoreSniffle(X):
     global sniffling
     if not sniffling:
         sniffling = True
-        audio.mySounds["eeyoresniffle"].play(-1)
+        audio.mySounds["eeyoresniffle"].play(1)
 	    	
 def stopWalking(x):
     print "stopping"
