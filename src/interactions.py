@@ -166,6 +166,8 @@ def collide(obj1, obj2):
             button_onhit(obj2)
         elif thing2 == 'groundpound':
             tiglet_onhit(obj1)
+        elif thing2 == 'punch':
+            tiglet_onhit(obj1)
         elif thing2 == 'none':
             tiglet_onwall(obj1, obj2)
     elif thing1 == 'pig':
@@ -174,11 +176,15 @@ def collide(obj1, obj2):
             button_onhit(obj2)
         elif thing2 == 'groundpound':
             piglet_onhit(obj1)
+        elif thing2 == 'punch':
+            piglet_onhit(obj1)
     elif thing1 == 'eeyore':
         if thing2 == 'button':
             eeyore_onhit(obj1)
             button_onhit(obj2)
         elif thing2 == 'groundpound':
+            eeyore_onhit(obj1)
+        elif thing2 == 'punch':
             eeyore_onhit(obj1)
     elif thing1 == 'button':
         if thing2 == 'pig':
@@ -203,6 +209,8 @@ def collide(obj1, obj2):
             button_onhit(obj2)
         elif thing2 == 'groundpound':
             beefy_onhit(obj1)
+        elif thing2 == 'punch':
+            beefy_onhit(obj1)
         elif thing2 == 'none':
             beefy_onwall(obj1, obj2)
     elif thing1 == 'none':
@@ -215,6 +223,15 @@ def collide(obj1, obj2):
         elif thing2 == 'beefy':
             beefy_onwall(obj2, obj1)
     elif thing1 == 'groundpound':
+        if thing2 == 'tiglet':
+            tiglet_onhit(obj2)
+        elif thing2 == 'eeyore':
+            eeyore_onhit(obj2)
+        elif thing2 == 'beefy':
+            beefy_onhit(obj2)
+        elif thing2 == 'pig':
+            piglet_onhit(obj2)
+    elif thing1 == 'punch':
         if thing2 == 'tiglet':
             tiglet_onhit(obj2)
         elif thing2 == 'eeyore':
