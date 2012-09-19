@@ -192,6 +192,8 @@ class CSVMap():
             CSVMap.objectData['tree'].setTag('tree')
             CSVMap.objectData['hpig'] = animatedobject.createAnimatedObject('../piglet','pig.ini')
             CSVMap.objectData['hpig'].setTag('pig')
+            CSVMap.objectData['eeyore'] = animatedobject.createAnimatedObject('../eeyore','object.ini')
+            CSVMap.objectData['eeyore'].setTag('eeyore')
 
         for dyn in dynamic:
             if dyn=='none': continue
@@ -208,6 +210,12 @@ class CSVMap():
                         self.objects.append(tmp)
                     elif char[1] == 'hpig':
                         tmp = character.Character(CSVMap.objectData['hpig'], game.Game.universal, 10, 10)
+                        tmp.setAnimation('stopped')
+                        tmp.setDirection(0)
+                        tmp.setPos(x,y)
+                        self.objects.append(tmp)
+                    elif char[1] == 'eeyore':
+                        tmp = character.Character(CSVMap.objectData['eeyore'], game.Game.universal, 10, 10)
                         tmp.setAnimation('stopped')
                         tmp.setDirection(0)
                         tmp.setPos(x,y)
