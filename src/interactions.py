@@ -28,6 +28,8 @@ def registerCallbacks():
     global sneaking
     global sneak
     global counter
+    global sniffling 
+    sniffling = False
     counter = 0
     sneaking = False
     stepping = False
