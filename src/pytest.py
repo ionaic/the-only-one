@@ -53,15 +53,15 @@ def menu():
                         screen.blit(menu[index%3],(0,0))
                         continue
                     sys.exit()
-                if event.key==pygame.K_UP:
+                if event.key==pygame.K_UP or event.key==pygame.K_w or event.key==pygame.K_j:
                     index = index-1
                     screen.blit(menu[index%3],(0,0))
                     onCredits=False
-                if event.key==pygame.K_DOWN:
+                if event.key==pygame.K_DOWN or event.key==pygame.K_s or event.key==pygame.K_k:
                     index = index+1
                     screen.blit(menu[index%3],(0,0))
                     onCredits=False
-                if event.key==pygame.K_RETURN:
+                if event.key==pygame.K_RETURN or event.key==pygame.K_SPACE:
                     if onCredits==True:
                         screen.blit(menu[index%3],(0,0))
                         onCredits=False
