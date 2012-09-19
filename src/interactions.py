@@ -100,7 +100,7 @@ def eeyoreSniffle(X):
     global sniffling
     if not sniffling:
         sniffling = True
-        audio.mySounds["eeyoresniffle"].play(1)
+        audio.mySounds["eeyoresniffle"].play(-1)
 	    	
 def stopWalking(x):
     print "stopping"
