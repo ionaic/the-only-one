@@ -7,7 +7,7 @@ import eventhandler, pygame, collisions, time
 
 def gpActivate():
     self=game.Game.universal.tiger 
-    game.Game.universal.groundpound.setPos(self.x+75,self.y+115)
+    game.Game.universal.groundpound.setPos(self.x+75-150,self.y+115-150)
     game.Game.universal.gpactive = True
 def registerCallbacks():
     eventhandler.registerEvent('tiger_test',lambda x: takeAStep(x))
@@ -141,6 +141,11 @@ def collide(obj1, obj2):
             stuffing_pickup(obj2, obj1.game)
         elif thing2 == 'none':
             tiger_onwall(obj1,obj2)
+        elif thing2 == 'tree':
+            tiger_onwall(obj1,obj2.getFrameByNumber(0).collisionArea.move(obj2.getPos()))
+    elif thing1=='tree':
+        if thing2=='tiger':
+            tiger_onwall(obj2,obj1.getFrameByNumber(0).collisionArea.move(obj1.getPos()))
     elif thing1 == 'tiglet':
         if thing2 == 'tiger':
             tiglet_hit(obj1)
@@ -308,18 +313,18 @@ def tiger_onjump(self):
     # launch into air (offscreen)
     self.setAnimationOnce('groundpound')
     # damage nearby things
-    self.getNeighborhood()
-    topleft = (self.neighborhood.left, self.neighborhood.top)
-    topright = (self.neighborhood.right, self.neighborhood.top)
-    bottomleft = (self.neighborhood.left, self.neighborhood.bottom)
-    bottomright = (self.neighborhood.right, self.neighborhood.bottom)
-    print "neighborhood " + str(self.neighborhood)
+    neighborhood = pygame.Rect(self.x+75-150,self.y+115-150,300,300)
+    topleft = (neighborhood.left, neighborhood.top)
+    topright = (neighborhood.right, neighborhood.top)
+    bottomleft = (neighborhood.left, neighborhood.bottom)
+    bottomright = (neighborhood.right, neighborhood.bottom)
+    #print "neighborhood " + str(neighborhood)
     #hurt_these = list()
     for obj in self.game.tilemap.objects:
         rect = obj.getFrame(self.game.time.time()).surface.get_rect()
-        if self.neighborhood.colliderect(rect) or \
-            self.neighborhood.contains(rect) or \
-            rect.contains(self.neighborhood):
+        if neighborhood.colliderect(rect) or \
+            neighborhood.contains(rect) or \
+            rect.contains(neighborhood):
             obj.health -= 1
             collide(obj, self)
             #hurt_these.append(obj)

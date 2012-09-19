@@ -203,7 +203,7 @@ class CSVMap():
                     x = 40*char[0]
                     y = 40*line[0]
                     if char[1] == 'tree':
-                        tmp = animationstate.AnimationState(CSVMap.objectData['tree'])
+                        tmp = character.Character(CSVMap.objectData['tree'], game.Game.universal, 10, 10)
                         tmp.setAnimation('stopped')
                         tmp.setDirection(0)
                         tmp.setPos(x,y)
