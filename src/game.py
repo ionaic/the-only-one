@@ -56,6 +56,10 @@ class Game():
         self.gpobj.setTag('groundpound')
         self.groundpound = animationstate.AnimationState(self.gpobj)
         self.gpactive=False
+        self.pobj = animatedobject.createAnimatedObject('../assets/tigger','punch.ini')
+        self.pobj.setTag('punch')
+        self.punch = animationstate.AnimationState(self.pobj)
+        self.pactive=False
         
         #self.tiger.setAnimation('move')
         #self.tiger.setDirection(0)
@@ -153,6 +157,9 @@ class Game():
         if self.gpactive==True:
             self.objlist.append(self.groundpound)
             self.gpactive = False
+        if self.pactive==True:
+            self.objlist.append(self.punch)
+            self.pactive=False
         self.objlist.extend(self.bullets.projectiles)
         self.objlist.extend(self.enemies.enemies)
         self.objlist.extend(self.tilemap.enemies.enemies)
