@@ -9,6 +9,10 @@ def registerCallbacks():
     eventhandler.registerEvent('tiger_test',lambda x: takeAStep(x))
     eventhandler.registerEvent('eeyoresniffle',lambda x: eeyoreSniffle(x))
     eventhandler.registerEvent('ropeSwing',lambda x: ropeSwing(x))
+    eventhandler.registerEvent('tiger_sneak',lambda x: tigerSneak(x))
+
+def tigerSneak(X):
+    audio.mySounds["sneak"].play()
 	
 def ropeSwing(X):
 	choice = random.randrange(1,5,1)
