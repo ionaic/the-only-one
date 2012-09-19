@@ -63,14 +63,7 @@ def collide(obj1, obj2):
         thing2 = 'none'
 
     if thing1 == 'tiger':
-        if thing2 == 'pig':
-            #tiger_onwall(obj1)
-            #piglet_onbump(obj2)
-            ""
-        elif thing2 == 'button':
-            #tiger_onhit(obj1)
-            ""
-        elif thing2 == 'tiglet':
+        if thing2 == 'tiglet':
             tiglet_hit(obj2)
             tiger_onhit(obj1)
         elif thing2 == 'stuffing':
@@ -78,30 +71,26 @@ def collide(obj1, obj2):
             stuffing_pickup(obj2, obj1.game)
         elif thing2 == 'none':
             tiger_onwall(obj1,obj2)
-            #""
-    elif thing1 == 'pig':
+    elif thing1 == 'tiglet':
         if thing2 == 'tiger':
-            #piglet_onbump(obj1)
-            ""
+            tiglet_hit(obj1)
+            tiger_onhit(obj2)
         elif thing2 == 'button':
+            tiglet_onhit(obj1)
+            button_onhit(obj2)
+        #elif thing2 == 'none':
+        #    tiglet_onwall(obj1,obj2)
+    elif thing1 == 'pig':
+        if thing2 == 'button':
             piglet_onhit(obj1)
             button_onhit(obj2)
-        elif thing2 == 'none':
-            ""
     elif thing1 == 'button':
         if thing2 == 'pig':
             button_onhit(obj1)
             piglet_onhit(obj2)
-        elif thing2 == 'tiger':
-            #button_onhit(obj1)
-            #tiger_onhit(obj2)
-            ""
         elif thing2 == 'tiglet':
             tiglet_onhit(obj2)
             button_onhit(obj1)
-        elif thing2 == 'none':
-            #button_onhit(obj1)
-            ""
     elif thing1 == 'stuffing':
         if thing2 == 'tiger':
             stuffing_pickup(obj1, obj2.game)
@@ -111,10 +100,6 @@ def collide(obj1, obj2):
             piglet_onhit(obj2)
         elif thing2 == 'tiger':
             tiger_onwall(obj2,obj1)
-            #""
-        elif thing2 == 'button':
-            #button_onhit(obj2)
-            ""
 
 ########## TIGER ##########
 # PC tiger hit by something
@@ -293,6 +278,7 @@ def button_onhit(self):
 # Tiglet hit by something
 #TODO need tigglette object.ini's!
 def tiglet_onhit(self):
+    print "tigletonhit " + str(self)
     # hit animation?
     # decrease health
     self.health -= 1
@@ -317,9 +303,14 @@ def tiglet_hit(self):
 
 # Tiglet dies
 def tiglet_ondie(self):
+    print "tigletondie " + str(self)
     stuffing_create(self)
     self.game.enemies.remove(self)
     self.game.tilemap.enemies.remove(self)
+
+# Tiglet moves
+def tiglet_onmove(self):
+    return
 
 ########## PIGLET ###########
 # Piglet gets hit
@@ -355,7 +346,7 @@ def eeyore_ondie(self):
 ######### STUFFING ##########
 # convert an object (self) to stuffing
 def stuffing_create(self):
-    stuffing = animatedobject.AnimationState(self.game.stuffobj)
+    stuffing = animationstate.AnimationState(self.game.stuffobj)
     stuffing.setAnimation('stuffing')
     tempPos = self.getPos()
     stuffing.setPos(tempPos[0], tempPos[1] + self.getFrameByNumber(0).surface.get_height() - (self.getFrameByNumber(0).surface.get_height() - stuffing.getFrameByNumber(0).surface.get_height()))

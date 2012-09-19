@@ -1,4 +1,4 @@
-import movement, animatedobject, animationstate, random, math
+import movement, animatedobject, animationstate, random, math, interactions
 
 class Character(animationstate.AnimationState):
     def __init__(self, obj, game, hp = 10, ammo = 15):
@@ -48,6 +48,7 @@ class Enemy(Character):
         if properDir != -1:
             self.setDirection((movement.vecToDir(self.direction) * 0.5) * 2)
         self.move.moveChar()
+        interactions.tiglet_onmove(self)
 
     def moveDirection(self):
         mark = {'left':False, 'right':False, 'top':False, 'bottom':False}

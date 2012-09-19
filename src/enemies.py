@@ -27,6 +27,3 @@ class Enemies:
         if tiglet in self.enemies:
             self.enemies.remove(tiglet)
             tiglet.visualDelete(tiglet.game.tilemap.surface, tiglet.game._screen)
-    #    if tiglet in self.tilemap.enemies:
-    #        self.game.tilemap.enemies.remove(tiglet)
-    #        tiglet.visualDelete(tiglet.game.tilemap.surface, tiglet.game._screen)
