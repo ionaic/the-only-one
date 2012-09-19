@@ -2,8 +2,8 @@ import movement, animatedobject, animationstate, random, math
 
 class Character(animatedobject.AnimationState):
     def __init__(self, obj, game, hp, ammo):
-        self.center = self.getFrameByNum(5).collisionArea
-        self.center = [self.center[i] * 0.5 for i in range(0, len(self.center))]
+        #self.center = self.getFrameByNumber(5).collisionArea
+        #self.center = [self.center[i] * 0.5 for i in range(0, len(self.center))]
         animatedobject.AnimationState.__init__(self, obj)
         self.move = movement.Movement(self, game)
         self.health = hp
@@ -36,12 +36,8 @@ class Enemy(Character):
     def getNeighborhood(self):
         self.neighborhood.left = self.getX() - 30
         self.neighborhood.top = self.getY() - 30
-        #self.neighborhood.left -= 30
-        #self.neighborhood.top -= 30
-        print 'neighborhood ' + str(self.neighborhood)
 
     def updateChar(self):
-        print str(self.direction)
         self.moveDirection()
         self.move.moveState[0] = movement.vecToDir(self.direction)
         self.move.moveState[1] = movement.getSpeedState(movement.vecToDir(self.direction))

@@ -7,7 +7,7 @@ class Enemies:
     def __init__(self, game):
         self.enemies = []
         if Enemies.tigletNeedleObj == None:
-            Enemies.tigletNeedleObj = animatedobject.createAnimatedObject('../assets/enemies/tigglette (needle)/blue/', 'object.ini')
+            Enemies.tigletNeedleObj = animatedobject.createAnimatedObject('../assets/enemies/tigglette (needle)/orange/', 'object.ini')
             Enemies.tigletNeedleObj.setTag('tiglet')
         #Enemies.tigletScissorObj = animatedobject.createAnimatedObject('../assets/enemies/tigglette\ \(scissors\)/red/', 'object.ini')
         self.game = game
