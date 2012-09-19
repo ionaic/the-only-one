@@ -77,7 +77,28 @@ def menu():
         pygame.display.flip()
         
     screen.blit(old,(0,0))
+def loss():
+    screen = _game.Game.universal._screen
+    old = pygame.Surface((800,600))
+    old.blit(screen,(0,0))
 
+    index = 0
+    loss_screen = pygame.image.load('../assets/GameOver.png').convert()
+    go = True
+    onCredits = False
+    screen.blit(loss_screen,(0,0))
+    while go:
+        for event in pygame.event.get():
+            if event.type==pygame.QUIT:
+                sys.exit()
+            elif event.type==pygame.KEYDOWN:
+                if event.key==pygame.K_ESCAPE:
+                    sys.exit()
+                if event.key==pygame.K_RETURN or event.key==pygame.K_SPACE:
+                    sys.exit()
+                        
+        pygame.display.flip()
+        
 def main():
     game = _game.Game()
     # timing init
@@ -102,6 +123,11 @@ def main():
             game.draw()
     except SystemExit:
         pygame.quit()
+    except game.Loss:
+        try:
+            loss()
+        except SystemExit:
+            pygame.quit()
     except:
         pygame.quit()
         raise
