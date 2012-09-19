@@ -2,7 +2,7 @@
 # interactions.py
 # Author: Ian Ooi
 
-import projectile, audio, math, random
+import projectile, audio, math, random, animatedobject, animationstate
 import eventhandler, pygame, collisions
 
 def registerCallbacks():
@@ -97,7 +97,7 @@ def collide(obj1, obj2):
 # PC tiger hit by something
 def tiger_onhit(self):
     # decrement health
-    #self.health -= 1
+    self.health -= 1
     # play hit animation
     self.setAnimation('damaged')
     #self.stopMove()
@@ -109,10 +109,12 @@ def tiger_onhit(self):
 		audio.mySounds["tigerdamage2"].play()
     elif choice==3:
 		audio.mySounds["tigerdamage3"].play()
-
     else:
         print "FAIL"
     print choice    # stop all in progress player actions
+
+    if self.health <= 0:
+        print "YOU DIED!!!!!"
     # invulnerable for x amount of time
     # while invulnerable, can't shoot
     return
@@ -259,15 +261,21 @@ def tiglet_onhit(self):
     self.health -= 1
     if self.health <= 0:
         tiglet_ondie(self)
-    return
 
 # Tiglet hits something (PC)
 def tiglet_hit(self):
     self.setAnimationOnce('falldown')
+    self.move.stopMove()
 
 # Tiglet dies
 def tiglet_ondie(self):
+    stuffing = animatedobject.AnimationState(self.game.stuffobj)
+    stuffing.setAnimation('stuffing')
+    tempPos = self.getPos()
+    stuffing.setPos(tempPos[0], tempPos[1] - (tempPos[1] - stuffing.getFrameByNumber(0).surface.get_height()))
+    self.game.tilemap.objects.append(stuffing)
     self.game.enemies.remove(self)
+    self.visualDelete(self.game.tilemap.surface, self.game._screen)
 
 ########## PIGLET ###########
 # Piglet gets hit
@@ -293,7 +301,7 @@ def piglet_ondie(self):
 def eeyore_onhit(self):
     # decrement health
     audio.mySounds["eeyorepain"].play()
-    health -= 1
+    self.health -= 1
     return
 
 # Eeyore dies
