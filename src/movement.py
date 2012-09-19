@@ -247,6 +247,7 @@ class Movement:
         self.updateTiger()
 
     def updateTiger(self):
+        interactions.tiger_onwalk(self.obj)
         #if self.obj.animName == 'stopped' and self.moveState[1] != 0:
         #    self.obj.setAnimation('move')
         #elif self.obj.animName == 'moveshoot' and self.moveState[1] == 0:
@@ -256,9 +257,9 @@ class Movement:
         #elif self.obj.animName == 'move' and self.moveState[1] == 0:
         #    self.obj.setAnimation('stopped')
         #interactions.tiger_onwalk(self.obj)
-        if (self.moveState[0] != -1):
-            self.obj.setAnimation('move')
-        #    #self.obj.setDirection(self.moveState[0])
-        else:
-            self.obj.setAnimation('stopped')
+        #if (self.moveState[0] != -1):
+        #    self.obj.setAnimation('move')
+        ##    #self.obj.setDirection(self.moveState[0])
+        #else:
+        #    self.obj.setAnimation('stopped')
         #    #self.obj.setDirection(operator.sub(0, (self.moveState[0])))
