@@ -222,6 +222,8 @@ class CSVMap():
                         self.objects.append(tmp)
                     elif char[1] == 'nedl':
                         self.enemies.spawnTiglet(x,y)
+                    elif char[1] == 'beefy':
+                        self.enemies.spawnBeefy(x,y)
                     
 def createCSVMap(letterMap, folder, fname,overlays):
     cwd = os.getcwd()
