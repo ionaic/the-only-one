@@ -10,8 +10,6 @@ def registerCallbacks():
     eventhandler.registerEvent('eeyoresniffle',lambda x: eeyoreSniffle(x))
     eventhandler.registerEvent('ropeSwing',lambda x: ropeSwing(x))
 	
-
-	
 def ropeSwing(X):
 	choice = random.randrange(1,5,1)
 	if choice==1:
@@ -26,7 +24,6 @@ def ropeSwing(X):
 		print "FAIL"
 	
 	print choice
-
 	
 def eeyoreSniffle(X):
     audio.mySounds["eeyoresniffle"].play()
@@ -34,7 +31,6 @@ def eeyoreSniffle(X):
 def takeAStep(X):
 	print "Taking a step"
 	audio.mySounds["step"].play()
-	
 	
 def collide(obj1, obj2):
     if not isinstance(obj1,pygame.Rect):
@@ -275,11 +271,6 @@ def piglet_onhit(self):
 def piglet_onbump(self):
     if self.animName != 'swing':
         self.setAnimationOnce('swing')
-
-# Piglet done swinging
-def piglet_swung(self):
-    if self.animName != 'stopped':
-        self.setAnimation('stopped')
 
 # Piglet dies
 def piglet_ondie(self):
