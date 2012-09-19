@@ -11,7 +11,6 @@ def gpActivate():
     game.Game.universal.gpactive = True
 def registerCallbacks():
     eventhandler.registerEvent('beefy_test',lambda x: beefyHi(x))
-    eventhandler.registerEvent('beefydestroy',lambda x: beefyHi(x))
     eventhandler.registerEvent('tiger_test',lambda x: takeAStep(x))
     eventhandler.registerEvent('eeyoresniffle',lambda x: eeyoreSniffle(x))
     eventhandler.registerEvent('ropeSwing',lambda x: ropeSwing(x))
@@ -652,6 +651,8 @@ def eeyore_ondie(self):
 def stuffing_create(self):
     stuffing = animationstate.AnimationState(self.game.stuffobj)
     stuffing.setAnimation('stuffing')
+    _tempstuffingint = random.randrange(0,8,1)
+    stuffing.setDirection(_tempstuffingint)
     tempPos = self.getPos()
     print tempPos
     stuffing.setPos(tempPos[0], tempPos[1] + self.getFrameByNumber(0).surface.get_height() - (self.getFrameByNumber(0).surface.get_height() - stuffing.getFrameByNumber(0).surface.get_height()))
