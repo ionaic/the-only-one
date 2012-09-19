@@ -29,6 +29,43 @@ import terrain
 
 #------------------------------------------------------------------------------
 
+def menu():
+    screen = _game.Game.universal._screen
+    old = pygame.Surface((800,600))
+    old.blit(screen,(0,0))
+
+    menu = [pygame.image.load('../assets/Title0001.png').convert(), \
+            pygame.image.load('../assets/Title0002.png').convert(), \
+            pygame.image.load('../assets/Title0003.png').convert()]
+    index = 0
+    credits = pygame.image.load('../assets/Credits.png').convert()
+    go = True
+    screen.blit(menu[index%3],(0,0))
+    while go:
+        for event in pygame.event.get():
+            if event.type==pygame.QUIT:
+                sys.exit()
+            elif event.type==pygame.KEYDOWN:
+                if event.key==pygame.K_ESCAPE:
+                    sys.exit()
+                if event.key==pygame.K_UP:
+                    index = index-1
+                    screen.blit(menu[index%3],(0,0))
+                if event.key==pygame.K_DOWN:
+                    index = index+1
+                    screen.blit(menu[index%3],(0,0))
+                if event.key==pygame.K_RETURN:
+                    if index%3==2:
+                        sys.exit()
+                    elif index%3==1:
+                        screen.blit(credits,(0,0))
+                    else:
+                        go=False
+                        
+        pygame.display.flip()
+        
+    screen.blit(old,(0,0))
+
 def main():
     game = _game.Game()
     # timing init
@@ -36,6 +73,7 @@ def main():
     framestart = 0
     frames = 0
     try:
+        menu()
         while True:
             # timing code
             framestart = pygame.time.get_ticks()
