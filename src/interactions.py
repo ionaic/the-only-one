@@ -81,11 +81,12 @@ def eeyoreSniffle(X):
     audio.mySounds["eeyoresniffle"].play()
 	
 def stopWalking(x):
-	global stepping
-	global sound
-	if stepping:
-		stepping = False
-		sound.stop()
+    print "stopping"
+    global stepping
+    global sound
+    if stepping:
+        stepping = False
+        sound.stop()
 	
 def takeAStep(X):
 
@@ -97,7 +98,8 @@ def takeAStep(X):
         stepping = True
         sound.play(-1)
     elif counter %8 == 0:
-        stopWalking(0)
+        sound.stop()
+        stepping = False
         audio.mySounds["swag"].play()
         
     counter += 1
