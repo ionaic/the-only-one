@@ -50,6 +50,8 @@ class IOFunctions:
         # space to shoot
         self.registerKeyPress(pygame.K_SPACE, self.shootCB)
         self.registerKeyPress(pygame.K_RETURN, self.shootCB)
+        # q to punch
+        self.registerKeyPress(pygame.K_q, self.punchCB)
         # shift to ground pound attack
         self.registerKeyPress(pygame.K_e, self.jumpCB)
         self.registerKeyPress(pygame.K_LSHIFT, self.jumpCB)
@@ -69,7 +71,11 @@ class IOFunctions:
     def launchCB(self):
         # find the nearest wall and launch off it
         interactions.tiger_onlaunch(self.game.tiger)
-        
+
+    def punchCB(self):
+        game.Game.universal.tiger.isPunching = True
+        self.shootCB()
+    
     def jumpCB(self):
         # jump and ground pound
         interactions.tiger_onjump(self.game.tiger)

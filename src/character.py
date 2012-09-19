@@ -14,6 +14,7 @@ class Character(animationstate.AnimationState):
         self.LAST_HIT = 0
         self.LAST_THROW = 0
         self.MAX_HEALTH = 15
+        self.isPunching = False
 
     # check if still has ammo
     def has_ammo(self):
