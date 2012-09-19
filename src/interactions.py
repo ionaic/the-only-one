@@ -10,6 +10,7 @@ def gpActivate():
     game.Game.universal.groundpound.setPos(self.x+75-150,self.y+115-150)
     game.Game.universal.gpactive = True
 def registerCallbacks():
+    eventhandler.registerEvent('beefy_test',lambda x: beefyHi(x))
     eventhandler.registerEvent('beefydestroy',lambda x: beefyHi(x))
     eventhandler.registerEvent('tiger_test',lambda x: takeAStep(x))
     eventhandler.registerEvent('eeyoresniffle',lambda x: eeyoreSniffle(x))
@@ -47,7 +48,7 @@ def beefyHi(X):
         
 def pigSound(X):
     #play a sound 20% of the time, randomize between the three
-    choice = random.randrange(1,16,1)
+    choice = random.randrange(1,64,1)
     if choice==1:
         audio.mySounds["pigsound"].play()
     elif choice==2:
@@ -145,6 +146,7 @@ def collide(obj1, obj2):
 
     if thing1 == 'tiger':
         if thing2 == 'tiglet':
+            audio.mySounds["needle"].play()
             tiglet_hit(obj2)
             tiger_onhit(obj1)
         elif thing2 == 'stuffing':
