@@ -53,7 +53,7 @@ def tigerSneak(X):
     if not sneaking:
         sneaking = True
         sneak.play(-1)
-    elif counter %8 == 0:
+    elif counter %9 == 0:
         sneak.stop()
         sneaking = False
         audio.mySounds["swag"].play()
@@ -63,7 +63,7 @@ def tigerSneak(X):
 def tigerSneakStop(X):
     global sneaking
     global sneak
-    
+    counter=0
     if sneaking:
         sneaking = False
         sneak.stop()
@@ -90,6 +90,7 @@ def stopWalking(x):
     print "stopping"
     global stepping
     global sound
+    counter = 0
     if stepping:
         stepping = False
         sound.stop()
@@ -103,7 +104,7 @@ def takeAStep(X):
     if not stepping:
         stepping = True
         sound.play(-1)
-    elif counter %8 == 0:
+    elif counter %9 == 0:
         sound.stop()
         stepping = False
         audio.mySounds["swag"].play()
@@ -521,6 +522,7 @@ def stuffing_create(self):
     stuffing = animationstate.AnimationState(self.game.stuffobj)
     stuffing.setAnimation('stuffing')
     tempPos = self.getPos()
+    print tempPos
     stuffing.setPos(tempPos[0], tempPos[1] + self.getFrameByNumber(0).surface.get_height() - (self.getFrameByNumber(0).surface.get_height() - stuffing.getFrameByNumber(0).surface.get_height()))
     #self.game.tilemap.objects.append(stuffing)
     self.game.objects.append(stuffing)
