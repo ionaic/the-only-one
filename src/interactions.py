@@ -362,7 +362,41 @@ def tiglet_ondie(self):
 
 # Tiglet moves
 def tiglet_onmove(self):
-    return
+    mark = {'left':False, 'right':False, 'top':False, 'bottom':False}
+    self.getNeighborhood()
+    topleft = (self.neighborhood.left, self.neighborhood.top)
+    topright = (self.neighborhood.right, self.neighborhood.top)
+    bottomleft = (self.neighborhood.left, self.neighborhood.bottom)
+    bottomright = (self.neighborhood.right, self.neighborhood.bottom)
+    for rect in self.game.tilemap.noGo:
+        if rect.collidepoint(topleft):
+            mark['left'] = True
+            mark['top'] = True
+        if rect.collidepoint(bottomleft):
+            mark['left'] = True
+            mark['bottom'] = True
+        if rect.collidepoint(topright):
+            mark['top'] = True
+            mark['right'] = True
+        if rect.collidepoint(bottomright):
+            mark['bottom'] = True
+            mark['right'] = True
+    new_dir = [0, 0]
+    if mark['left']:
+        if mark['right'] == False:
+           new_dir[0] = 1
+    elif mark['right']:
+        if mark['left'] == False:
+            new_dir[0] = -1
+    if mark['top']:
+        if mark['bottom'] == False:
+            new_dir[1] = 1
+    elif mark['bottom']:
+        if mark['top'] == False:
+            new_dir[1] = -1
+
+    if new_dir != [0, 0]:
+        self.direction = new_dir
 
 ########## PIGLET ###########
 # Piglet gets hit
@@ -410,7 +444,7 @@ def stuffing_pickup(self, game):
     if self in game.objects:
         self.visualDelete(game.tilemap.surface, game._screen)
         game.objects.remove(self)
-    elif self in self.game.tilemap.objects:
+    elif self in game.tilemap.objects:
         self.visualDelete(game.tilemap.surface, game._screen)
         game.objects.remove(self)
 
@@ -419,7 +453,22 @@ def beefy_onmove(self):
     return
 
 def beefy_onhit(self):
-    return
+    self.health -= 1
+    if self.health <= 0:
+        beefy_ondie(self)
+
+def beefPunch():
+    game.Game.universal.tiger.health -= game.Game.universal.tiger.MAX_HEALTH / 5 
+    tiger_onhit(game.Game.universal.tiger)
 
 def beefy_punch(self):
-    return
+    self.setAnimationOnce('punch')
+
+def beefy_ondie(self):
+    stuffing_create(self)
+    if self in self.game.objects:
+        self.visualDelete(self.game.tilemap.surface, self.game._screen)
+        self.game.objects.remove(self)
+    elif self in self.game.tilemap.objects:
+        self.visualDelete(self.game.tilemap.surface, self.game._screen)
+        self.game.objects.remove(self)

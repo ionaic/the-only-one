@@ -49,10 +49,11 @@ class IOFunctions:
         self.registerKeyPress(pygame.K_ESCAPE, self.quitCB)
         # space to shoot
         self.registerKeyPress(pygame.K_SPACE, self.shootCB)
-        # e to launch attack
-        self.registerKeyPress(pygame.K_e, self.jumpCB)
+        self.registerKeyPress(pygame.K_RETURN, self.shootCB)
         # shift to ground pound attack
+        self.registerKeyPress(pygame.K_e, self.jumpCB)
         self.registerKeyPress(pygame.K_LSHIFT, self.jumpCB)
+        self.registerKeyPress(pygame.K_RSHIFT, self.jumpCB)
         # wasd/arrow keys/hjkl to move
         map(self.registerKeyPress, self.defaultKeys, self.defaultDownFuns)
         # register default key release callbacks

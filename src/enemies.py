@@ -12,23 +12,23 @@ class Enemies:
         self.enemies = []
         if Enemies.tigletNeedleObjOrange == None:
             Enemies.tigletNeedleObjOrange = animatedobject.createAnimatedObject('../assets/enemies/tigglette (needle)/orange/', 'object.ini')
-            Enemies.tigletNeedleObjOrange.setTag('tiglet')
+            Enemies.tigletNeedleObjOrange.tag = 'tiglet'
 
-        #if Enemies.tigletNeedleObjBlue == None:
-        #    Enemies.tigletNeedleObjBlue = animatedobject.createAnimatedObject('../assets/enemies/tigglette (needle)/blue/', 'object.ini')
-        #    Enemies.tigletNeedleObjBlue.setTag('tiglet')
+        if Enemies.tigletNeedleObjBlue == None:
+            Enemies.tigletNeedleObjBlue = animatedobject.createAnimatedObject('../assets/enemies/tigglette (needle)/blue/', 'object.ini')
+            Enemies.tigletNeedleObjBlue.tag = 'tiglet'
 
         #if Enemies.tigletNeedleObjPink == None:
         #    Enemies.tigletNeedleObjPink = animatedobject.createAnimatedObject('../assets/enemies/tigglette (needle)/pink/', 'object.ini')
-        #    Enemies.tigletNeedleObjPink.setTag('tiglet')
+        #    Enemies.tigletNeedleObjPink.tag = 'tiglet'
 
         #if Enemies.tigletNeedleObjRed == None:
         #    Enemies.tigletNeedleObjRed = animatedobject.createAnimatedObject('../assets/enemies/tigglette (needle)/red/', 'object.ini')
-        #    Enemies.tigletNeedleObjRed.setTag('tiglet')
+        #    Enemies.tigletNeedleObjRed.tag = 'tiglet'
 
         if Enemies.beefyObj == None:
             Enemies.beefyObj = animatedobject.createAnimatedObject('../assets/enemies/beefy/', 'object.ini')
-            Enemies.tigletNeedleObjRed.setTag('beefy')
+            Enemies.beefyObj.tag = 'beefy'
 
         #Enemies.tigletScissorObj = animatedobject.createAnimatedObject('../assets/enemies/tigglette\ \(scissors\)/red/', 'object.ini')
         self.game = game
