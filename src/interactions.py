@@ -10,6 +10,11 @@ def registerCallbacks():
     eventhandler.registerEvent('eeyoresniffle',lambda x: eeyoreSniffle(x))
     eventhandler.registerEvent('ropeSwing',lambda x: ropeSwing(x))
     eventhandler.registerEvent('tiger_sneak',lambda x: tigerSneak(x))
+    eventhandler.registerEvent('pig_sound',lambda x: pigSound(x))
+
+def pigSound(X):
+    audio.mySounds["pigsound"].play()
+	
 
 def tigerSneak(X):
     audio.mySounds["sneak"].play()
