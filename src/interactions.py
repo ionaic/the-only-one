@@ -10,6 +10,7 @@ def registerCallbacks():
     eventhandler.registerEvent('eeyoresniffle',lambda x: eeyoreSniffle(x))
     eventhandler.registerEvent('ropeSwing',lambda x: ropeSwing(x))
     eventhandler.registerEvent('tiger_sneak',lambda x: tigerSneak(x))
+    eventhandler.registerEvent('tiger_sneak_stop',lambda x: tigerSneakStop(x))
     eventhandler.registerEvent('pig_sound',lambda x: pigSound(x))
     eventhandler.registerEvent('tigerShoot',lambda x: shootCB())
     eventhandler.registerEvent('gpShiftUp',lambda x: groundpoundShiftUp())
@@ -18,11 +19,17 @@ def registerCallbacks():
     eventhandler.registerEvent('tiger_stop',lambda x: stopWalking(x))
     global sound
     global stepping
+    global sneaking
+    global sneak
     global counter
     counter = 0
+    sneaking = False
     stepping = False
+    sneak = pygame.mixer.Sound("../assets/audio/sfx/sneak.wav")
     sound = pygame.mixer.Sound("../assets/audio/sfx/step.wav")
     sound.play(-1)
+    sneak.play(-1)
+    sneak.stop()
     sound.stop()
 
 def pigSound(X):
@@ -40,7 +47,20 @@ def pigSound(X):
     #print choice
 
 def tigerSneak(X):
-    audio.mySounds["sneak"].play()
+    global sneaking
+    global sneak
+    if not sneaking:
+        sneaking = True
+        sneak.play(-1)
+        
+        
+def tigerSneakStop(X):
+    global sneaking
+    global sneak
+    
+    if sneaking:
+        sneaking = False
+        sneak.stop()
 	
 def ropeSwing(X):
 	choice = random.randrange(1,5,1)
@@ -68,9 +88,10 @@ def stopWalking(x):
 		sound.stop()
 	
 def takeAStep(X):
+
+    global counter
     global stepping
     global sound
-    global counter
     
     if not stepping:
         stepping = True
@@ -80,6 +101,7 @@ def takeAStep(X):
         audio.mySounds["swag"].play()
         
     counter += 1
+
 
 	#time.sleep(3)
 	#a.pause()
