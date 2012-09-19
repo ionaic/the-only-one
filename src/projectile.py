@@ -1,7 +1,6 @@
 # projectiles
 # author Ian Ooi
-import pygame, sys, game, movement, operator, animatedobject, audio
-from animationstate import createAnimationState
+import pygame, sys, game, movement, operator, animatedobject, audio, animationstate
 
 class Projectiles:
     projectile_speed = [1,1]
@@ -34,10 +33,10 @@ class Projectiles:
         # temp = createAnimationState(Projectiles.projectileObject, self.game, 1, 1)
         # temp.setPos(x, y)
         if direction < 0:
-            temp = createAnimationState(Projectiles.projectileObject, (x, y), self.game.tiger.getDirection(),'stopped')
+            temp = animationstate.createAnimationState(Projectiles.projectileObject, (x, y), self.game.tiger.getDirection(),'stopped')
             #temp.setDirection(self.game.tiger.getDirection())
         else:
-            temp = createAnimationState(Projectiles.projectileObject, (x, y), direction,'stopped')
+            temp = animationstate.createAnimationState(Projectiles.projectileObject, (x, y), direction,'stopped')
             #temp.setDirection(direction)
         #temp.setAnimation('stopped')
         Projectiles.projectiles.append(temp)

@@ -15,7 +15,7 @@ import sys
 import pygame
 
 # Local Application/Library Specific Imports ----------------------------
-import animatedobject
+import animatedobject, animationstate
 import gametime
 #------------------------------------------------------------------------------
 # Init
@@ -28,7 +28,7 @@ screen = pygame.display.set_mode((800,600), pygame.DOUBLEBUF+pygame.HWSURFACE)
 
 def createCharacter(pos,folder,inifile,animation):
     object = animatedobject.createAnimatedObject(folder,inifile)
-    state = animatedobject.AnimationState(object)
+    state = animationstate.AnimationState(object)
     state.setAnimation(animation)
     state.setDirection(0)
     state.setPos(pos[0],pos[1])
