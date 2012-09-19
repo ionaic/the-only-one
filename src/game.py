@@ -51,6 +51,12 @@ class Game():
         self.tiger = character.Character(self.tstobj, self, 10, 10)
         self.tiger.setPosVec((40,80))
         self.tiger.stashPos=(40,80)
+
+        self.gpobj = animatedobject.createAnimatedObject('../assets/tigger','groundpound.ini')
+        self.gpobj.setTag('groundpound')
+        self.groundpound = animationstate.AnimationState(self.gpobj)
+        self.gpactive=False
+        
         #self.tiger.setAnimation('move')
         #self.tiger.setDirection(0)
 
@@ -139,6 +145,9 @@ class Game():
         self.bullets.moveAll()
         #object list creation
         self.objlist = list(self.objects)
+        if self.gpactive==True:
+            self.objlist.append(self.groundpound)
+            self.gpactive = False
         self.objlist.extend(self.bullets.projectiles)
         self.objlist.extend(self.enemies.enemies)
         self.objlist.extend(self.tilemap.enemies.enemies)

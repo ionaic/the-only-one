@@ -5,6 +5,10 @@
 import projectile, audio, math, random, animatedobject, animationstate, game
 import eventhandler, pygame, collisions, time
 
+def gpActivate():
+    self=game.Game.universal.tiger
+    game.Game.universal.groundpound.setPos(self.x,self.y)
+    game.Game.universal.gpactive = True
 def registerCallbacks():
     eventhandler.registerEvent('tiger_test',lambda x: takeAStep(x))
     eventhandler.registerEvent('eeyoresniffle',lambda x: eeyoreSniffle(x))
@@ -17,6 +21,7 @@ def registerCallbacks():
     eventhandler.registerEvent('gpShiftDown',lambda x: groundpoundShiftDown())
     eventhandler.registerEvent('beefPunch', lambda x: beefPunch())
     eventhandler.registerEvent('tiger_stop',lambda x: stopWalking(x))
+    eventhandler.registerEvent('groundpound',lambda x: gpActivate())
     global sound
     global stepping
     global sneaking
@@ -143,6 +148,8 @@ def collide(obj1, obj2):
         elif thing2 == 'button':
             tiglet_onhit(obj1)
             button_onhit(obj2)
+        elif thing2 == 'groundpound':
+            print "POUNDED "+thing1
     elif thing1 == 'pig':
         if thing2 == 'button':
             piglet_onhit(obj1)
@@ -177,6 +184,8 @@ def collide(obj1, obj2):
             piglet_onhit(obj2)
         elif thing2 == 'tiger':
             tiger_onwall(obj2,obj1)
+    elif thing1 == 'groundpound':
+        print "POUNDED "+thing2
 
 ########## TIGER ##########
 # PC tiger hit by something
