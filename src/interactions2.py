@@ -10,22 +10,6 @@ def registerCallbacks():
     eventhandler.registerEvent('eeyoresniffle',lambda x: eeyoreSniffle(x))
     eventhandler.registerEvent('ropeSwing',lambda x: ropeSwing(x))
     eventhandler.registerEvent('tiger_sneak',lambda x: tigerSneak(x))
-    eventhandler.registerEvent('pig_sound',lambda x: pigSound(x))
-
-def pigSound(X):
-    #play a sound 20% of the time, randomize between the three
-    choice = random.randrange(1,16,1)
-    if choice==1:
-        audio.mySounds["pigsound"].play()
-    elif choice==2:
-        audio.mySounds["pigsound2"].play()
-    elif choice==3:
-        audio.mySounds["pigsound3"].play()
-    else:
-        print "no sound today, come again tomorrow"
-
-    print choice
-
 
 def tigerSneak(X):
     audio.mySounds["sneak"].play()
@@ -73,9 +57,6 @@ def collide(obj1, obj2):
         elif thing2 == 'tiglet':
             tiglet_hit(obj2)
             tiger_onhit(obj1)
-        elif thing2 == 'stuffing':
-            tiger_pickupstuffing(obj1)
-            stuffing_pickup(obj2)
         elif thing2 == 'none':
             tiger_onwall(obj1,obj2)
             #""
@@ -102,10 +83,6 @@ def collide(obj1, obj2):
         elif thing2 == 'none':
             #button_onhit(obj1)
             ""
-    elif thing1 == 'stuffing':
-        if thing2 == 'tiger':
-            stuffing_pickup(obj1)
-            tiger_pickupstuffing(obj2)
     elif thing1 == 'none':
         if thing2 == 'pig':
             piglet_onhit(obj2)
@@ -152,23 +129,21 @@ def tiger_onhit(self):
 def tiger_onshoot(self):
     if self.LAST_THROW == 0:
         self.LAST_THROW = self.game.time.time()
-    if self.game.time.time() - self.LAST_THROW > 600:
+    if self.game.time.time() - self.LAST_THROW > 900:
         self.LAST_THROW = self.game.time.time()
         # check if tiger has enough ammo left
         if self.animName == 'shoot':
             return
-        if self.has_ammo():
+        if self.ammo > 0:#self.has_ammo():
             # launch projectile
-            self.game.bullets.spawnProjectile(self.getX() + 30, self.getY() + 20, self.move.moveState[0])
+            self.game.bullets.spawnProjectile(self.getX(), self.getY(), self.move.moveState[0])
             self.throwing = True
             # reduce amount of available ammo
             self.ammo -= 1
             # play throwing animation
             if self.animName != 'move':
-                print "should shoot!"
                 self.setAnimationOnce('shoot')
             else:
-                print "should moveshoot!"
                 self.setAnimationOnce('moveshoot')
             # play throw sound
             # begin tracking animation
@@ -192,10 +167,10 @@ def tiger_onwalljump(self):
     self.setAnimation('launch')
     # play spring jump sound
     audio.mySounds["spring"].play()
-    # move tiger toward opposite wall
+    # move tigger toward opposite wall
     # play land animation/sound
     # damage everything in straight line path that is a 
-    #   rectangle with dim (pathlength, tigerwidth)
+    #   rectangle with dim (pathlength, tiggerwidth)
     return
 
 # PC tiger uses jump attack
@@ -280,12 +255,11 @@ def tiger_update(self):
     tiger_onwalk(self)
 
 def tiger_pickupstuffing(self):
-    tiger_pickupbutton(self)
-    if self.health <= self.MAX_HEALTH:
+    if health <= self.__MAX_HEALTH:
         self.health += 1
 
 def tiger_pickupbutton(self):
-    self.ammo += 5
+    self.ammo += 1
 
 ########## PROJECTILE ##########
 # Button hits something
@@ -302,19 +276,6 @@ def tiglet_onhit(self):
     # hit animation?
     # decrease health
     self.health -= 1
-	
-    print "pig hit!!!"
-    choice = random.randrange(1,3,1)
-    if choice==1:
-        audio.mySounds["pighit"].play()
-    elif choice==2:
-        audio.mySounds["pighit2"].play()
-    else:
-        print "Error choosing sound"
-
-
-	
-	audio.mySounds["tigerdamage"].play()
     if self.health <= 0:
         tiglet_ondie(self)
 
@@ -325,7 +286,6 @@ def tiglet_hit(self):
 
 # Tiglet dies
 def tiglet_ondie(self):
-    stuffing_create(self)
     self.game.enemies.remove(self)
     self.game.tilemap.enemies.remove(self)
 
@@ -366,7 +326,7 @@ def stuffing_create(self):
     stuffing = animatedobject.AnimationState(self.game.stuffobj)
     stuffing.setAnimation('stuffing')
     tempPos = self.getPos()
-    stuffing.setPos(tempPos[0], tempPos[1] + self.getFrameByNumber(0).surface.get_height() - (self.getFrameByNumber(0).surface.get_height() - stuffing.getFrameByNumber(0).surface.get_height()))
+    stuffing.setPos(tempPos[0], tempPos[1] - (tempPos[1] - stuffing.getFrameByNumber(0).surface.get_height()))
     self.game.tilemap.objects.append(stuffing)
     self.game.objects.append(stuffing)
 
