@@ -14,6 +14,14 @@ class Character(animationstate.AnimationState):
         self.LAST_HIT = 0
         self.LAST_THROW = 0
         self.MAX_HEALTH = 15
+        self.neighborhood = self.getFrame(self.game.time.time()).collisionArea
+        self.neighborhood.right += 60
+        self.neighborhood.bottom += 60
+        self.getNeighborhood()
+
+    def getNeighborhood(self):
+        self.neighborhood.left = self.getX() - 30
+        self.neighborhood.top = self.getY() - 30
 
     # check if still has ammo
     def has_ammo(self):
@@ -36,10 +44,6 @@ class Enemy(Character):
         self.direction = [1, 1]
         self.move.moveSpeed = [0.1, 0.1]
 
-    def getNeighborhood(self):
-        self.neighborhood.left = self.getX() - 30
-        self.neighborhood.top = self.getY() - 30
-
     def updateChar(self):
         self.moveDirection()
         properDir = movement.vecToDir(self.direction)
@@ -53,8 +57,6 @@ class Enemy(Character):
     def moveDirection(self):
         mark = {'left':False, 'right':False, 'top':False, 'bottom':False}
         self.getNeighborhood()
-        #self.neighborhood = self.getFrame(self.game.time.time()).collisionArea
-        #self.topleft += self.getPos()
         topleft = (self.neighborhood.left, self.neighborhood.top)
         topright = (self.neighborhood.right, self.neighborhood.top)
         bottomleft = (self.neighborhood.left, self.neighborhood.bottom)

@@ -2,7 +2,7 @@
 # interactions.py
 # Author: Ian Ooi
 
-import projectile, audio, math, random, animatedobject, animationstate
+import projectile, audio, math, random, animatedobject, animationstate, game
 import eventhandler, pygame, collisions
 
 def registerCallbacks():
@@ -11,6 +11,9 @@ def registerCallbacks():
     eventhandler.registerEvent('ropeSwing',lambda x: ropeSwing(x))
     eventhandler.registerEvent('tiger_sneak',lambda x: tigerSneak(x))
     eventhandler.registerEvent('pig_sound',lambda x: pigSound(x))
+    eventhandler.registerEvent('tigerShoot',lambda x: shootCB())
+    eventhandler.registerEvent('gpShiftUp',lambda x: groundpoundShiftUp())
+    eventhandler.registerEvent('gpShiftDown',lambda x: groundpoundShiftDown())
 
 def pigSound(X):
     #play a sound 20% of the time, randomize between the three
@@ -21,10 +24,11 @@ def pigSound(X):
         audio.mySounds["pigsound2"].play()
     elif choice==3:
         audio.mySounds["pigsound3"].play()
-    else:
-        print "no sound today, come again tomorrow"
+    #else:
+    #    #print "no sound today, come again tomorrow"
+    #    ""
 
-    print choice
+    #print choice
 
 
 def tigerSneak(X):
@@ -43,13 +47,13 @@ def ropeSwing(X):
 	else:
 		print "FAIL"
 	
-	print choice
+	#print choice
 	
 def eeyoreSniffle(X):
     audio.mySounds["eeyoresniffle"].play()
 	
 def takeAStep(X):
-	print "Taking a step"
+	#print "Taking a step"
 	audio.mySounds["step"].play()
 	
 def collide(obj1, obj2):
@@ -123,7 +127,7 @@ def tiger_onhit(self):
             audio.mySounds["tigerdamage3"].play()
         else:
             print "FAIL"
-        print choice    # stop all in progress player actions
+        #print choice    # stop all in progress player actions
 
         if self.health <= 0:
             print "YOU DIED!!!!!"
@@ -132,6 +136,10 @@ def tiger_onhit(self):
         # while invulnerable, can't shoot
     #else:
     #    print "Last hit: " + str(self.LAST_HIT) + "; Cur Time: " + str(self.game.time.time())
+
+def shootCB():
+    game.Game.universal.bullets.spawnProjectile(game.Game.universal.tiger.getX() + 30, game.Game.universal.tiger.getY() + 20, game.Game.universal.tiger.move.moveState[0])
+    game.Game.universal.tiger.ammo -= 1
 
 # PC tiger shoots/throws something
 def tiger_onshoot(self):
@@ -144,16 +152,16 @@ def tiger_onshoot(self):
             return
         if self.has_ammo():
             # launch projectile
-            self.game.bullets.spawnProjectile(self.getX() + 30, self.getY() + 20, self.move.moveState[0])
+            #self.game.bullets.spawnProjectile(self.getX() + 30, self.getY() + 20, self.move.moveState[0])
             self.throwing = True
             # reduce amount of available ammo
-            self.ammo -= 1
+            #self.ammo -= 1
             # play throwing animation
             if self.animName != 'move':
-                print "should shoot!"
+                #print "should shoot!"
                 self.setAnimationOnce('shoot')
             else:
-                print "should moveshoot!"
+                #print "should moveshoot!"
                 self.setAnimationOnce('moveshoot')
             # play throw sound
             # begin tracking animation
@@ -175,11 +183,38 @@ def tiger_onwalljump(self):
     #   rectangle with dim (pathlength, tigerwidth)
     return
 
+def groundpoundShiftDown():
+    print 'resetting to original spot'
+    tigerPos = game.Game.universal.tiger.getPos()
+    print 'shifted pos ' + str(tigerPos)
+    newTigerPos = (tigerPos[0], tigerPos[1] + 80)
+    print 'unshifted pos ' + str(newTigerPos)
+    game.Game.universal.tiger.setPosVec(newTigerPos)
+    game.Game.universal.tiger.stashPos = newTigerPos
+
+def groundpoundShiftUp():
+    tigerPos = game.Game.universal.tiger.getPos()
+    newTigerPos = (tigerPos[0], tigerPos[1] - 80)
+    game.Game.universal.tiger.setPosVec(newTigerPos)
+
 # PC tiger uses jump attack
 def tiger_onjump(self):
     # play launching/jumping animation
     # launch into air (offscreen)
-    self.setAnimation('rocket')
+    self.setAnimationOnce('groundpound')
+    # damage nearby things
+    self.getNeighborhood()
+    topleft = (self.neighborhood.left, self.neighborhood.top)
+    topright = (self.neighborhood.right, self.neighborhood.top)
+    bottomleft = (self.neighborhood.left, self.neighborhood.bottom)
+    bottomright = (self.neighborhood.right, self.neighborhood.bottom)
+    for obj in self.game.tilemap.objects:
+        rect = obj.getFrame(self.game.time.time()).surface.get_rect()
+        if self.neighborhood.colliderect(rect) or \
+            self.neighborhood.contains(rect) or \
+            rect.contains(self.neighborhood):
+            obj.health -= 1
+            collide(obj, self)
     # play jump sound
     audio.mySounds["jump"].play()
     # mark potential landing spot with shadow
@@ -206,19 +241,33 @@ def tiger_onwalk(self):
     # set animation type
     #if self.moveState[0] != -1:
     if  self.move.moveState[1] != 0:
-        if (self.animName != 'move'):
+        if self.animName == 'shoot':
+            self.setAnimation('moveshoot')
+        elif self.animName == 'moveshoot':
+            return
+        elif self.animName == 'groundpound':
+            return
+        elif self.animName != 'move':
             self.setAnimation('move')
         #self.movePos()
     elif self.move.moveState[1] == 0:
-        if self.animName == 'moveshoot':
-            # TODO need to set this at a certain frame!
-            # self.animation.cur_frame = self.oldanimation.last_played
-            self.setAnimation('shoot')
-        elif self.animName == 'move':
+        #if self.animName == 'moveshoot':
+        #    # TODO need to set this at a certain frame!
+        #    # self.animation.cur_frame = self.oldanimation.last_played
+        #    self.setAnimation('shoot')
+        #if self.animName == 'move':
+        if self.animName == 'shoot':
+            return
+        elif self.animName == 'moveshoot':
+            return
+        elif self.animName == 'groundpound':
+            return
+            #self.setAnimationOnce('shoot')
+        elif self.animName != 'stopped':
             self.setAnimation('stopped')
-    else:
-        if self.animName != 'move':
-            self.setAnimation('move')
+    #else:
+    #    if self.animName != 'move':
+    #        self.setAnimation('move')
         #self.movePos()
 
 # PC tiger hits a wall
@@ -278,7 +327,7 @@ def button_onhit(self):
 # Tiglet hit by something
 #TODO need tigglette object.ini's!
 def tiglet_onhit(self):
-    print "tigletonhit " + str(self)
+    #print "tigletonhit " + str(self)
     # hit animation?
     # decrease health
     self.health -= 1
@@ -303,7 +352,7 @@ def tiglet_hit(self):
 
 # Tiglet dies
 def tiglet_ondie(self):
-    print "tigletondie " + str(self)
+    #print "tigletondie " + str(self)
     stuffing_create(self)
     self.game.enemies.remove(self)
     self.game.tilemap.enemies.remove(self)
@@ -337,11 +386,12 @@ def eeyore_onhit(self):
     # decrement health
     audio.mySounds["eeyorepain"].play()
     self.health -= 1
-    return
+    if health <= 0:
+        eeyore_ondie(self)
 
 # Eeyore dies
 def eeyore_ondie(self):
-    return
+    stuffing_create(self)
 
 ######### STUFFING ##########
 # convert an object (self) to stuffing

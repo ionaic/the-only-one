@@ -50,7 +50,7 @@ class IOFunctions:
         # space to shoot
         self.registerKeyPress(pygame.K_SPACE, self.shootCB)
         # e to launch attack
-        self.registerKeyPress(pygame.K_e, self.launchCB)
+        self.registerKeyPress(pygame.K_e, self.jumpCB)
         # shift to ground pound attack
         self.registerKeyPress(pygame.K_LSHIFT, self.jumpCB)
         # wasd/arrow keys/hjkl to move
