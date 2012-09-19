@@ -376,7 +376,11 @@ def tiger_onjump(self):
     # land
     # damage everything in region surrounding tiger
     return
-
+class Loss(Exception):
+    def __init__(self):
+        pass
+    def __str__(self):
+        return "Loss"
 # PC tiger dies
 def tiger_ondie(self):
     # play death animation
@@ -386,6 +390,7 @@ def tiger_ondie(self):
     
     # play death sound
     audio.mySounds["selfdeath"].play()
+    raise Loss()
     # stop everything onscreen
     # lose screen, retry
     return

@@ -19,6 +19,7 @@ import pygame
 # Local Application/Library Specific Imports ----------------------------
 import game as _game
 import terrain
+import interactions
 
 #------------------------------------------------------------------------------
 # Global Variables for Export ---------------------------------------
@@ -123,7 +124,7 @@ def main():
             game.draw()
     except SystemExit:
         pygame.quit()
-    except game.Loss:
+    except interactions.Loss:
         try:
             loss()
         except SystemExit:

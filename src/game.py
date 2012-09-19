@@ -35,12 +35,6 @@ import audio
 
 #------------------------------------------------------------------------------
 
-class Loss(Exception):
-    def __init__(self):
-        pass
-    def __str__(self):
-        return "Loss"
-
 class Game():
     universal = None
     def __init__(self):
