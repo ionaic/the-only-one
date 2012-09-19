@@ -25,8 +25,7 @@ def pigSound(X):
     elif choice==3:
         audio.mySounds["pigsound3"].play()
     #else:
-    #    #print "no sound today, come again tomorrow"
-    #    ""
+        #print "no sound today, come again tomorrow"
 
     #print choice
 
