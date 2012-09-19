@@ -161,7 +161,7 @@ class Game():
         for obj in self.objlist:
             rect = obj.getFrame(self.time.time()).unionArea.move(obj.getPos())
             if rect != pygame.Rect(0,0,0,0):
-                colBoxes.append(ColBox(rect,obj))
+                colBoxes.append(ColBox(rect,obj,obj.getFrame(self.time.time())))
         for rect in self.tilemap.noGo:
             colBoxes.append(ColBox(rect,None))
         BB = pygame.Rect(0,0,800,600)

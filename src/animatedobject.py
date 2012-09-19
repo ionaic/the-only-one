@@ -49,7 +49,7 @@ class Frame():
             self.surface.blit(surface, (0,0))
             # set the bounding area and collision area
             self.drawArea = self.surface.get_bounding_rect()
-        self.collisionArea = col
+        self.collisionArea = col.copy()
         self.unionArea = self.drawArea.union(self.collisionArea)
         self.event = event
 
@@ -79,7 +79,8 @@ class Direction():
             elif hbVal=='drawn':
                 aabb = boundingRect
             else:
-                aabb = Rect(map(lambda X: int(X), hbVal.split(',')))
+                tmp = map(lambda X: int(X), hbVal.split(','))
+                aabb = Rect(tmp[0],tmp[1],tmp[2],tmp[3])
             option_name = str(n)+'_event'
             if config.has_option(section,option_name):
                 event = config.get(section,option_name)
