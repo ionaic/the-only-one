@@ -40,6 +40,7 @@ def menu():
     index = 0
     credits = pygame.image.load('../assets/Credits.png').convert()
     go = True
+    onCredits = False
     screen.blit(menu[index%3],(0,0))
     while go:
         for event in pygame.event.get():
@@ -47,18 +48,29 @@ def menu():
                 sys.exit()
             elif event.type==pygame.KEYDOWN:
                 if event.key==pygame.K_ESCAPE:
+                    if onCredits==True:
+                        onCredits = False
+                        screen.blit(menu[index%3],(0,0))
+                        continue
                     sys.exit()
                 if event.key==pygame.K_UP:
                     index = index-1
                     screen.blit(menu[index%3],(0,0))
+                    onCredits=False
                 if event.key==pygame.K_DOWN:
                     index = index+1
                     screen.blit(menu[index%3],(0,0))
+                    onCredits=False
                 if event.key==pygame.K_RETURN:
+                    if onCredits==True:
+                        screen.blit(menu[index%3],(0,0))
+                        onCredits=False
+                        continue
                     if index%3==2:
                         sys.exit()
                     elif index%3==1:
                         screen.blit(credits,(0,0))
+                        onCredits = True
                     else:
                         go=False
                         
