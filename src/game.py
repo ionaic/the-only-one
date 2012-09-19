@@ -110,22 +110,27 @@ class Game():
     def update(self):
         #room change
         if self.tiger.animName!='groundpound':
-            if self.tiger.getFrame(self.time.time()).collisionArea.left+self.tiger.getX()>800:
+            rect = self.tiger.getFrameByNumber(0).surface.get_rect().move(self.tiger.getPos())
+            if rect.centerx>800:
+            #if self.tiger.getFrame(self.time.time()).collisionArea.left+self.tiger.getX()>800:
                 print "Out on the right"
                 self.world.move((1,0))
                 self.tiger.setX(self.tiger.getX()-800)
                 self.roomChange()
-            if self.tiger.getFrame(self.time.time()).collisionArea.right+self.tiger.getX()<0:
+            if rect.centerx<0:
+            #if self.tiger.getFrame(self.time.time()).collisionArea.right+self.tiger.getX()<0:
                 print "Out on the left"
                 self.world.move((-1,0))
                 self.tiger.setX(self.tiger.getX()+800)
                 self.roomChange()
-            if self.tiger.getFrame(self.time.time()).collisionArea.bottom+self.tiger.getY()<0:
+            if rect.centery<0:
+            #if self.tiger.getFrame(self.time.time()).collisionArea.bottom+self.tiger.getY()<0:
                 print "Out on the top"
                 self.world.move((0,-1))
                 self.tiger.setY(self.tiger.getY()+600)
                 self.roomChange()
-            if self.tiger.getFrame(self.time.time()).collisionArea.top+self.tiger.getY()>600:
+            if rect.centery>600:
+            #if self.tiger.getFrame(self.time.time()).collisionArea.top+self.tiger.getY()>600:
                 print "Out on the bottom"
                 self.world.move((0,1))
                 self.tiger.setY(self.tiger.getY()-600)
