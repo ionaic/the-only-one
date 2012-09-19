@@ -146,6 +146,10 @@ def collide(obj1, obj2):
         if thing2 == 'button':
             piglet_onhit(obj1)
             button_onhit(obj2)
+    elif thing1 == 'eeyore':
+        if thing2 == 'button':
+            eeyore_onhit(obj1)
+            button_onhit(obj2)
     elif thing1 == 'button':
         if thing2 == 'pig':
             button_onhit(obj1)
@@ -155,6 +159,9 @@ def collide(obj1, obj2):
             button_onhit(obj1)
         elif thing2 == 'beefy':
             beefy_onhit(obj2)
+            button_onhit(obj1)
+        elif thing2 == 'eeyore':
+            eeyore_onhit(obj2)
             button_onhit(obj1)
     elif thing1 == 'stuffing':
         if thing2 == 'tiger':
@@ -173,6 +180,8 @@ def collide(obj1, obj2):
 ########## TIGER ##########
 # PC tiger hit by something
 def tiger_onhit(self):
+    if self.animName == 'groundpound':
+        return
     if self.LAST_HIT == 0:
         self.LAST_HIT = self.game.time.time()
     if self.game.time.time() - self.LAST_HIT > 700:
@@ -273,6 +282,8 @@ def tiger_onjump(self):
     topright = (self.neighborhood.right, self.neighborhood.top)
     bottomleft = (self.neighborhood.left, self.neighborhood.bottom)
     bottomright = (self.neighborhood.right, self.neighborhood.bottom)
+    print "neighborhood " + str(self.neighborhood)
+    #hurt_these = list()
     for obj in self.game.tilemap.objects:
         rect = obj.getFrame(self.game.time.time()).surface.get_rect()
         if self.neighborhood.colliderect(rect) or \
@@ -280,6 +291,10 @@ def tiger_onjump(self):
             rect.contains(self.neighborhood):
             obj.health -= 1
             collide(obj, self)
+            #hurt_these.append(obj)
+
+    #print 'things to damage ' + str(hurt_these)
+            
     # play jump sound
     audio.mySounds["jump"].play()
     # mark potential landing spot with shadow
@@ -465,10 +480,10 @@ def tiglet_onmove(self):
 ########## PIGLET ###########
 # Piglet gets hit
 def piglet_onhit(self):
-    if self.health <= 0:
-        piglet_ondie(self)
     # set swinging
     self.health -= 1
+    if self.health <= 0:
+        piglet_ondie(self)
     if self.animName != 'swing':
         self.setAnimationOnce('swing')
 
@@ -487,12 +502,18 @@ def eeyore_onhit(self):
     # decrement health
     audio.mySounds["eeyorepain"].play()
     self.health -= 1
-    if health <= 0:
+    if self.health <= 0:
         eeyore_ondie(self)
 
 # Eeyore dies
 def eeyore_ondie(self):
     stuffing_create(self)
+    if self in self.game.objects:
+        self.visualDelete(self.game.tilemap.surface, self.game._screen)
+        self.game.objects.remove(self)
+    elif self in self.game.tilemap.objects:
+        self.visualDelete(self.game.tilemap.surface, self.game._screen)
+        self.game.objects.remove(self)
 
 ######### STUFFING ##########
 # convert an object (self) to stuffing

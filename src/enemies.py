@@ -7,9 +7,14 @@ class Enemies:
     tigletNeedleObjPink = None
     tigletNeedleObjRed = None
     beefyObj = None
+    donkeyObj = None
 
     def __init__(self, game):
         self.enemies = []
+        if Enemies.donkeyObj == None:
+            Enemies.donkeyObj = animatedobject.createAnimatedObject('../assets/eeyore','object.ini')
+            Enemies.donkeyObj.tag = 'eeyore'
+
         if Enemies.tigletNeedleObjOrange == None:
             Enemies.tigletNeedleObjOrange = animatedobject.createAnimatedObject('../assets/enemies/tigglette (needle)/orange/', 'object.ini')
             Enemies.tigletNeedleObjOrange.tag = 'tiglet'
@@ -32,10 +37,23 @@ class Enemies:
 
         #Enemies.tigletScissorObj = animatedobject.createAnimatedObject('../assets/enemies/tigglette\ \(scissors\)/red/', 'object.ini')
         self.game = game
+        self.donkeyHP = 5
+        self.donkeyAmmo = 5
         self.tigletHP = 3
         self.tigletAmmo = 0
         self.beefyHP = 20
         self.beefyAmmo = 10
+
+    def spawnDonkey(self, x = 250, y = 250):
+        temp = character.Enemy(Enemies.donkeyObj, self.game, self.donkeyHP, self.donkeyAmmo)
+        temp.setPos(x, y)
+        temp.setAnimation('stopped')
+        temp.setDirection(0)
+        temp.move.moveSpeed = [0, 0]
+        temp.direction = [0, 0]
+        temp.setPos(x, y)
+
+        self.enemies.append(temp)
 
     def spawnTiglet(self, x = 250, y = 250):
         color = random.randint(0, 3)
