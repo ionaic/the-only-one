@@ -62,7 +62,7 @@ class IOFunctions:
         map(self.registerKeyRelease, self.defaultKeys, self.defaultUpFuns)
     
     def shootCB(self):
-        self.game.bullets.spawnProjectile(self.game.tiger.getX(), self.game.tiger.getY(), self.mover.moveState[0])
+        #self.game.bullets.spawnProjectile(self.game.tiger.getX(), self.game.tiger.getY(), self.mover.moveState[0])
         interactions.tiger_onshoot(self.game.tiger)
     
     def launchCB(self):

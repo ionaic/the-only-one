@@ -1,7 +1,8 @@
 import movement, animatedobject, animationstate, random, math
 
 class Character(animatedobject.AnimationState):
-    def __init__(self, obj, game, hp, ammo):
+    __MAX__HEALTH = 15
+    def __init__(self, obj, game, hp = 10, ammo = 15):
         #self.center = self.getFrameByNumber(5).collisionArea
         #self.center = [self.center[i] * 0.5 for i in range(0, len(self.center))]
         animatedobject.AnimationState.__init__(self, obj)
@@ -11,6 +12,8 @@ class Character(animatedobject.AnimationState):
         self.throwing = False
         self.path_blocked = False
         self.game = game
+        self.LAST_HIT = 0
+        self.LAST_THROW = 0
 
     # check if still has ammo
     def has_ammo(self):

@@ -197,33 +197,39 @@ class Movement:
     def stopLeft(self):
         if self.moveState[0] == 1:
             self.moveState[0] = 0
+            self.obj.setDirection(0)
         elif self.moveState[0] == 2:
             self.stopMove()
             self.obj.setDirection(2)
         elif self.moveState[0] == 3:
             self.moveState[0] = 4
+            self.obj.setDirection(4)
         self.moveState[1] = getSpeedState(self.moveState[0])
         self.updateTiger()
 
     def stopRight(self):
         if self.moveState[0] == 5:
             self.moveState[0] = 4
+            self.obj.setDirection(4)
         elif self.moveState[0] == 6:
             self.stopMove()
             self.obj.setDirection(6)
         elif self.moveState[0] == 7:
             self.moveState[0] = 0
+            self.obj.setDirection(0)
         self.moveState[1] = getSpeedState(self.moveState[0])
         self.updateTiger()
 
     def stopUp(self):
         if self.moveState[0] == 3:
             self.moveState[0] = 2
+            self.obj.setDirection(2)
         elif self.moveState[0] == 4:
             self.stopMove()
             self.obj.setDirection(4)
         elif self.moveState[0] == 5:
             self.moveState[0] = 6
+            self.obj.setDirection(6)
         self.moveState[1] = getSpeedState(self.moveState[0])
         self.updateTiger()
 
@@ -233,8 +239,10 @@ class Movement:
             self.obj.setDirection(0)
         elif self.moveState[0] == 1:
             self.moveState[0] = 2
+            self.obj.setDirection(2)
         elif self.moveState[0] == 7:
             self.moveState[0] = 6
+            self.obj.setDirection(6)
         self.moveState[1] = getSpeedState(self.moveState[0])
         self.updateTiger()
 

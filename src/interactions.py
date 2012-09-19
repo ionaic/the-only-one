@@ -96,46 +96,61 @@ def collide(obj1, obj2):
 ########## TIGER ##########
 # PC tiger hit by something
 def tiger_onhit(self):
-    # decrement health
-    self.health -= 1
-    # play hit animation
-    self.setAnimation('damaged')
-    #self.stopMove()
-    # play hit sound
-    choice = random.randrange(1,4,1)
-    if choice==1:
-		audio.mySounds["tigerdamage"].play()
-    elif choice==2:
-		audio.mySounds["tigerdamage2"].play()
-    elif choice==3:
-		audio.mySounds["tigerdamage3"].play()
-    else:
-        print "FAIL"
-    print choice    # stop all in progress player actions
+    if self.LAST_HIT == 0:
+        self.LAST_HIT = self.game.time.time()
+    if self.game.time.time() - self.LAST_HIT > 700:
+        self.LAST_HIT = self.game.time.time()
+        # decrement health
+        self.health -= 1
+        # play hit animation
+        self.setAnimation('damaged')
+        #self.stopMove()
+        # play hit sound
+        choice = random.randrange(1,4,1)
+        if choice==1:
+            audio.mySounds["tigerdamage"].play()
+        elif choice==2:
+            audio.mySounds["tigerdamage2"].play()
+        elif choice==3:
+            audio.mySounds["tigerdamage3"].play()
+        else:
+            print "FAIL"
+        print choice    # stop all in progress player actions
 
-    if self.health <= 0:
-        print "YOU DIED!!!!!"
-    # invulnerable for x amount of time
-    # while invulnerable, can't shoot
-    return
+        if self.health <= 0:
+            print "YOU DIED!!!!!"
+            tiger_ondie(self)
+        # invulnerable for x amount of time
+        # while invulnerable, can't shoot
+    #else:
+    #    print "Last hit: " + str(self.LAST_HIT) + "; Cur Time: " + str(self.game.time.time())
 
 # PC tiger shoots/throws something
 def tiger_onshoot(self):
-    # check if tiger has enough ammo left
-    if self.animName == 'shoot':
-        return
-    if self.has_ammo():
-        # launch projectile
-        self.throwing = True
-        # reduce amount of available ammo
-        self.ammo -= 1
-        # play throwing animation
-        if self.animName != 'move':
-            self.setAnimationOnce('shoot')
+    if self.LAST_THROW == 0:
+        self.LAST_THROW = self.game.time.time()
+    if self.game.time.time() - self.LAST_THROW > 900:
+        self.LAST_THROW = self.game.time.time()
+        # check if tiger has enough ammo left
+        if self.animName == 'shoot':
+            return
+        if self.ammo > 0:#self.has_ammo():
+            # launch projectile
+            self.game.bullets.spawnProjectile(self.getX(), self.getY(), self.move.moveState[0])
+            self.throwing = True
+            # reduce amount of available ammo
+            self.ammo -= 1
+            # play throwing animation
+            if self.animName != 'move':
+                self.setAnimationOnce('shoot')
+            else:
+                self.setAnimationOnce('moveshoot')
+            # play throw sound
+            # begin tracking animation
         else:
-            self.setAnimationOnce('moveshoot')
-        # play throw sound
-        # begin tracking animation
+            print "Out of ammo!"
+    #else:
+    #    print "Last throw: " + str(self.LAST_THROW) + "; Cur Time: " + str(self.game.time.time())
 
 # PC Tiger done shooting, back to either moving or standing
 #def tiger_shot(self):
@@ -174,6 +189,10 @@ def tiger_onjump(self):
 # PC tiger dies
 def tiger_ondie(self):
     # play death animation
+    stuffing_create(self)
+    self.game.enemies.remove(self)
+    self.game.tilemap.enemies.remove(self)
+    
     # play death sound
     audio.mySounds["selfdeath"].play()
     # stop everything onscreen
@@ -234,12 +253,10 @@ def tiger_onwall(self, wall):
 def tiger_update(self):
     self.moveChar()
     tiger_onwalk(self)
-# PC tiger stops
-# def tiger_onstop(self):
-#     return
 
 def tiger_pickupstuffing(self):
-    self.health += 1
+    if health <= self.__MAX_HEALTH:
+        self.health += 1
 
 def tiger_pickupbutton(self):
     self.ammo += 1
@@ -269,13 +286,8 @@ def tiglet_hit(self):
 
 # Tiglet dies
 def tiglet_ondie(self):
-    stuffing = animatedobject.AnimationState(self.game.stuffobj)
-    stuffing.setAnimation('stuffing')
-    tempPos = self.getPos()
-    stuffing.setPos(tempPos[0], tempPos[1] - (tempPos[1] - stuffing.getFrameByNumber(0).surface.get_height()))
-    self.game.tilemap.objects.append(stuffing)
     self.game.enemies.remove(self)
-    self.visualDelete(self.game.tilemap.surface, self.game._screen)
+    self.game.tilemap.enemies.remove(self)
 
 ########## PIGLET ###########
 # Piglet gets hit
@@ -309,10 +321,17 @@ def eeyore_ondie(self):
     return
 
 ######### STUFFING ##########
-# convert an object to stuffing
+# convert an object (self) to stuffing
 def stuffing_create(self):
-    return
+    stuffing = animatedobject.AnimationState(self.game.stuffobj)
+    stuffing.setAnimation('stuffing')
+    tempPos = self.getPos()
+    stuffing.setPos(tempPos[0], tempPos[1] - (tempPos[1] - stuffing.getFrameByNumber(0).surface.get_height()))
+    self.game.tilemap.objects.append(stuffing)
+    self.game.objects.append(stuffing)
 
 def stuffing_pickup(self):
     if self in self.game.objlist:
+        self.game.objlist.remove(self)
+    elif self in self.game.tilemap.objlist:
         self.game.objlist.remove(self)
