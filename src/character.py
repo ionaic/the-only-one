@@ -14,14 +14,6 @@ class Character(animationstate.AnimationState):
         self.LAST_HIT = 0
         self.LAST_THROW = 0
         self.MAX_HEALTH = 15
-        self.neighborhood = self.getFrame(self.game.time.time()).collisionArea
-        self.neighborhood.right += 300
-        self.neighborhood.bottom += 300
-        self.getNeighborhood()
-
-    def getNeighborhood(self):
-        self.neighborhood.left = self.getX() - 150
-        self.neighborhood.top = self.getY() - 150
 
     # check if still has ammo
     def has_ammo(self):
@@ -37,10 +29,6 @@ class Character(animationstate.AnimationState):
 class Enemy(Character):
     def __init__(self, obj, game, hp, ammo):
         Character.__init__(self, obj, game, hp, ammo)
-        self.neighborhood = self.getFrame(self.game.time.time()).collisionArea
-        self.neighborhood.right += 60
-        self.neighborhood.bottom += 60
-        self.getNeighborhood()
         self.direction = [1, 1]
         self.move.moveSpeed = [0.08, 0.08]
         self.dest = (random.randint(300, 400), random.randint(300, 400))
