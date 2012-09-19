@@ -124,7 +124,7 @@ class AnimationState():
     def undraw(self,source,target,time):
         if self.deleted == True: return
         frame = self.getFrame(time.time())
-        if frame==self.stashFrame and self.stashPos==(self.x,self.y):
+        if frame==self.stashFrame and self.stashPos==(self.x,self.y) and self.invalidated==False:
             if self.dirty==False:
                 return
             else:

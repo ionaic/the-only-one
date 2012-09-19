@@ -74,9 +74,10 @@ def getEventRect(obj):
     return obj.rect
 def getQRect(rect):
     return pygame.Rect(rect.left,rect.top+3*rect.height/4,rect.width,rect.height/4+1)
-def collideColBoxes(A,B,time):
+def collideColBoxes(A,B,time,hitlist):
     if collideRects(A.rect,B.rect):
         if A.object!=None and B.object!=None:
+            hitlist.append((A,B))
             recta = A.object.getFrame(time).drawArea.move(A.object.getPos())
             rectb = B.object.getFrame(time).drawArea.move(B.object.getPos())
             overlap = rectIntersect(recta,rectb)
@@ -104,7 +105,7 @@ def collideColBoxes(A,B,time):
             if collideRects(newRect,eventRectVirt):
                 interactions.collide(real.object,virt.rect)
             
-def collideRegion(BB,colBoxes,time):
+def _collideRegion(BB,colBoxes,time,hitlist):
     quads = list()
     quads.append([pygame.Rect(BB.left,BB.top,BB.width/2,BB.height/2),list()])
     quads.append([pygame.Rect(BB.centerx,BB.top,BB.width/2,BB.height/2),list()])
@@ -123,16 +124,25 @@ def collideRegion(BB,colBoxes,time):
     for quad in quads:
         lst = quad[1]
         if len(lst)>=8:
-            collideRegion(quad[0],quad[1],time)
+            _collideRegion(quad[0],quad[1],time,hitlist)
             continue
         for i in range(0,len(lst)-1):
             for j in range(i+1,len(lst)):
-                collideColBoxes(lst[i],lst[j],time)
+                collideColBoxes(lst[i],lst[j],time,hitlist)
     for i in range(0,len(other)):
         for j in range(i+1,len(other)):
-            collideColBoxes(other[i],other[j],time)
+            collideColBoxes(other[i],other[j],time,hitlist)
         for quad in quads:
             if not quad[0].colliderect(other[i]):
                 continue
             for box in quad[1]:
-                collideColBoxes(other[i],box,time)
+                collideColBoxes(other[i],box,time,hitlist)
+
+def collideRegion(BB,colBoxes,time):
+    hitlist = list()
+    _collideRegion(BB,colBoxes,time,hitlist)
+    for pair in hitlist:
+        A = pair[0]
+        B = pair[1]
+        A.object.invalidate()
+        B.object.invalidate()
