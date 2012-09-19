@@ -72,8 +72,8 @@ class Game():
         self.iohandler = ioprocess.IOFunctions(self)
         
         self.enemies = enemies.Enemies(self)
-        self.enemies.spawnTiglet()
-        self.enemies.spawnBeefy()
+        #self.enemies.spawnTiglet()
+        #self.enemies.spawnBeefy()
         
         self.world = terrain.createWorld('../assets/terrain','world.ini')
         self.objects = list()
