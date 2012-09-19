@@ -5,12 +5,18 @@
 import projectile, audio, math, random, animatedobject, animationstate
 import eventhandler, pygame, collisions
 
+played = 0
+
+
 def registerCallbacks():
+    global played
+    played = 0
     eventhandler.registerEvent('tiger_test',lambda x: takeAStep(x))
     eventhandler.registerEvent('eeyoresniffle',lambda x: eeyoreSniffle(x))
     eventhandler.registerEvent('ropeSwing',lambda x: ropeSwing(x))
     eventhandler.registerEvent('tiger_sneak',lambda x: tigerSneak(x))
     eventhandler.registerEvent('pig_sound',lambda x: pigSound(x))
+    
 
 def pigSound(X):
     #play a sound 20% of the time, randomize between the three
@@ -46,7 +52,13 @@ def ropeSwing(X):
 	print choice
 	
 def eeyoreSniffle(X):
-    audio.mySounds["eeyoresniffle"].play()
+    global played
+    #adjust this for frequency of playback
+    if (played%15==0):
+        audio.mySounds["eeyoresniffle"].play()
+        played+=1
+    else:
+        played+=1
 	
 def takeAStep(X):
 	print "Taking a step"
