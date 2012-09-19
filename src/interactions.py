@@ -301,7 +301,7 @@ def tiger_onwalk(self):
 def tiger_onwall(self, wall):
     #self.stopMove()
     #self.setNewPos(self.getPos())
-    self.move.stopMove()
+    #self.move.stopMove()
     self.x = self.stashPos[0]
     self.y = self.stashPos[1]
     time = self.game.time.time()
