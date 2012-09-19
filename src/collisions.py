@@ -92,10 +92,6 @@ def collideColBoxes(A,B,time,hitlist):
                 B.object.dirtyRegions.append([overlap,B.object.getPos(),A.object])
             eventRectA = getEventRect(A)
             eventRectB = getEventRect(B)
-            if A.object.object.tag=='tree':
-                print eventRectA
-            elif B.object.object.tag=='tree':
-                print eventRectB
             if collideRects(eventRectA,eventRectB):
                 interactions.collide(A.object,B.object)
         elif A.object==None or B.object==None:
