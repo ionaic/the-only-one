@@ -80,20 +80,17 @@ def collideColBoxes(A,B,time):
             recta = A.object.getFrame(time).drawArea.move(A.object.getPos())
             rectb = B.object.getFrame(time).drawArea.move(B.object.getPos())
             overlap = rectIntersect(recta,rectb)
-            A.object.dirty = True
-            B.object.dirty = True
-            #A.object.dirtyRegions.append(recta)
-            #B.object.dirtyRegions.append(rectb)
-            A.object.dirtyRegions.append([overlap,A.object.getPos(),B.object])
-            B.object.dirtyRegions.append([overlap,B.object.getPos(),A.object])
+            if (A.object.requiresDraw() or B.object.requiresDraw()):
+                A.object.dirty = True
+                B.object.dirty = True
+                #A.object.dirtyRegions.append(recta)
+                #B.object.dirtyRegions.append(rectb)
+                A.object.dirtyRegions.append([overlap,A.object.getPos(),B.object])
+                B.object.dirtyRegions.append([overlap,B.object.getPos(),A.object])
             eventRectA = getEventRect(A)
             eventRectB = getEventRect(B)
             if collideRects(eventRectA,eventRectB):
                 interactions.collide(A.object,B.object)
-            if (A.object.requiresDraw()):
-                B.object.invalidate()
-            if (B.object.requiresDraw()):
-                A.object.invalidate()
         elif A.object==None or B.object==None:
             if A.object==None:
                 real=B
