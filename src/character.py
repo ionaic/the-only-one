@@ -1,4 +1,4 @@
-import movement, animatedobject, animationstate
+import movement, animatedobject, animationstate, random
 
 class Character(animatedobject.AnimationState):
     def __init__(self, obj, game, hp, ammo):
@@ -24,21 +24,22 @@ class Character(animatedobject.AnimationState):
 class Enemy(Character):
     def __init__(self, obj, game, hp, ammo):
         Character.__init__(self, obj, game, hp, ammo)
+        self.neighborhood = self.getFrame(self.game.time.time()).collisionArea
+        self.neighborhood.right += 60
+        self.neighborhood.bottom += 60
         self.getNeighborhood()
-        self.direction = [0, 0]
-        self.move.moveSpeed = [0.3, 0.3]
+        self.direction = [1, 1]
+        self.move.moveSpeed = [0.2, 0.2]
 
     def getNeighborhood(self):
-        self.neighborhood = self.getFrame(self.game.time.time()).collisionArea
-        self.neighborhood.left += self.getX() - 30
-        self.neighborhood.top += self.getY() - 30
+        self.neighborhood.left = self.getX() - 30
+        self.neighborhood.top = self.getY() - 30
         #self.neighborhood.left -= 30
         #self.neighborhood.top -= 30
-        self.neighborhood.right += 30
-        self.neighborhood.bottom += 30
+        print 'neighborhood ' + str(self.neighborhood)
 
     def updateChar(self):
-        print str(self.getPos())
+        print str(self.direction)
         self.moveDirection()
         self.move.moveState[0] = movement.vecToDir(self.direction)
         self.move.moveState[1] = movement.getSpeedState(movement.vecToDir(self.direction))
@@ -67,16 +68,25 @@ class Enemy(Character):
                 mark['bottom'] = True
                 mark['right'] = True
         new_dir = [0, 0]
+        #if True in mark.values() or not self.game._screen.get_rect().contains(self.neighborhood):
+        if not self.game._screen.get_rect().contains(self.neighborhood):
+            self.direction = [random.randint(-1, 1), random.randint(-1, 1)]
         if mark['left']:
-            new_dir[0] = 1
+            self.direction[0] = random.randint(-1,
+            #new_dir[0] = 1
         if mark['right']:
-            new_dir[0] -= 1
+            #new_dir[0] -= 1
         if mark['top']:
-            new_dir[1] += 1
+            #new_dir[1] = 1
         if mark['bottom']:
-            new_dir[1] -= 1
-
-        if new_dir[0] != 0:
-            self.direction[0] = new_dir
-        if new_dir[1] != 0:
-            self.direction[1] = new_dir
+            #new_dir[1] -= 1
+        #if new_dir[0] != 0:
+        #    self.direction[0] = new_dir[0]
+        #if new_dir[1] != 0:
+        #    self.direction[1] = new_dir[1]
+        #if self.direction == [0, 0]:
+        #    self.direction = [random.randint(-1, 1), random.randint(-1, 1)]
+        #if new_dir[0] != 0:
+        #    self.direction[0] = new_dir
+        #if new_dir[1] != 0:
+        #    self.direction[1] = new_dir
