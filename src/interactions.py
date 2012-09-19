@@ -54,6 +54,9 @@ def collide(obj1, obj2):
         elif thing2 == 'button':
             #tiger_onhit(obj1)
             ""
+        elif thing2 == 'tiglet':
+            tiglet_hit(obj2)
+            tiger_onhit(obj1)
         elif thing2 == 'none':
             tiger_onwall(obj1,obj2)
             #""
@@ -74,6 +77,9 @@ def collide(obj1, obj2):
             #button_onhit(obj1)
             #tiger_onhit(obj2)
             ""
+        elif thing2 == 'tiglet':
+            tiglet_onhit(obj2)
+            button_onhit(obj1)
         elif thing2 == 'none':
             #button_onhit(obj1)
             ""
@@ -251,15 +257,17 @@ def tiglet_onhit(self):
     # hit animation?
     # decrease health
     self.health -= 1
+    if self.health <= 0:
+        tiglet_ondie(self)
     return
 
 # Tiglet hits something (PC)
 def tiglet_hit(self):
-    return
+    self.setAnimationOnce('falldown')
 
 # Tiglet dies
 def tiglet_ondie(self):
-    return
+    self.game.enemies.remove(self)
 
 ########## PIGLET ###########
 # Piglet gets hit

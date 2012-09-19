@@ -31,7 +31,7 @@ class Enemy(Character):
         self.neighborhood.bottom += 60
         self.getNeighborhood()
         self.direction = [1, 1]
-        self.move.moveSpeed = [0.2, 0.2]
+        self.move.moveSpeed = [0.1, 0.1]
 
     def getNeighborhood(self):
         self.neighborhood.left = self.getX() - 30
@@ -39,9 +39,11 @@ class Enemy(Character):
 
     def updateChar(self):
         self.moveDirection()
-        self.move.moveState[0] = movement.vecToDir(self.direction)
-        self.move.moveState[1] = movement.getSpeedState(movement.vecToDir(self.direction))
-        self.setDirection(math.fabs(movement.vecToDir(self.direction)/2) * 2)
+        properDir = movement.vecToDir(self.direction)
+        self.move.moveState[0] = properDir
+        self.move.moveState[1] = movement.getSpeedState(properDir)
+        if properDir != -1:
+            self.setDirection((movement.vecToDir(self.direction) * 0.5) * 2)
         self.move.moveChar()
 
     def moveDirection(self):
