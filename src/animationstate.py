@@ -67,6 +67,10 @@ class AnimationState():
     #def movePos(self):
     #    self.x = self.newX
     #    self.y = self.newY
+    def getFrameByNumber(self,frameNum):
+        anim = self.object.animations[self.animName].directions[self.dir]
+        frame = anim.frames[frameNum]
+        return frame
     def getFrameNumber(self,gameTime):
         if self.startTime == 0:
             self.startTime = gameTime
