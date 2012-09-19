@@ -182,7 +182,7 @@ class Game():
             object.undraw(self.tilemap.surface,self._screen,self.time)
         for object in self.tilemap.enemies.enemies:
             object.undraw(self.tilemap.surface,self._screen,self.time)
-        self.objlist.sort(key=lambda o: o.getY()+o.getColAABB(self.time.time()).bottom)
+        self.objlist.sort(key=lambda o: o.getY()+o.getFrame(self.time.time()).noshadowDrawArea.bottom)
         #map(lambda obj: obj.getColAABB(self.time.time()), objlist)
         map(lambda obj: obj.draw(self._screen,self.time), self.objlist)
 

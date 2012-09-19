@@ -32,6 +32,7 @@ class Frame():
     def __init__(self,surface,drawn,col, shadowBound, event):
         self.surface = surface
         self.drawArea = drawn
+        self.noshadowDrawArea = drawn
         if shadowBound != None:
             # calculate the size and position of the shadow
             shadow_dim = (shadowBound.width, shadowBound.width / 3)
