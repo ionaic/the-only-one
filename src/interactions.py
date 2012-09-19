@@ -651,7 +651,7 @@ def eeyore_ondie(self):
 def stuffing_create(self):
     stuffing = animationstate.AnimationState(self.game.stuffobj)
     stuffing.setAnimation('stuffing')
-    _tempstuffingint = random.randrage(0,8,1)
+    _tempstuffingint = random.randrange(0,8,1)
     stuffing.setDirection(_tempstuffingint)
     tempPos = self.getPos()
     print tempPos
