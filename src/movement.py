@@ -78,7 +78,7 @@ class Movement:
         self.moveState = [-1, 0]
         self.game = game
         self.obj = obj
-        self.moveSpeed = [0.2,0.2]
+        self.moveSpeed = [0.3,0.3]
 
     def moveChar(self):
         # direction of movement [x, y]

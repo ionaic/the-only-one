@@ -2,7 +2,7 @@
 # interactions.py
 # Author: Ian Ooi
 
-import projectile, audio, math, random, animatedobject, animationstate, game
+import projectile, audio, math, random, animatedobject, animationstate, game, operator
 import eventhandler, pygame, collisions, time
 
 def gpActivate():
@@ -150,14 +150,20 @@ def collide(obj1, obj2):
             button_onhit(obj2)
         elif thing2 == 'groundpound':
             tiglet_onhit(obj1)
+        elif thing2 == 'none':
+            tiglet_onwall(obj1, obj2)
     elif thing1 == 'pig':
         if thing2 == 'button':
             piglet_onhit(obj1)
             button_onhit(obj2)
+        elif thing2 == 'groundpound':
+            piglet_onhit(obj1)
     elif thing1 == 'eeyore':
         if thing2 == 'button':
             eeyore_onhit(obj1)
             button_onhit(obj2)
+        elif thing2 == 'groundpound':
+            eeyore_onhit(obj1)
     elif thing1 == 'button':
         if thing2 == 'pig':
             button_onhit(obj1)
@@ -179,14 +185,24 @@ def collide(obj1, obj2):
         if thing2 == 'button':
             beefy_onhit(obj1)
             button_onhit(obj2)
+        elif thing2 == 'groundpound':
+            beefy_onhit(obj1)
     elif thing1 == 'none':
         if thing2 == 'pig':
             piglet_onhit(obj2)
         elif thing2 == 'tiger':
             tiger_onwall(obj2,obj1)
+        elif thing2 == 'tiglet':
+            tiglet_onwall(obj2, obj1)
     elif thing1 == 'groundpound':
         if thing2 == 'tiglet':
             tiglet_onhit(obj2)
+        elif thing2 == 'eeyore':
+            eeyore_onhit(obj2)
+        elif thing2 == 'beefy':
+            beefy_onhit(obj2)
+        elif thing2 == 'pig':
+            piglet_onhit(obj2)
 
 ########## TIGER ##########
 # PC tiger hit by something
@@ -230,7 +246,7 @@ def shootCB():
 def tiger_onshoot(self):
     if self.LAST_THROW == 0:
         self.LAST_THROW = self.game.time.time()
-    if self.game.time.time() - self.LAST_THROW > 600:
+    if self.game.time.time() - self.LAST_THROW > 500:
         self.LAST_THROW = self.game.time.time()
         # check if tiger has enough ammo left
         if self.animName == 'shoot':
@@ -452,41 +468,94 @@ def tiglet_ondie(self):
 
 # Tiglet moves
 def tiglet_onmove(self):
-    mark = {'left':False, 'right':False, 'top':False, 'bottom':False}
-    self.getNeighborhood()
-    topleft = (self.neighborhood.left, self.neighborhood.top)
-    topright = (self.neighborhood.right, self.neighborhood.top)
-    bottomleft = (self.neighborhood.left, self.neighborhood.bottom)
-    bottomright = (self.neighborhood.right, self.neighborhood.bottom)
-    for rect in self.game.tilemap.noGo:
-        if rect.collidepoint(topleft):
-            mark['left'] = True
-            mark['top'] = True
-        if rect.collidepoint(bottomleft):
-            mark['left'] = True
-            mark['bottom'] = True
-        if rect.collidepoint(topright):
-            mark['top'] = True
-            mark['right'] = True
-        if rect.collidepoint(bottomright):
-            mark['bottom'] = True
-            mark['right'] = True
-    new_dir = [0, 0]
-    if mark['left']:
-        if mark['right'] == False:
-           new_dir[0] = 1
-    elif mark['right']:
-        if mark['left'] == False:
-            new_dir[0] = -1
-    if mark['top']:
-        if mark['bottom'] == False:
-            new_dir[1] = 1
-    elif mark['bottom']:
-        if mark['top'] == False:
-            new_dir[1] = -1
+    #mark = {'left':False, 'right':False, 'top':False, 'bottom':False}
+    #self.getNeighborhood()
+    #topleft = (self.neighborhood.left, self.neighborhood.top)
+    #topright = (self.neighborhood.right, self.neighborhood.top)
+    #bottomleft = (self.neighborhood.left, self.neighborhood.bottom)
+    #bottomright = (self.neighborhood.right, self.neighborhood.bottom)
+    #for rect in self.game.tilemap.noGo:
+    #    if rect.collidepoint(topleft):
+    #        mark['left'] = True
+    #        mark['top'] = True
+    #    if rect.collidepoint(bottomleft):
+    #        mark['left'] = True
+    #        mark['bottom'] = True
+    #    if rect.collidepoint(topright):
+    #        mark['top'] = True
+    #        mark['right'] = True
+    #    if rect.collidepoint(bottomright):
+    #        mark['bottom'] = True
+    #        mark['right'] = True
+    #new_dir = [0, 0]
+    #if mark['left']:
+    #    if mark['right'] == False:
+    #       new_dir[0] = 1
+    #elif mark['right']:
+    #    if mark['left'] == False:
+    #        new_dir[0] = -1
+    #if mark['top']:
+    #    if mark['bottom'] == False:
+    #        new_dir[1] = 1
+    #elif mark['bottom']:
+    #    if mark['top'] == False:
+    #        new_dir[1] = -1
 
-    if new_dir != [0, 0]:
-        self.direction = new_dir
+    #if new_dir != [0, 0]:
+    #    self.direction = new_dir
+    cur_time = self.game.time.time()
+    if cur_time - self.last_time >= 800:
+        print 'grabbing thingy ' + str(self.game.time.time()) + ' ' + str(self.last_time)
+        self.dest = self.game.tiger.getPos()
+        self.last_time = cur_time
+    vel = map(operator.sub, self.dest, self.getPos())
+    velMag = 1.0 * math.sqrt(vel[0]**2 + vel[1]**2)
+    #print "velMag" + str(velMag)
+    if velMag < 50:
+        self.dest = (random.randint(200,400), random.randint(200,400))
+        return
+    if vel[0] < 0:
+        newX = math.ceil(float(vel[0] / velMag * 2))
+    else:
+        newX = math.floor(float(vel[0] / velMag * 2))
+        #vel = (math.floor(float(vel[0]) / velMag * 2), math.floor(float(vel[1]) / velMag * 2))
+    if vel[1] < 0:
+        newY = math.ceil(float(vel[1] / velMag * 2))
+    else:
+        newY = math.floor(float(vel[1] / velMag * 2))
+        #vel = (math.floor(float(vel[0]) / velMag * 2), math.floor(float(vel[1]) / velMag * 2))
+        
+    self.direction = [newX, newY]
+    print 'direction ' + str(self.direction)
+
+def tiglet_onwall(self, wall):
+    self.x = self.stashPos[0]
+    self.y = self.stashPos[1]
+    time = self.game.time.time()
+    frame = self.getFrame(time)
+    colrect = collisions.getQRect(frame.collisionArea.move(self.getPos()))
+    if wall.collidepoint(colrect.bottomleft) and wall.collidepoint(colrect.bottomright):
+        print (colrect.bottom-wall.top)
+        self.y = self.y - (colrect.bottom-wall.top)
+    elif wall.collidepoint(colrect.topleft) and wall.collidepoint(colrect.topright):
+        self.y = self.y + (wall.bottom-colrect.top)
+    elif wall.collidepoint(colrect.topleft) and wall.collidepoint(colrect.bottomleft):
+        self.x = self.x + (wall.right-colrect.left)
+    elif wall.collidepoint(colrect.topright) and wall.collidepoint(colrect.bottomright):
+        self.x = self.x - (colrect.right-wall.left)
+    elif wall.collidepoint(colrect.topright):
+        self.x = self.x - (colrect.right-wall.left)
+        self.y = self.y + (wall.bottom-colrect.top)
+    elif wall.collidepoint(colrect.bottomright):
+        self.x = self.x - (colrect.right-wall.left)
+        print (colrect.bottom-wall.top)
+        self.y = self.y - (colrect.bottom-wall.top)
+    elif wall.collidepoint(colrect.topleft):
+        self.y = self.y + (wall.bottom-colrect.top)
+        self.x = self.x + (wall.right-colrect.left)
+    elif wall.collidepoint(colrect.bottomleft):
+        self.y = self.y - (colrect.bottom-wall.top)
+        self.x = self.x + (wall.right-colrect.left)
 
 ########## PIGLET ###########
 # Piglet gets hit
@@ -518,13 +587,17 @@ def eeyore_onhit(self):
 
 # Eeyore dies
 def eeyore_ondie(self):
+    audio.mySounds["eeyoresniffle"].stop()
     stuffing_create(self)
     if self in self.game.objects:
         self.visualDelete(self.game.tilemap.surface, self.game._screen)
         self.game.objects.remove(self)
     elif self in self.game.tilemap.objects:
         self.visualDelete(self.game.tilemap.surface, self.game._screen)
-        self.game.objects.remove(self)
+        self.game.tilemap.objects.remove(self)
+    else:
+        self.game.enemies.remove(self)
+        self.game.tilemap.enemies.remove(self)
 
 ######### STUFFING ##########
 # convert an object (self) to stuffing
@@ -543,7 +616,7 @@ def stuffing_pickup(self, game):
         game.objects.remove(self)
     elif self in game.tilemap.objects:
         self.visualDelete(game.tilemap.surface, game._screen)
-        game.objects.remove(self)
+        game.tilemap.objects.remove(self)
 
 ########### BEEFY ##########
 def beefy_onmove(self):

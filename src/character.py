@@ -42,17 +42,21 @@ class Enemy(Character):
         self.neighborhood.bottom += 60
         self.getNeighborhood()
         self.direction = [1, 1]
-        self.move.moveSpeed = [0.1, 0.1]
+        self.move.moveSpeed = [0.08, 0.08]
+        self.dest = (random.randint(300, 400), random.randint(300, 400))
+        self.last_time = 0
 
     def updateChar(self):
-        self.moveDirection()
+        #self.moveDirection()
+        interactions.tiglet_onmove(self)
         properDir = movement.vecToDir(self.direction)
         self.move.moveState[0] = properDir
         self.move.moveState[1] = movement.getSpeedState(properDir)
         if properDir != -1:
             self.setDirection((movement.vecToDir(self.direction) * 0.5) * 2)
         self.move.moveChar()
-        interactions.tiglet_onmove(self)
+        #if self.getPos() == self.stashPos:
+        #    interactions.tiglet_onmove(self)
 
     def moveDirection(self):
         mark = {'left':False, 'right':False, 'top':False, 'bottom':False}
