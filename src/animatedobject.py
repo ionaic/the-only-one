@@ -115,7 +115,7 @@ class AnimatedObject():
         for animation in config.items('animations'):
             self.animations[animation[0]] = Animation(config,animation[1])
        
-        print 'animations ' + str(self.animations)
+        #print 'animations ' + str(self.animations)
  
         self.tag = ''
 

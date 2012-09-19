@@ -18,13 +18,13 @@ class Enemies:
             Enemies.tigletNeedleObjBlue = animatedobject.createAnimatedObject('../assets/enemies/tigglette (needle)/blue/', 'object.ini')
             Enemies.tigletNeedleObjBlue.tag = 'tiglet'
 
-        #if Enemies.tigletNeedleObjPink == None:
-        #    Enemies.tigletNeedleObjPink = animatedobject.createAnimatedObject('../assets/enemies/tigglette (needle)/pink/', 'object.ini')
-        #    Enemies.tigletNeedleObjPink.tag = 'tiglet'
+        if Enemies.tigletNeedleObjPink == None:
+            Enemies.tigletNeedleObjPink = animatedobject.createAnimatedObject('../assets/enemies/tigglette (needle)/pink/', 'object.ini')
+            Enemies.tigletNeedleObjPink.tag = 'tiglet'
 
-        #if Enemies.tigletNeedleObjRed == None:
-        #    Enemies.tigletNeedleObjRed = animatedobject.createAnimatedObject('../assets/enemies/tigglette (needle)/red/', 'object.ini')
-        #    Enemies.tigletNeedleObjRed.tag = 'tiglet'
+        if Enemies.tigletNeedleObjRed == None:
+            Enemies.tigletNeedleObjRed = animatedobject.createAnimatedObject('../assets/enemies/tigglette (needle)/red/', 'object.ini')
+            Enemies.tigletNeedleObjRed.tag = 'tiglet'
 
         if Enemies.beefyObj == None:
             Enemies.beefyObj = animatedobject.createAnimatedObject('../assets/enemies/beefy/', 'object.ini')
@@ -36,15 +36,13 @@ class Enemies:
         self.tigletAmmo = 0
 
     def spawnTiglet(self, x = 100, y = 100):
-        #color = random.randint(0, 3)
-        #color = random.randint(0, 1)
+        color = random.randint(0, 3)
         enemyobj = Enemies.tigletNeedleObjOrange
-        #if color == 0: enemyobj = Enemies.tigletNeedleObjOrange
-        #elif color == 0: enemyobj = Enemies.tigletNeedleObjBlue
-        #elif color == 0: enemyobj = Enemies.tigletNeedleObjPink
-        #elif color == 0: enemyobj = Enemies.tigletNeedleObjRed
+        if color == 0: enemyobj = Enemies.tigletNeedleObjOrange
+        elif color == 0: enemyobj = Enemies.tigletNeedleObjBlue
+        elif color == 0: enemyobj = Enemies.tigletNeedleObjPink
+        elif color == 0: enemyobj = Enemies.tigletNeedleObjRed
         temp = character.Enemy(enemyobj, self.game, self.tigletHP, self.tigletAmmo)
-        #temp.setPos(random.randint(1, 500),random.randint(1, 500))
         temp.setPos(x, y)
         temp.setAnimation('stopped')
         temp.setDirection(0)

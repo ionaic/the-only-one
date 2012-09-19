@@ -14,6 +14,7 @@ def registerCallbacks():
     eventhandler.registerEvent('tigerShoot',lambda x: shootCB())
     eventhandler.registerEvent('gpShiftUp',lambda x: groundpoundShiftUp())
     eventhandler.registerEvent('gpShiftDown',lambda x: groundpoundShiftDown())
+    eventhandler.registerEvent('beefPunch', lambda x: beefPunch())
 
 def pigSound(X):
     #play a sound 20% of the time, randomize between the three
