@@ -29,7 +29,6 @@ def pigSound(X):
 
     #print choice
 
-
 def tigerSneak(X):
     audio.mySounds["sneak"].play()
 	
@@ -81,8 +80,6 @@ def collide(obj1, obj2):
         elif thing2 == 'button':
             tiglet_onhit(obj1)
             button_onhit(obj2)
-        #elif thing2 == 'none':
-        #    tiglet_onwall(obj1,obj2)
     elif thing1 == 'pig':
         if thing2 == 'button':
             piglet_onhit(obj1)
@@ -94,10 +91,17 @@ def collide(obj1, obj2):
         elif thing2 == 'tiglet':
             tiglet_onhit(obj2)
             button_onhit(obj1)
+        elif thing2 == 'beefy':
+            beefy_onhit(obj2)
+            button_onhit(obj1)
     elif thing1 == 'stuffing':
         if thing2 == 'tiger':
             stuffing_pickup(obj1, obj2.game)
             tiger_pickupstuffing(obj2)
+    elif thing1 == 'beefy':
+        if thing2 == 'button':
+            beefy_onhit(obj1)
+            button_onhit(obj2)
     elif thing1 == 'none':
         if thing2 == 'pig':
             piglet_onhit(obj2)
@@ -409,3 +413,13 @@ def stuffing_pickup(self, game):
     elif self in self.game.tilemap.objects:
         self.visualDelete(game.tilemap.surface, game._screen)
         game.objects.remove(self)
+
+########### BEEFY ##########
+def beefy_onmove(self):
+    return
+
+def beefy_onhit(self):
+    return
+
+def beefy_punch(self):
+    return
