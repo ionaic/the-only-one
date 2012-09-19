@@ -340,6 +340,7 @@ def tiger_onwall(self, wall):
     frame = self.getFrame(time)
     colrect = collisions.getQRect(frame.collisionArea.move(self.getPos()))
     if wall.collidepoint(colrect.bottomleft) and wall.collidepoint(colrect.bottomright):
+        print (colrect.bottom-wall.top)
         self.y = self.y - (colrect.bottom-wall.top)
     elif wall.collidepoint(colrect.topleft) and wall.collidepoint(colrect.topright):
         self.y = self.y + (wall.bottom-colrect.top)
@@ -352,6 +353,7 @@ def tiger_onwall(self, wall):
         self.y = self.y + (wall.bottom-colrect.top)
     elif wall.collidepoint(colrect.bottomright):
         self.x = self.x - (colrect.right-wall.left)
+        print (colrect.bottom-wall.top)
         self.y = self.y - (colrect.bottom-wall.top)
     elif wall.collidepoint(colrect.topleft):
         self.y = self.y + (wall.bottom-colrect.top)
