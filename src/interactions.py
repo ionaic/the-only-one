@@ -6,8 +6,8 @@ import projectile, audio, math, random, animatedobject, animationstate, game
 import eventhandler, pygame, collisions, time
 
 def gpActivate():
-    self=game.Game.universal.tiger
-    game.Game.universal.groundpound.setPos(self.x,self.y)
+    self=game.Game.universal.tiger 
+    game.Game.universal.groundpound.setPos(self.x+75,self.y+115)
     game.Game.universal.gpactive = True
 def registerCallbacks():
     eventhandler.registerEvent('tiger_test',lambda x: takeAStep(x))
@@ -149,7 +149,7 @@ def collide(obj1, obj2):
             tiglet_onhit(obj1)
             button_onhit(obj2)
         elif thing2 == 'groundpound':
-            print "POUNDED "+thing1
+            tiglet_onhit(obj1)
     elif thing1 == 'pig':
         if thing2 == 'button':
             piglet_onhit(obj1)
@@ -185,7 +185,8 @@ def collide(obj1, obj2):
         elif thing2 == 'tiger':
             tiger_onwall(obj2,obj1)
     elif thing1 == 'groundpound':
-        print "POUNDED "+thing2
+        if thing2 == 'tiglet':
+            tiglet_onhit(obj2)
 
 ########## TIGER ##########
 # PC tiger hit by something
@@ -528,12 +529,10 @@ def eeyore_ondie(self):
 ######### STUFFING ##########
 # convert an object (self) to stuffing
 def stuffing_create(self):
-    #somehow randomize the direction of the stuffing, since N,W,S,E,NE,NW,SE,SW are different types
-    #self.setDirection(7) #not so good
     stuffing = animationstate.AnimationState(self.game.stuffobj)
     stuffing.setAnimation('stuffing')
-    
     tempPos = self.getPos()
+    print tempPos
     stuffing.setPos(tempPos[0], tempPos[1] + self.getFrameByNumber(0).surface.get_height() - (self.getFrameByNumber(0).surface.get_height() - stuffing.getFrameByNumber(0).surface.get_height()))
     #self.game.tilemap.objects.append(stuffing)
     self.game.objects.append(stuffing)
