@@ -16,7 +16,7 @@ import pygame
 
 # Local Application/Library Specific Imports ------------------------
 import gametime
-import animatedobject
+import animatedobject, animationstate
 import ioprocess # io handling
 import projectile # projectile handling
 import terrain
@@ -62,7 +62,7 @@ class Game():
 
         self.stuffobj = animatedobject.createAnimatedObject('../assets/static/', 'object.ini')
         self.stuffobj.setTag('stuffing')
-        self.stuffing = animatedobject.AnimationState(self.stuffobj)
+        self.stuffing = animationstate.AnimationState(self.stuffobj)
         self.stuffing.setAnimation('stuffing')
         self.stuffing.setDirection(0)
 

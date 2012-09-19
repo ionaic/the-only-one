@@ -1,10 +1,10 @@
 import movement, animatedobject, animationstate, random, math
 
-class Character(animatedobject.AnimationState):
+class Character(animationstate.AnimationState):
     def __init__(self, obj, game, hp = 10, ammo = 15):
         #self.center = self.getFrameByNumber(5).collisionArea
         #self.center = [self.center[i] * 0.5 for i in range(0, len(self.center))]
-        animatedobject.AnimationState.__init__(self, obj)
+        animationstate.AnimationState.__init__(self, obj)
         self.move = movement.Movement(self, game)
         self.health = hp
         self.ammo = ammo
