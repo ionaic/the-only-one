@@ -10,6 +10,22 @@ def registerCallbacks():
     eventhandler.registerEvent('eeyoresniffle',lambda x: eeyoreSniffle(x))
     eventhandler.registerEvent('ropeSwing',lambda x: ropeSwing(x))
     eventhandler.registerEvent('tiger_sneak',lambda x: tigerSneak(x))
+    eventhandler.registerEvent('pig_sound',lambda x: pigSound(x))
+
+def pigSound(X):
+    #play a sound 20% of the time, randomize between the three
+    choice = random.randrange(1,16,1)
+    if choice==1:
+        audio.mySounds["pigsound"].play()
+    elif choice==2:
+        audio.mySounds["pigsound2"].play()
+    elif choice==3:
+        audio.mySounds["pigsound3"].play()
+    else:
+        print "no sound today, come again tomorrow"
+
+    print choice
+
 
 def tigerSneak(X):
     audio.mySounds["sneak"].play()
@@ -276,6 +292,19 @@ def tiglet_onhit(self):
     # hit animation?
     # decrease health
     self.health -= 1
+	
+    print "pig hit!!!"
+    choice = random.randrange(1,3,1)
+    if choice==1:
+        audio.mySounds["pighit"].play()
+    elif choice==2:
+        audio.mySounds["pighit2"].play()
+    else:
+        print "Error choosing sound"
+
+
+	
+	audio.mySounds["tigerdamage"].play()
     if self.health <= 0:
         tiglet_ondie(self)
 
