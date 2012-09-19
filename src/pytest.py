@@ -128,6 +128,7 @@ def main():
     frames = 0
     try:
         menu()
+        #victory()
         while True:
             # timing code
             framestart = pygame.time.get_ticks()

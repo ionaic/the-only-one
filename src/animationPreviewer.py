@@ -15,12 +15,13 @@ import sys
 import pygame
 
 # Local Application/Library Specific Imports ----------------------------
+import game
 import animatedobject, animationstate
 import gametime
 #------------------------------------------------------------------------------
 # Init
-pygame.init()
-screen = pygame.display.set_mode((800,600), pygame.DOUBLEBUF+pygame.HWSURFACE)
+game = game.Game()
+screen = game._screen
 
 # Global Variables for Export ---------------------------------------
 

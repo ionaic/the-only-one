@@ -69,7 +69,7 @@ def tigerSneak(X):
     elif counter %8 == 0:
         sneak.stop()
         sneaking = False
-        audio.mySounds["sneak"].play()
+        audio.mySounds["swag"].play()
     counter += 1
         
         
@@ -103,7 +103,7 @@ def eeyoreSniffle(X):
         audio.mySounds["eeyoresniffle"].play(1)
 	    	
 def stopWalking(x):
-    print "stopping"
+    #print "stopping"
     global stepping
     global sound
     counter = 0
