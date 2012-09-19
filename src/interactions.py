@@ -49,9 +49,15 @@ def pigSound(X):
 def tigerSneak(X):
     global sneaking
     global sneak
+    global counter
     if not sneaking:
         sneaking = True
         sneak.play(-1)
+    elif counter %8 == 0:
+        sneak.stop()
+        sneaking = False
+        audio.mySounds["swag"].play()
+    counter += 1
         
         
 def tigerSneakStop(X):
