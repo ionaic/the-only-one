@@ -3,7 +3,7 @@
 # Author: Ian Ooi
 
 import projectile, audio, math, random, animatedobject, animationstate, game
-import eventhandler, pygame, collisions
+import eventhandler, pygame, collisions, time
 
 def registerCallbacks():
     eventhandler.registerEvent('tiger_test',lambda x: takeAStep(x))
@@ -15,6 +15,13 @@ def registerCallbacks():
     eventhandler.registerEvent('gpShiftUp',lambda x: groundpoundShiftUp())
     eventhandler.registerEvent('gpShiftDown',lambda x: groundpoundShiftDown())
     eventhandler.registerEvent('beefPunch', lambda x: beefPunch())
+    eventhandler.registerEvent('tiger_stop',lambda x: stopWalking(x))
+    global sound
+    global stepping
+    stepping = False
+    sound = pygame.mixer.Sound("../assets/audio/sfx/step.wav")
+    sound.play(-1)
+    sound.stop()
 
 def pigSound(X):
     #play a sound 20% of the time, randomize between the three
@@ -51,9 +58,25 @@ def ropeSwing(X):
 def eeyoreSniffle(X):
     audio.mySounds["eeyoresniffle"].play()
 	
+def stopWalking(x):
+	global stepping
+	global sound
+	if stepping:
+		stepping = False
+		sound.stop()
+	
 def takeAStep(X):
-	#print "Taking a step"
-	audio.mySounds["step"].play()
+    global stepping
+    global sound
+    if not stepping:
+        stepping = True
+        sound.play(-1)
+
+
+	#time.sleep(3)
+	#a.pause()
+	#print a.playing
+	
 	
 def collide(obj1, obj2):
     if not isinstance(obj1,pygame.Rect):

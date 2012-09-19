@@ -26,6 +26,7 @@ from collisions import ColBox
 import character
 import eventhandler
 import enemies
+import audio
 
 #------------------------------------------------------------------------------
 # Global Variables for Export ---------------------------------------
@@ -42,6 +43,7 @@ class Game():
         self._screen = pygame.display.set_mode((800,600), \
             pygame.DOUBLEBUF+pygame.HWSURFACE)
 
+        audio.mySongs["ambient"].play(-1) #loop
         self.time = gametime.GameTime()
         self.tstobj = animatedobject.createAnimatedObject('../assets/tigger','object.ini')
         self.tstobj.setTag('tiger')
@@ -71,6 +73,7 @@ class Game():
         
         self.enemies = enemies.Enemies(self)
         #self.enemies.spawnTiglet()
+        #self.enemies.spawnBeefy()
         
         self.world = terrain.createWorld('../assets/terrain','world.ini')
         self.objects = list()
