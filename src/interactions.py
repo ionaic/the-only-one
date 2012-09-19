@@ -13,8 +13,19 @@ def registerCallbacks():
     eventhandler.registerEvent('pig_sound',lambda x: pigSound(x))
 
 def pigSound(X):
-    audio.mySounds["pigsound"].play()
-	
+    #play a sound 20% of the time, randomize between the three
+    choice = random.randrange(1,16,1)
+    if choice==1:
+        audio.mySounds["pigsound"].play()
+    elif choice==2:
+        audio.mySounds["pigsound2"].play()
+    elif choice==3:
+        audio.mySounds["pigsound3"].play()
+    else:
+        print "no sound today, come again tomorrow"
+
+    print choice
+
 
 def tigerSneak(X):
     audio.mySounds["sneak"].play()
