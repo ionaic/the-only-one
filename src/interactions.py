@@ -155,6 +155,8 @@ def collide(obj1, obj2):
             tiger_onwall(obj1,obj2)
         elif thing2 == 'tree':
             tiger_onwall(obj1,obj2.getFrameByNumber(0).collisionArea.move(obj2.getPos()))
+        elif thing2 == 'beefy':
+            tiger_onhit(obj1)
     elif thing1=='tree':
         if thing2=='tiger':
             tiger_onwall(obj2,obj1.getFrameByNumber(0).collisionArea.move(obj1.getPos()))
@@ -215,6 +217,8 @@ def collide(obj1, obj2):
             beefy_onhit(obj1)
         elif thing2 == 'none':
             beefy_onwall(obj1, obj2)
+        elif thing2 == 'tiger':
+            tiger_onhit(obj2)
     elif thing1 == 'none':
         if thing2 == 'pig':
             piglet_onhit(obj2)
@@ -674,7 +678,31 @@ def stuffing_pickup(self, game):
 
 ########### BEEFY ##########
 def beefy_onmove(self):
-    tiglet_onmove(self)
+    cur_time = self.game.time.time()
+    if cur_time - self.last_time >= 800:
+        #print 'grabbing thingy ' + str(self.game.time.time()) + ' ' + str(self.last_time)
+        self.dest = self.game.tiger.getPos()
+        self.last_time = cur_time
+    vel = map(operator.sub, self.dest, self.getPos())
+    velMag = 1.0 * math.sqrt(vel[0]**2 + vel[1]**2)
+    #print "velMag" + str(velMag)
+    if velMag < 50:
+        self.dest = (random.randint(200,400), random.randint(200,400))
+        beefy_punch(self)
+        return
+    if vel[0] < 0:
+        newX = math.ceil(float(vel[0] / velMag * 2))
+    else:
+        newX = math.floor(float(vel[0] / velMag * 2))
+        #vel = (math.floor(float(vel[0]) / velMag * 2), math.floor(float(vel[1]) / velMag * 2))
+    if vel[1] < 0:
+        newY = math.ceil(float(vel[1] / velMag * 2))
+    else:
+        newY = math.floor(float(vel[1] / velMag * 2))
+        #vel = (math.floor(float(vel[0]) / velMag * 2), math.floor(float(vel[1]) / velMag * 2))
+        
+    self.direction = [newX, newY]
+    #print 'direction ' + str(self.direction)
 
 def beefy_onhit(self):
     self.health -= 1
@@ -694,11 +722,20 @@ def beefy_punch(self):
     audio.mySounds["beefypunch"].play()
     self.setAnimationOnce('punch')
 
+class Victory(Exception):
+    def __init__(self):
+        pass
+    def __str__(self):
+        return "Loss"
 def beefy_ondie(self):
+    print 'DEAD YOU WIN!'
     stuffing_create(self)
-    if self in self.game.objects:
+    if self in self.game.enemies.enemies:
         self.visualDelete(self.game.tilemap.surface, self.game._screen)
-        self.game.objects.remove(self)
-    elif self in self.game.tilemap.objects:
+        self.game.enemies.remove(self)
+    elif self in self.game.tilemap.enemies.enemies:
         self.visualDelete(self.game.tilemap.surface, self.game._screen)
-        self.game.objects.remove(self)
+        self.game.tilemap.enemies.remove(self)
+    raise Victory()
+
+    

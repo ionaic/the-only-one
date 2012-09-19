@@ -99,7 +99,27 @@ def loss():
                     sys.exit()
                         
         pygame.display.flip()
-        
+def victory():
+    screen = _game.Game.universal._screen
+    old = pygame.Surface((800,600))
+    old.blit(screen,(0,0))
+
+    index = 0
+    loss_screen = pygame.image.load('../assets/YouWin.png').convert()
+    go = True
+    onCredits = False
+    screen.blit(loss_screen,(0,0))
+    while go:
+        for event in pygame.event.get():
+            if event.type==pygame.QUIT:
+                sys.exit()
+            elif event.type==pygame.KEYDOWN:
+                if event.key==pygame.K_ESCAPE:
+                    sys.exit()
+                if event.key==pygame.K_RETURN or event.key==pygame.K_SPACE:
+                    sys.exit()
+                        
+        pygame.display.flip()    
 def main():
     game = _game.Game()
     # timing init
@@ -127,6 +147,11 @@ def main():
     except interactions.Loss:
         try:
             loss()
+        except SystemExit:
+            pygame.quit()
+    except interactions.Victory:
+        try:
+            victory()
         except SystemExit:
             pygame.quit()
     except:
