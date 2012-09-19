@@ -1,7 +1,7 @@
 # projectiles
 # author Ian Ooi
 import pygame, sys, game, movement, operator, animatedobject, audio
-from animatedobject import createAnimationState
+from animationstate import createAnimationState
 
 class Projectiles:
     projectile_speed = [1,1]

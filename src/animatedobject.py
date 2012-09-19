@@ -19,7 +19,7 @@ import pygame
 from pygame import Rect
 
 # Local Application/Library Specific Imports ------------------------
-from animationstate import *
+#from animationstate import *
 
 #------------------------------------------------------------------------------
 # Global Variables for Export ---------------------------------------

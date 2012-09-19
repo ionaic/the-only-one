@@ -34,6 +34,9 @@ class AnimationState():
         #    self.playOnceBackToAnim = animName
         #else:
         if self.animName!=animName:
+            if self.animName == 'shoot':
+                print "######## Cancel Shooting"
+                print animName
             self.animName = animName
             self.startTime = 0
         #self.startTime = startTime
