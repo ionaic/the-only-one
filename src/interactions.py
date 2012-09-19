@@ -11,7 +11,6 @@ def gpActivate():
     game.Game.universal.gpactive = True
 def registerCallbacks():
     eventhandler.registerEvent('beefy_test',lambda x: beefyHi(x))
-    eventhandler.registerEvent('beefydestroy',lambda x: beefyHi(x))
     eventhandler.registerEvent('tiger_test',lambda x: takeAStep(x))
     eventhandler.registerEvent('eeyoresniffle',lambda x: eeyoreSniffle(x))
     eventhandler.registerEvent('ropeSwing',lambda x: ropeSwing(x))
