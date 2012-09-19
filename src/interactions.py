@@ -192,6 +192,8 @@ def collide(obj1, obj2):
             button_onhit(obj2)
         elif thing2 == 'groundpound':
             beefy_onhit(obj1)
+        elif thing2 == 'none':
+            beefy_onwall(obj1, obj2)
     elif thing1 == 'none':
         if thing2 == 'pig':
             piglet_onhit(obj2)
@@ -199,6 +201,8 @@ def collide(obj1, obj2):
             tiger_onwall(obj2,obj1)
         elif thing2 == 'tiglet':
             tiglet_onwall(obj2, obj1)
+        elif thing2 == 'beefy':
+            beefy_onwall(obj2, obj1)
     elif thing1 == 'groundpound':
         if thing2 == 'tiglet':
             tiglet_onhit(obj2)
@@ -625,12 +629,15 @@ def stuffing_pickup(self, game):
 
 ########### BEEFY ##########
 def beefy_onmove(self):
-    return
+    tiglet_onmove(self)
 
 def beefy_onhit(self):
     self.health -= 1
     if self.health <= 0:
         beefy_ondie(self)
+
+def beefy_onwall(self, wall):
+    tiglet_onwall(self, wall)
 
 def beefPunch():
     game.Game.universal.tiger.health -= game.Game.universal.tiger.MAX_HEALTH / 5 
