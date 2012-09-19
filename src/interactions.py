@@ -186,6 +186,7 @@ def collide(obj1, obj2):
             eeyore_onhit(obj1)
         elif thing2 == 'punch':
             eeyore_onhit(obj1)
+            print "Eeyore"
     elif thing1 == 'button':
         if thing2 == 'pig':
             button_onhit(obj1)
@@ -236,6 +237,7 @@ def collide(obj1, obj2):
             tiglet_onhit(obj2)
         elif thing2 == 'eeyore':
             eeyore_onhit(obj2)
+            print "Eeyore"
         elif thing2 == 'beefy':
             beefy_onhit(obj2)
         elif thing2 == 'pig':
@@ -276,8 +278,13 @@ def tiger_onhit(self):
     #    print "Last hit: " + str(self.LAST_HIT) + "; Cur Time: " + str(self.game.time.time())
 
 def shootCB():
-    game.Game.universal.bullets.spawnProjectile(game.Game.universal.tiger.getX() + 30, game.Game.universal.tiger.getY() + 20, game.Game.universal.tiger.move.moveState[0])
-    game.Game.universal.tiger.ammo -= 1
+    if game.Game.universal.tiger.isPunching == False:
+        game.Game.universal.bullets.spawnProjectile(game.Game.universal.tiger.getX() + 30, game.Game.universal.tiger.getY() + 20, game.Game.universal.tiger.move.moveState[0])
+        game.Game.universal.tiger.ammo -= 1
+    else:
+        game.Game.universal.tiger.isPunching = False
+        game.Game.universal.pactive = True
+        game.Game.universal.punch.setPos(game.Game.universal.tiger.getX()+75-150,game.Game.universal.tiger.getY()+115-150)
 
 # PC tiger shoots/throws something
 def tiger_onshoot(self):
@@ -322,6 +329,7 @@ def tiger_onwalljump(self):
     return
 
 def groundpoundShiftDown():
+    return
     print 'resetting to original spot'
     tigerPos = game.Game.universal.tiger.getPos()
     print 'shifted pos ' + str(tigerPos)
@@ -331,6 +339,7 @@ def groundpoundShiftDown():
     game.Game.universal.tiger.stashPos = newTigerPos
 
 def groundpoundShiftUp():
+    return
     tigerPos = game.Game.universal.tiger.getPos()
     newTigerPos = (tigerPos[0], tigerPos[1] - 80)
     game.Game.universal.tiger.setPosVec(newTigerPos)
@@ -542,7 +551,7 @@ def tiglet_onmove(self):
     #    self.direction = new_dir
     cur_time = self.game.time.time()
     if cur_time - self.last_time >= 800:
-        print 'grabbing thingy ' + str(self.game.time.time()) + ' ' + str(self.last_time)
+        #print 'grabbing thingy ' + str(self.game.time.time()) + ' ' + str(self.last_time)
         self.dest = self.game.tiger.getPos()
         self.last_time = cur_time
     vel = map(operator.sub, self.dest, self.getPos())
@@ -563,7 +572,7 @@ def tiglet_onmove(self):
         #vel = (math.floor(float(vel[0]) / velMag * 2), math.floor(float(vel[1]) / velMag * 2))
         
     self.direction = [newX, newY]
-    print 'direction ' + str(self.direction)
+    #print 'direction ' + str(self.direction)
 
 def tiglet_onwall(self, wall):
     self.x = self.stashPos[0]

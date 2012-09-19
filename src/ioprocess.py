@@ -1,7 +1,7 @@
 # IO functions for use with pygame
 # IOfunctions.py
 # author Ian Ooi
-import pygame, sys, movement, interactions
+import pygame, sys, movement, interactions, game
 # how do you even...i don't...how should this work....
 #from pygame import event.event_name as eventStr
 
