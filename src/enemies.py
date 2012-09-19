@@ -14,7 +14,7 @@ class Enemies:
         self.tigletHP = 3
         self.tigletAmmo = 0
 
-    def spawnTiglet(self, x = random.randint(1,500), y = random.randint(1,500)):
+    def spawnTiglet(self, x = 100, y = 100):
         temp = character.Enemy(Enemies.tigletNeedleObj, self.game, self.tigletHP, self.tigletAmmo)
         #temp.setPos(random.randint(1, 500),random.randint(1, 500))
         temp.setPos(x, y)
@@ -22,3 +22,7 @@ class Enemies:
         temp.setDirection(0)
         
         self.enemies.append(temp)
+    
+    def remove(self, tiglet):
+        if tiglet in self.enemies:
+            self.enemies.remove(tiglet)

@@ -97,10 +97,6 @@ class Movement:
         #new_pos = map(operator.mul, velocity, (self.game.time.time() - self.game.time.lastTime() for i in range(0, 2)))
         #new_pos = map(operator.add, velocity, self.obj.getPos())
         self.obj.setPosVec(new_pos)
-        #if self.path_blocked:
-        #    return
-        #else:
-        #    self.obj.setPosVec(new_pos)
 
     def updatePos(self):
         self.moveChar()
@@ -176,7 +172,7 @@ class Movement:
     # moveUp function
     def moveUp(self):
         # move state (in terms of animation) is now left
-        self.obj.setDirection(2)
+        self.obj.setDirection(4)
         self.moveState[0] = self.getUpState()
         self.moveState[1] = getSpeedState(self.moveState[0])
         self.moveChar()
@@ -185,7 +181,7 @@ class Movement:
     # moveDown function
     def moveDown(self):
         # move state (in terms of animation) is now left
-        self.obj.setDirection(6)
+        self.obj.setDirection(0)
         self.moveState[0] = self.getDownState()
         self.moveState[1] = getSpeedState(self.moveState[0])
         self.moveChar()
