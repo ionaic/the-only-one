@@ -275,6 +275,19 @@ def tiglet_onhit(self):
     # hit animation?
     # decrease health
     self.health -= 1
+	
+    print "pig hit!!!"
+    choice = random.randrange(1,3,1)
+    if choice==1:
+        audio.mySounds["pighit"].play()
+    elif choice==2:
+        audio.mySounds["pighit2"].play()
+    else:
+        print "Error choosing sound"
+
+
+	
+	audio.mySounds["tigerdamage"].play()
     if self.health <= 0:
         tiglet_ondie(self)
 
