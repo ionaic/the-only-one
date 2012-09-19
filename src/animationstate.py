@@ -47,9 +47,10 @@ class AnimationState():
             self.old = self.animName
             self.setAnimation(animName)
             nframe = self.getFrameByNumber(0)
-            if nframe.surface.get_rect().height!=self.stashFrame.surface.get_rect().height:
-                self.oldOffset = nframe.surface.get_rect().height-self.stashFrame.surface.get_rect().height
-                self.y = self.y - self.oldOffset
+            if self.stashFrame!=None:
+                if nframe.surface.get_rect().height!=self.stashFrame.surface.get_rect().height:
+                    self.oldOffset = nframe.surface.get_rect().height-self.stashFrame.surface.get_rect().height
+                    self.y = self.y - self.oldOffset
             
     def setDirection(self,dir):
         self.dir = dir
