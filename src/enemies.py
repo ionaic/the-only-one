@@ -34,8 +34,10 @@ class Enemies:
         self.game = game
         self.tigletHP = 3
         self.tigletAmmo = 0
+        self.beefyHP = 20
+        self.beefyAmmo = 10
 
-    def spawnTiglet(self, x = 100, y = 100):
+    def spawnTiglet(self, x = 250, y = 250):
         color = random.randint(0, 3)
         enemyobj = Enemies.tigletNeedleObjOrange
         if color == 0: enemyobj = Enemies.tigletNeedleObjOrange
