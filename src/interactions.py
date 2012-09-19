@@ -5,18 +5,12 @@
 import projectile, audio, math, random, animatedobject, animationstate
 import eventhandler, pygame, collisions
 
-played = 0
-
-
 def registerCallbacks():
-    global played
-    played = 0
     eventhandler.registerEvent('tiger_test',lambda x: takeAStep(x))
     eventhandler.registerEvent('eeyoresniffle',lambda x: eeyoreSniffle(x))
     eventhandler.registerEvent('ropeSwing',lambda x: ropeSwing(x))
     eventhandler.registerEvent('tiger_sneak',lambda x: tigerSneak(x))
     eventhandler.registerEvent('pig_sound',lambda x: pigSound(x))
-    
 
 def pigSound(X):
     #play a sound 20% of the time, randomize between the three
@@ -52,13 +46,7 @@ def ropeSwing(X):
 	print choice
 	
 def eeyoreSniffle(X):
-    global played
-    #adjust this for frequency of playback
-    if (played%15==0):
-        audio.mySounds["eeyoresniffle"].play()
-        played+=1
-    else:
-        played+=1
+    audio.mySounds["eeyoresniffle"].play()
 	
 def takeAStep(X):
 	print "Taking a step"
@@ -285,12 +273,13 @@ def tiger_update(self):
 
 def tiger_pickupstuffing(self):
     tiger_pickupbutton(self)
-    if self.health <= self.MAX_HEALTH:
+    if self.health < self.MAX_HEALTH:
         self.health += 1
         print "Health: " + str(self.health)
 
 def tiger_pickupbutton(self):
     self.ammo += 5
+    print "Ammo: " + str(self.ammo)
 
 ########## PROJECTILE ##########
 # Button hits something
@@ -308,7 +297,7 @@ def tiglet_onhit(self):
     # decrease health
     self.health -= 1
 	
-    print "pig hit!!!"
+    #print "pig hit!!!"
     choice = random.randrange(1,3,1)
     if choice==1:
         audio.mySounds["pighit"].play()
@@ -317,9 +306,7 @@ def tiglet_onhit(self):
     else:
         print "Error choosing sound"
 
-
-	
-	audio.mySounds["tigerdamage"].play()
+    #audio.mySounds["tigerdamage"].play()
     if self.health <= 0:
         tiglet_ondie(self)
 
@@ -372,11 +359,13 @@ def stuffing_create(self):
     stuffing.setAnimation('stuffing')
     tempPos = self.getPos()
     stuffing.setPos(tempPos[0], tempPos[1] + self.getFrameByNumber(0).surface.get_height() - (self.getFrameByNumber(0).surface.get_height() - stuffing.getFrameByNumber(0).surface.get_height()))
-    self.game.tilemap.objects.append(stuffing)
+    #self.game.tilemap.objects.append(stuffing)
     self.game.objects.append(stuffing)
 
 def stuffing_pickup(self, game):
-    if self in game.objlist:
-        game.objlist.remove(self)
-    elif self in self.game.tilemap.objlist:
-        game.objlist.remove(self)
+    if self in game.objects:
+        self.visualDelete(game.tilemap.surface, game._screen)
+        game.objects.remove(self)
+    elif self in self.game.tilemap.objects:
+        self.visualDelete(game.tilemap.surface, game._screen)
+        game.objects.remove(self)
