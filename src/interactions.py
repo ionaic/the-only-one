@@ -10,6 +10,7 @@ def gpActivate():
     game.Game.universal.groundpound.setPos(self.x+75-150,self.y+115-150)
     game.Game.universal.gpactive = True
 def registerCallbacks():
+    eventhandler.registerEvent('beefy_test',lambda x: beefyHi(x))
     eventhandler.registerEvent('tiger_test',lambda x: takeAStep(x))
     eventhandler.registerEvent('eeyoresniffle',lambda x: eeyoreSniffle(x))
     eventhandler.registerEvent('ropeSwing',lambda x: ropeSwing(x))
@@ -36,7 +37,12 @@ def registerCallbacks():
     sneak.play(-1)
     sneak.stop()
     sound.stop()
-
+    
+def beefyHi(X):
+    choice = random.randrange(1,16,1)
+    if choice==1:
+        audio.mySounds["beefydestroy"].play()
+        
 def pigSound(X):
     #play a sound 20% of the time, randomize between the three
     choice = random.randrange(1,16,1)
@@ -58,7 +64,7 @@ def tigerSneak(X):
     if not sneaking:
         sneaking = True
         sneak.play(-1)
-    elif counter %9 == 0:
+    elif counter %8 == 0:
         sneak.stop()
         sneaking = False
         audio.mySounds["swag"].play()
@@ -89,8 +95,11 @@ def ropeSwing(X):
 	#print choice
 	
 def eeyoreSniffle(X):
-    audio.mySounds["eeyoresniffle"].play()
-	
+    global sniffling
+    if not sniffling:
+        sniffling = True
+        audio.mySounds["eeyoresniffle"].play(1)
+	    	
 def stopWalking(x):
     print "stopping"
     global stepping
@@ -109,7 +118,7 @@ def takeAStep(X):
     if not stepping:
         stepping = True
         sound.play(-1)
-    elif counter %9 == 0:
+    elif counter %8 == 0:
         sound.stop()
         stepping = False
         audio.mySounds["swag"].play()
@@ -633,6 +642,7 @@ def beefy_onmove(self):
 
 def beefy_onhit(self):
     self.health -= 1
+    audio.mySounds["beefydestroy"].play()
     if self.health <= 0:
         beefy_ondie(self)
 
@@ -641,9 +651,11 @@ def beefy_onwall(self, wall):
 
 def beefPunch():
     game.Game.universal.tiger.health -= game.Game.universal.tiger.MAX_HEALTH / 5 
+    audio.mySounds["beefypunch"].play()
     tiger_onhit(game.Game.universal.tiger)
 
 def beefy_punch(self):
+    audio.mySounds["beefypunch"].play()
     self.setAnimationOnce('punch')
 
 def beefy_ondie(self):
