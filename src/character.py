@@ -72,13 +72,16 @@ class Enemy(Character):
         if not self.game._screen.get_rect().contains(self.neighborhood):
             self.direction = [random.randint(-1, 1), random.randint(-1, 1)]
         if mark['left']:
-            self.direction[0] = random.randint(-1,
+            self.direction[0] = random.randint(0, 1)
             #new_dir[0] = 1
         if mark['right']:
+            self.direction[0] = random.randint(-1, 0)
             #new_dir[0] -= 1
         if mark['top']:
+            self.direction[1] = random.randint(0, 1)
             #new_dir[1] = 1
         if mark['bottom']:
+            self.direction[1] = random.randint(-1, 0)
             #new_dir[1] -= 1
         #if new_dir[0] != 0:
         #    self.direction[0] = new_dir[0]
