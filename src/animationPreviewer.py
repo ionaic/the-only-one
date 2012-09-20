@@ -45,6 +45,8 @@ characters.append(createCharacter((640,0),'../assets/tigger','object.ini','damag
 characters.append(createCharacter((0,160),'../assets/tigger','object.ini','launch'))
 characters.append(createCharacter((160,160),'../assets/tigger','object.ini','rocket'))
 characters.append(createCharacter((320,160),'../assets/tigger','object.ini','groundpound'))
+characters.append(createCharacter((440,160),'../assets/enemies/beefy','object.ini','move'))
+characters.append(createCharacter((600,160),'../assets/enemies/beefy','object.ini','punch'))
 
 characters.append(createCharacter((0,320),'../assets/enemies/tigglette (needle)/blue','object.ini','stopped'))
 
