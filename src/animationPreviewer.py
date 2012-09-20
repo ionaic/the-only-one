@@ -48,9 +48,21 @@ characters.append(createCharacter((320,160),'../assets/tigger','object.ini','gro
 characters.append(createCharacter((440,160),'../assets/enemies/beefy','object.ini','move'))
 characters.append(createCharacter((600,160),'../assets/enemies/beefy','object.ini','punch'))
 
-characters.append(createCharacter((0,320),'../assets/enemies/tigglette (needle)/blue','object.ini','stopped'))
+characters.append(createCharacter((0,320),'../assets/enemies/tigglette (needle)/orange','object.ini','move'))
+characters.append(createCharacter((80,320),'../assets/enemies/tigglette (needle)/orange','object.ini','throw'))
+characters.append(createCharacter((160,320),'../assets/enemies/tigglette (needle)/orange','object.ini','falldown'))
+characters.append(createCharacter((0,400),'../assets/enemies/tigglette (needle)/blue','object.ini','move'))
+characters.append(createCharacter((80,400),'../assets/enemies/tigglette (needle)/blue','object.ini','throw'))
+characters.append(createCharacter((160,400),'../assets/enemies/tigglette (needle)/blue','object.ini','falldown'))
+characters.append(createCharacter((0,480),'../assets/enemies/tigglette (needle)/pink','object.ini','move'))
+characters.append(createCharacter((80,480),'../assets/enemies/tigglette (needle)/pink','object.ini','throw'))
+characters.append(createCharacter((160,480),'../assets/enemies/tigglette (needle)/pink','object.ini','falldown'))
+characters.append(createCharacter((240,400),'../assets/enemies/tigglette (needle)/red','object.ini','move'))
+characters.append(createCharacter((320,400),'../assets/enemies/tigglette (needle)/red','object.ini','throw'))
+characters.append(createCharacter((400,400),'../assets/enemies/tigglette (needle)/red','object.ini','falldown'))
 
 characters.append(createCharacter((640,480),'../assets/static','object.ini','stuffing'))
+characters.append(createCharacter((560,480),'../assets/enemies/tigglette (needle)/needle','object.ini','move'))
 characters.append(createCharacter((480,480),'../assets/projectiles/button_placeholder','object.ini','move'))
 #------------------------------------------------------------------------------
 
